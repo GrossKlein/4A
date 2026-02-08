@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 6 &mdash; The Perseus Breach | SyncPilot SE Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
+.side-menu.open{left:0}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
+.chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+
+/* === ANOMALY BOX v3 — dramatic proportional design === */
+.anomaly-box{background:var(--white);border:3px solid var(--claret);border-radius:12px;overflow:hidden;margin:var(--sp-8) 0;box-shadow:0 6px 30px rgba(153,15,61,.12)}
+.anomaly-header{background:var(--claret);color:#fff;padding:var(--sp-4) var(--sp-6);font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
+.anomaly-hero{text-align:center;padding:var(--sp-8) var(--sp-6) var(--sp-4);background:linear-gradient(180deg,rgba(153,15,61,.03) 0%,transparent 100%)}
+.anomaly-hero-num{font-family:var(--font-ui);font-weight:700;font-size:clamp(3.5rem,10vw,5.5rem);color:var(--claret);line-height:1;letter-spacing:-.03em}
+.anomaly-hero-label{font-family:var(--font-ui);font-size:.82rem;font-weight:600;color:rgba(38,42,51,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+/* Proportional bar */
+.anomaly-bar-wrap{padding:0 var(--sp-8) var(--sp-6);position:relative}
+.anomaly-bar-row{display:flex;align-items:center;gap:var(--sp-4);margin-bottom:var(--sp-3)}
+.anomaly-bar-label{font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:rgba(38,42,51,.55);width:80px;text-align:right;flex-shrink:0}
+.anomaly-bar-track{flex:1;height:36px;background:rgba(242,223,206,.4);border-radius:4px;overflow:hidden;position:relative}
+.anomaly-bar-fill{height:100%;display:flex;align-items:center;padding:0 12px;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:.82rem;border-radius:4px;transition:width 1s}
+.anomaly-bar-fill-red{background:var(--claret);width:5.3%}
+.anomaly-bar-fill-blue{background:var(--oxford);width:100%}
+.anomaly-bar-fill-purple{background:#593380;width:108.4%}
+.anomaly-bar-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--font-ui);font-size:.78rem;font-weight:700;color:var(--slate)}
+/* Two-column metrics */
+.anomaly-metrics{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--wheat)}
+.anomaly-metric-col{padding:var(--sp-6) var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-4)}
+.anomaly-metric-col:first-child{border-right:1px solid var(--wheat)}
+.anomaly-metric-col h4{font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(38,42,51,.35);margin:0}
+.anomaly-row{display:flex;justify-content:space-between;align-items:baseline}
+.anomaly-row-label{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.6)}
+.anomaly-row-val{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--slate)}
+.anomaly-row-val.red{color:var(--claret)}
+.anomaly-row-val.teal{color:var(--oxford)}
+
+.legal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.legal-item{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--claret);border-radius:6px;padding:var(--sp-4) var(--sp-6)}
+.legal-ref{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--claret);margin-bottom:4px}
+.legal-term{font-family:var(--font-ui);font-weight:700;font-size:.95rem;margin-bottom:4px}
+.legal-desc{font-size:.85rem;color:rgba(38,42,51,.65);line-height:1.45}
+.pie-compare{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0}
+.pie-compare .pie-side{flex:1;min-width:280px}
+
+/* Press refs */
+.press-grid{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin:var(--sp-4) 0}
+.press-chip{font-family:var(--font-ui);font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:3px;background:rgba(38,42,51,.05);border:1px solid rgba(38,42,51,.12);color:var(--slate);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.press-chip:hover{background:rgba(38,42,51,.1);text-decoration:none}
+.press-chip::before{content:"\1F4F0";font-size:.7rem}
+
+.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
+.chapter-nav a:hover{color:var(--claret)}
+.chapter-nav .prev::before{content:"\2190 "}.chapter-nav .next::after{content:" \2192"}
+.site-footer{background:var(--slate);color:rgba(255,241,229,.7);padding:var(--sp-8) var(--sp-6);margin-top:var(--sp-16);font-family:var(--font-ui);font-size:.78rem;line-height:1.6}
+.footer-inner{max-width:var(--max-width);margin:0 auto}
+.footer-disclaimer{max-width:700px;margin-bottom:var(--sp-4)}
+.footer-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(255,241,229,.15);font-size:.72rem;color:rgba(255,241,229,.45)}
+[data-lang-de]{display:none}[data-lang-en]{display:inline}div[data-lang-de],p[data-lang-de]{display:none}div[data-lang-en],p[data-lang-en]{display:block}span[data-lang-en]{display:inline}span[data-lang-de]{display:none}
+body.lang-de [data-lang-de]{display:inline}body.lang-de [data-lang-en]{display:none !important}body.lang-de div[data-lang-de],body.lang-de p[data-lang-de]{display:block}body.lang-de span[data-lang-de]{display:inline}
+@media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.anomaly-metrics{grid-template-columns:1fr}.anomaly-metric-col:first-child{border-right:none;border-bottom:1px solid var(--wheat)}.anomaly-bar-wrap{padding:0 var(--sp-4) var(--sp-6)}.anomaly-bar-label{width:60px;font-size:.65rem}.legal-grid{grid-template-columns:1fr}.pie-compare{flex-direction:column}.footer-meta{flex-direction:column}}
+@media print{body{padding-top:0;background:#fff;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+</style>
+</head>
+<body>
+<nav class="site-nav" role="navigation"><div class="nav-left"><button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button><a href="index.html" class="nav-title">SyncPilot SE Dossier</a></div><div class="nav-right"><button class="lang-toggle" aria-label="Toggle language">DE</button></div></nav>
+<aside class="side-menu" role="navigation" aria-label="Chapter navigation"><div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-3);padding-bottom:var(--sp-2);border-bottom:2px solid var(--oxford)">Chapters</div><ul style="list-style:none"><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="01_ubo_directory.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">1. Ultimate Beneficial Owners</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="02_capital_events.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">2. Capital Events Timeline</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="03_valuation.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">3. Corporate Valuation</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="04_revenue.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">4. Revenue Analysis</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="05_risk_ratings.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">5. UBO Risk Assessment</a></li><li style="padding:var(--sp-3) 0"><a href="06_perseus_breach.html" style="text-decoration:none;font-size:.95rem;font-weight:700;color:var(--claret)">6. The Perseus Breach</a></li></ul></aside>
+<div class="side-menu-overlay"></div>
+
+<main class="content-area">
+<header class="hero">
+<div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret)">Chapter 6</div>
+<h1><span data-lang-en>How Two Goldfinger Defendants Got&nbsp;Stock at&nbsp;a&nbsp;95%&nbsp;Discount</span><span data-lang-de>Wie zwei Goldfinger-Angeklagte Aktien mit 95&nbsp;% Rabatt erhielten</span></h1>
+<hr class="hero-rule">
+<div class="hero-subtitle">
+<p data-lang-en>On 14 March 2023, <a href="01_ubo_directory.html#ubo-15">H.G. Perseus GmbH StBG</a> &mdash; controlled by <strong><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></strong> and <strong><a href="01_ubo_directory.html#ubo-14">Diethard Goerg</a></strong> &mdash; acquired 127,885 SyncPilot SE shares at &euro;1.00 per share, while the documented fair value was &euro;18.96 per share (December 2022) and &euro;20.56 per share (May 2023). This represents a 94.7% discount and constitutes prima facie evidence of <em>Treuepflichtverletzung</em> and <em>verdeckte Gewinnaussch&uuml;ttung</em> under &sect;57 AktG.</p>
+<p data-lang-de>Am 14. M&auml;rz 2023 erwarb die <a href="01_ubo_directory.html#ubo-15">H.G. Perseus GmbH StBG</a> &mdash; kontrolliert von <strong><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></strong> und <strong><a href="01_ubo_directory.html#ubo-14">Diethard Goerg</a></strong> &mdash; 127.885 Aktien der SyncPilot SE zu 1,00 &euro; je Aktie, w&auml;hrend der dokumentierte Verkehrswert bei 18,96 &euro; (Dezember 2022) bzw. 20,56 &euro; (Mai 2023) lag. Dies entspricht einem Abschlag von 94,7 % und begr&uuml;ndet den Anfangsverdacht einer <em>Treuepflichtverletzung</em> und <em>verdeckten Gewinnaussch&uuml;ttung</em> gem&auml;&szlig; &sect;57 AktG.</p>
+</div>
+</header>
+
+<!-- ========== REDESIGNED ANOMALY BOX v3 ========== -->
+<div class="anomaly-box">
+<div class="anomaly-header">&#x26A0;&#xFE0F; <span data-lang-en>The &euro;1 Transaction &mdash; 14 March 2023</span><span data-lang-de>Die 1-&euro;-Transaktion &mdash; 14. M&auml;rz 2023</span></div>
+
+<div class="anomaly-hero">
+  <div class="anomaly-hero-num">&minus;94.7%</div>
+  <div class="anomaly-hero-label"><span data-lang-en>Discount to fair market value</span><span data-lang-de>Abschlag zum Verkehrswert</span></div>
+</div>
+
+<div class="anomaly-bar-wrap">
+  <div style="font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.35);margin-bottom:var(--sp-3)"><span data-lang-en>Price per share &mdash; proportional comparison</span><span data-lang-de>Preis je Aktie &mdash; proportionaler Vergleich</span></div>
+  <div class="anomaly-bar-row">
+    <div class="anomaly-bar-label"><span data-lang-en>Perseus paid</span><span data-lang-de>Perseus zahlte</span></div>
+    <div class="anomaly-bar-track">
+      <div class="anomaly-bar-fill anomaly-bar-fill-red">&euro;1</div>
+    </div>
+  </div>
+  <div class="anomaly-bar-row">
+    <div class="anomaly-bar-label"><span data-lang-en>FMV Dec &rsquo;22</span><span data-lang-de>VW Dez. &rsquo;22</span></div>
+    <div class="anomaly-bar-track">
+      <div class="anomaly-bar-fill anomaly-bar-fill-blue">&euro;18.96</div>
+    </div>
+  </div>
+  <div class="anomaly-bar-row">
+    <div class="anomaly-bar-label"><span data-lang-en>FMV May &rsquo;23</span><span data-lang-de>VW Mai &rsquo;23</span></div>
+    <div class="anomaly-bar-track">
+      <div class="anomaly-bar-fill anomaly-bar-fill-purple" style="width:108.4%">&euro;20.56</div>
+    </div>
+  </div>
+</div>
+
+<div class="anomaly-metrics">
+  <div class="anomaly-metric-col">
+    <h4><span data-lang-en>Transaction</span><span data-lang-de>Transaktion</span></h4>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Shares acquired at &euro;1</span><span data-lang-de>Aktien zu 1 &euro; erworben</span></span><span class="anomaly-row-val">127,885</span></div>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Total amount paid</span><span data-lang-de>Gezahlter Gesamtbetrag</span></span><span class="anomaly-row-val red">&euro;127,885</span></div>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Fair value of shares</span><span data-lang-de>Verkehrswert der Aktien</span></span><span class="anomaly-row-val teal">&euro;2,424,700</span></div>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Value transferred to insiders</span><span data-lang-de>An Insider &uuml;bertragener Wert</span></span><span class="anomaly-row-val red" style="font-size:1.15rem">&euro;2,296,815</span></div>
+  </div>
+  <div class="anomaly-metric-col">
+    <h4><span data-lang-en>Consequence</span><span data-lang-de>Konsequenz</span></h4>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Perseus stake before</span><span data-lang-de>Perseus-Anteil davor</span></span><span class="anomaly-row-val">3.0%</span></div>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Perseus stake after</span><span data-lang-de>Perseus-Anteil danach</span></span><span class="anomaly-row-val red">5.3%</span></div>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Perseus paid 8 weeks later</span><span data-lang-de>Perseus zahlte 8 Wochen sp&auml;ter</span></span><span class="anomaly-row-val teal">&euro;20.56</span></div>
+    <div class="anomaly-row"><span class="anomaly-row-label"><span data-lang-en>Premium paid by next buyer</span><span data-lang-de>Aufschlag des n&auml;chsten K&auml;ufers</span></span><span class="anomaly-row-val" style="font-size:1.15rem">1,956%</span></div>
+  </div>
+</div>
+</div>
+
+<h2><span data-lang-en>The Price Crater &mdash; December 2022 to August 2025</span><span data-lang-de>Der Preiskrater &mdash; Dezember 2022 bis August 2025</span></h2>
+<div class="chart-container">
+<div class="chart-title"><span data-lang-en>Share Price per Transaction (&euro;) &mdash; Full Capital Events Window</span><span data-lang-de>Aktienkurs je Transaktion (&euro;) &mdash; Gesamtes Kapitalma&szlig;nahmen-Fenster</span></div>
+<div style="position:relative;height:380px"><canvas id="collapseChart"></canvas></div>
+<div class="chart-source">Source: SyncPilot_SE_Project.xlsx &rarr; &ldquo;SyncPilot SE History&rdquo; (Ausgabebetrag per transaction)</div>
+</div>
+
+<p data-lang-en>The chart zooms into the six-month window surrounding the Perseus anomaly. Three months before the &euro;1 transaction, <a href="01_ubo_directory.html#ubo-15">Perseus</a> itself paid &euro;18.96 per share in a December 2022 capital increase. Just 58 days after the &euro;1 deal, <strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (controlled by <strong><a href="01_ubo_directory.html#ubo-6">Gert Purkert</a></strong>) paid &euro;20.56 per share &mdash; a 1,956% premium over the price granted to <strong><a href="01_ubo_directory.html#ubo-13">Hunstein</a></strong> and <strong><a href="01_ubo_directory.html#ubo-14">Goerg</a></strong>. Most revealingly, <a href="01_ubo_directory.html#ubo-15">Perseus</a> itself returned on 5 June 2023 and paid &euro;20.56 per share for an additional 16,211 shares, demonstrating that both buyer and issuer considered the true market value to be approximately &euro;20 &mdash; not &euro;1.</p>
+<p data-lang-de>Die Grafik zeigt das sechsmonatige Fenster um die Perseus-Anomalie. Drei Monate vor der 1-&euro;-Transaktion zahlte <a href="01_ubo_directory.html#ubo-15">Perseus</a> selbst 18,96 &euro; je Aktie. Nur 58 Tage nach dem 1-&euro;-Gesch&auml;ft zahlte die <strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (kontrolliert von <strong><a href="01_ubo_directory.html#ubo-6">Gert Purkert</a></strong>) 20,56 &euro; je Aktie. Am aufschlussreichsten: <a href="01_ubo_directory.html#ubo-15">Perseus</a> selbst kehrte am 5. Juni 2023 zur&uuml;ck und zahlte 20,56 &euro; je Aktie f&uuml;r weitere 16.211 Aktien.</p>
+
+<h2><span data-lang-en>Dilution Impact &mdash; Ownership Before &amp; After</span><span data-lang-de>Verw&auml;sserungseffekt &mdash; Eigentum vor &amp; nach</span></h2>
+<div class="pie-compare">
+<div class="pie-side"><div class="chart-container"><div class="chart-title"><span data-lang-en>Before Perseus &euro;1 (9 Dec 2022)</span><span data-lang-de>Vor Perseus 1 &euro; (9. Dez. 2022)</span></div><div style="font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);margin-bottom:var(--sp-3)">5,273,593 <span data-lang-en>total shares</span><span data-lang-de>Anteile gesamt</span> &middot; Perseus 3.0%</div><div style="position:relative;height:260px"><canvas id="piePre"></canvas></div></div></div>
+<div class="pie-side"><div class="chart-container"><div class="chart-title"><span data-lang-en>After Perseus &euro;1 (14 Mar 2023)</span><span data-lang-de>Nach Perseus 1 &euro; (14. M&auml;rz 2023)</span></div><div style="font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);margin-bottom:var(--sp-3)">5,401,478 <span data-lang-en>total shares</span><span data-lang-de>Anteile gesamt</span> &middot; Perseus <strong style="color:var(--claret)">5.3%</strong></div><div style="position:relative;height:260px"><canvas id="piePost"></canvas></div></div></div>
+</div>
+
+<p data-lang-en>The &euro;1 issuance increased <a href="01_ubo_directory.html#ubo-15">Perseus</a>&rsquo;s stake from 3.0% to 5.3% while diluting all other shareholders &mdash; including <a href="01_ubo_directory.html#ubo-0">BOSYNC</a> (<a href="01_ubo_directory.html#ubo-0">F.X. Bleicher</a>), <a href="01_ubo_directory.html#ubo-1">AURIGA</a> (<a href="01_ubo_directory.html#ubo-1">Dr. Krocke</a>), <a href="01_ubo_directory.html#ubo-2">DSI</a> (<a href="01_ubo_directory.html#ubo-2">H. Steiner</a>), and <a href="01_ubo_directory.html#ubo-5">Augusta Software</a> (<a href="01_ubo_directory.html#ubo-5">A. Schaeff</a>) &mdash; by 2.4 percentage points. At fair market value, the 127,885 new shares were worth &euro;2.4M; Perseus paid &euro;127,885. Note the data annotation from the source file: <em>&ldquo;Laut RA Tomanke 1.662.505 &euro; f&uuml;r 127.885 Anteile&rdquo;</em> &mdash; suggesting an intermediary price claim of &euro;13.00/share that also fails to match documented pre- or post-transaction prices.</p>
+<p data-lang-de>Die 1-&euro;-Ausgabe erh&ouml;hte den <a href="01_ubo_directory.html#ubo-15">Perseus</a>-Anteil von 3,0 % auf 5,3 % und verw&auml;sserte alle anderen Aktion&auml;re &mdash; darunter <a href="01_ubo_directory.html#ubo-0">BOSYNC</a> (<a href="01_ubo_directory.html#ubo-0">F.X. Bleicher</a>), <a href="01_ubo_directory.html#ubo-1">AURIGA</a> (<a href="01_ubo_directory.html#ubo-1">Dr. Krocke</a>), <a href="01_ubo_directory.html#ubo-2">DSI</a> (<a href="01_ubo_directory.html#ubo-2">H. Steiner</a>) und <a href="01_ubo_directory.html#ubo-5">Augusta Software</a> (<a href="01_ubo_directory.html#ubo-5">A. Schaeff</a>) &mdash; um 2,4 Prozentpunkte.</p>
+
+<h2><span data-lang-en>Legal Analysis &mdash; German Corporate Law</span><span data-lang-de>Rechtliche Analyse &mdash; Deutsches Gesellschaftsrecht</span></h2>
+<div class="legal-grid">
+<div class="legal-item"><div class="legal-ref">&sect;8 Abs. 3 KStG</div><div class="legal-term">Verdeckte Gewinnaussch&uuml;ttung</div><div class="legal-desc"><span data-lang-en>Share issuance below fair market value to a related party constitutes a disguised profit distribution. The &euro;1 price vs. &euro;18.96 fair value creates a &euro;17.96/share transfer to insiders.</span><span data-lang-de>Eine Aktienausgabe unter Verkehrswert an eine nahestehende Person stellt eine verdeckte Gewinnaussch&uuml;ttung dar.</span></div></div>
+<div class="legal-item"><div class="legal-ref">&sect;93, &sect;116 AktG</div><div class="legal-term">Treuepflichtverletzung</div><div class="legal-desc"><span data-lang-en>Directors who approved the below-market issuance breached their duty of loyalty to all shareholders. The board&rsquo;s fiduciary obligation (<em>Sorgfaltspflicht</em>) prohibits self-dealing transactions.</span><span data-lang-de>Vorstandsmitglieder, die die unter dem Marktwert liegende Ausgabe genehmigten, verletzten ihre Treuepflicht gegen&uuml;ber allen Aktion&auml;ren.</span></div></div>
+<div class="legal-item"><div class="legal-ref">&sect;186 AktG</div><div class="legal-term">Bezugsrechtsausschluss</div><div class="legal-desc"><span data-lang-en>Existing shareholders hold statutory pre-emption rights. Was the exclusion justified (<em>sachlich gerechtfertigt</em>) at a 95% discount to insiders with prior fraud allegations?</span><span data-lang-de>Bestehende Aktion&auml;re haben ein gesetzliches Bezugsrecht. War der Ausschluss bei 95 % Abschlag an Insider sachlich gerechtfertigt?</span></div></div>
+<div class="legal-item"><div class="legal-ref">&sect;57 AktG</div><div class="legal-term">Einlagenr&uuml;ckgew&auml;hr</div><div class="legal-desc"><span data-lang-en>Prohibited return of shareholder contributions. The below-market issuance transfers company value to insiders, constituting an unlawful return of capital.</span><span data-lang-de>Verbotene Einlagenr&uuml;ckgew&auml;hr. Die unter dem Marktwert liegende Ausgabe &uuml;bertr&auml;gt Unternehmenswert an Insider.</span></div></div>
+<div class="legal-item"><div class="legal-ref">BGH Rspr.</div><div class="legal-term">Sachliche Rechtfertigung</div><div class="legal-desc"><span data-lang-en>Under BGH case law, exclusion of pre-emption rights requires material justification. A 95% discount to insiders who are simultaneously defendants in the <a href="#goldfinger">Goldfinger prosecution</a> fails this test.</span><span data-lang-de>Nach BGH-Rechtsprechung bedarf der Bezugsrechtsausschluss einer sachlichen Rechtfertigung. Ein 95-%-Abschlag an Insider, die gleichzeitig Angeklagte im <a href="#goldfinger">Goldfinger-Verfahren</a> sind, verfehlt diesen Ma&szlig;stab.</span></div></div>
+</div>
+
+<h2 id="goldfinger"><span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></h2>
+
+<p data-lang-en>Both <strong><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></strong> and <strong><a href="01_ubo_directory.html#ubo-14">Diethard Goerg</a></strong> &mdash; the Ultimate Beneficial Owners behind <a href="01_ubo_directory.html#ubo-15">H.G. Perseus GmbH StBG</a> &mdash; were defendants in the <a href="https://de.wikipedia.org/wiki/Goldfinger-Methode" target="_blank" rel="noopener">Goldfinger tax fraud prosecution</a> before the Landgericht Augsburg (2019&ndash;2020). The case involved the marketing of aggressive gold-trading tax avoidance schemes &mdash; a billion-euro tax gap model (<a href="https://www.lto.de/recht/justiz/j/goldfinger-prozess-staatsanwaltschaft-augsburg-eingestellt-entschaedigung-strafanzeigen-kanzleidaten" target="_blank" rel="noopener">LTO analysis</a>) &mdash; through their former law firm Arndt Fuist Rechtsanw&auml;lte (AFR) and their jointly controlled entity H.G. Perseus. The prosecution alleged that Hunstein and Goerg had systematically marketed structures that crossed the line from avoidance to evasion. The proceedings were ultimately discontinued without conviction (<a href="https://www.juve-steuermarkt.de/nachrichten/namenundnachrichten/2018/11/goldfinger-und-die-folgen-kanzlei-afr-loest-sich-auf" target="_blank" rel="noopener">JUVE Steuermarkt</a>), but placed both individuals under sustained regulatory scrutiny. That these same individuals subsequently acquired SyncPilot SE shares at a 95% discount to fair value, through a corporate vehicle whose initials (H.G.) reference their own names, represents a pattern of insider self-dealing that warrants the most rigorous examination.</p>
+<p data-lang-de><strong><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></strong> und <strong><a href="01_ubo_directory.html#ubo-14">Diethard Goerg</a></strong> &mdash; die wirtschaftlich Berechtigten hinter der <a href="01_ubo_directory.html#ubo-15">H.G. Perseus GmbH StBG</a> &mdash; waren Angeklagte im <a href="https://de.wikipedia.org/wiki/Goldfinger-Methode" target="_blank" rel="noopener">Goldfinger-Steuerbetrugsverfahren</a> vor dem Landgericht Augsburg (2019&ndash;2020). Das Verfahren betraf die Vermarktung aggressiver Goldhandels-Steuervermeidungsmodelle &mdash; ein Milliarden-Euro-Steuerl&uuml;ckenmodell (<a href="https://www.lto.de/recht/justiz/j/goldfinger-prozess-staatsanwaltschaft-augsburg-eingestellt-entschaedigung-strafanzeigen-kanzleidaten" target="_blank" rel="noopener">LTO-Analyse</a>) &mdash; &uuml;ber ihre ehemalige Kanzlei AFR und die gemeinsam kontrollierte H.G. Perseus. Das Verfahren wurde ohne Verurteilung eingestellt (<a href="https://www.juve-steuermarkt.de/nachrichten/namenundnachrichten/2018/11/goldfinger-und-die-folgen-kanzlei-afr-loest-sich-auf" target="_blank" rel="noopener">JUVE Steuermarkt</a>), stellte beide Personen aber unter anhaltende regulat&ouml;rische Aufmerksamkeit.</p>
+
+<div style="font-family:var(--font-ui);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.45);margin:var(--sp-6) 0 var(--sp-3)"><span data-lang-en>Press Coverage of the Goldfinger Prosecution</span><span data-lang-de>Presseberichterstattung zum Goldfinger-Verfahren</span></div>
+<div class="press-grid">
+<a class="press-chip" href="https://de.wikipedia.org/wiki/Goldfinger-Methode" target="_blank" rel="noopener">Wikipedia: Goldfinger-Methode</a>
+<a class="press-chip" href="https://www.lto.de/recht/justiz/j/goldfinger-prozess-staatsanwaltschaft-augsburg-eingestellt-entschaedigung-strafanzeigen-kanzleidaten" target="_blank" rel="noopener">LTO: Goldfinger-Prozess</a>
+<a class="press-chip" href="https://www.juve-steuermarkt.de/nachrichten/namenundnachrichten/2018/11/goldfinger-und-die-folgen-kanzlei-afr-loest-sich-auf" target="_blank" rel="noopener">JUVE: Kanzlei AFR l&ouml;st sich auf</a>
+<a class="press-chip" href="https://www.netzwerk-steuergerechtigkeit.de/steuerhinterziehung-mit-goldfinger-modellen-wende-im-augsburger-strafprozess/" target="_blank" rel="noopener">Netzwerk Steuergerechtigkeit</a>
+</div>
+<div class="press-grid" style="margin-top:var(--sp-2)">
+<a class="press-chip" href="https://www.handelsblatt.com/finanzen/steuern-recht/steuern/vor-dem-landgericht-augsburg-fuer-die-anwaelte-des-steuersparmodells-goldfinger-beginnt-der-prozess/25217590.html" target="_blank" rel="noopener">Handelsblatt &middot; 13 Nov 2019 &middot; Goldfinger-Prozessauftakt</a>
+<a class="press-chip" href="https://www.lto.de/recht/kanzleien-unternehmen/k/lg-augsburg-steuersparmodell-goldfinger-prozessauftakt-steuerhinterziehung" target="_blank" rel="noopener">LTO &middot; 12 Nov 2019 &middot; Goldfinger-Prozessauftakt</a>
+<a class="press-chip" href="https://www.stadtzeitung.de/region/augsburg/blaulicht/steuerhinterziehung-steht-goldfinger-prozess-id207109.html" target="_blank" rel="noopener">StadtZeitung &middot; 27 May 2020 &middot; &ldquo;Steht der Prozess vor dem Aus?&rdquo;</a>
+<a class="press-chip" href="https://www.stadtzeitung.de/region/augsburg/blaulicht/goldfinger-prozess-staatsanwaltschaft-gegen-einstellung-verfahrens-id207911.html" target="_blank" rel="noopener">StadtZeitung &middot; 17 Jun 2020 &middot; StA gegen Einstellung</a>
+<a class="press-chip" href="https://www.tim-pargent.de/antraege/schriftliche-anfrage-goldfinger-prozess-in-augsburg/" target="_blank" rel="noopener">Bay. Landtag &middot; Anfrage Goldfinger-Prozess</a>
+<a class="press-chip" href="https://winheller.com/blog/goldfinger-modell-entschaedigung-angeklagte/" target="_blank" rel="noopener">Winheller &middot; Entsch&auml;digung f&uuml;r Angeklagte</a>
+</div>
+<div class="press-grid" style="margin-top:var(--sp-2)">
+<div style="font-family:var(--font-ui);font-size:.65rem;color:rgba(38,42,51,.35);width:100%;margin-bottom:2px"><span data-lang-en>From project archive (PDF):</span><span data-lang-de>Aus dem Projektarchiv (PDF):</span></div>
+<span class="press-chip" style="cursor:default;opacity:.7">FAZ &middot; 14 Feb 2018 &middot; &ldquo;Goldfinger-Berater im Visier&rdquo;</span>
+<span class="press-chip" style="cursor:default;opacity:.7">FAZ &middot; 12 Nov 2019 &middot; Goldfinger Prozessauftakt</span>
+<span class="press-chip" style="cursor:default;opacity:.7">FAZ &middot; 2 Jul 2020 &middot; &ldquo;Goldfinger: keine Steuerhinterziehung&rdquo;</span>
+<span class="press-chip" style="cursor:default;opacity:.7">Spiegel &middot; 16 Oct 2018 &middot; &ldquo;Prozess in Augsburg&rdquo;</span>
+<span class="press-chip" style="cursor:default;opacity:.7">SZ &middot; 13 Nov 2019 &middot; &ldquo;Goldfinger-Prozess gestartet&rdquo;</span>
+<span class="press-chip" style="cursor:default;opacity:.7">AA &middot; 4 Jan 2019 &middot; &ldquo;Operation Goldfinger&rdquo;</span>
+<span class="press-chip" style="cursor:default;opacity:.7">AA &middot; 27 May 2020 &middot; &ldquo;Paukenschlag&rdquo;</span>
+<span class="press-chip" style="cursor:default;opacity:.7">AA &middot; 4 Dec 2020 &middot; Verfahrensende</span>
+<span class="press-chip" style="cursor:default;opacity:.7">HB &middot; 18 Apr 2020 &middot; &ldquo;Fehlende Stringenz&rdquo;</span>
+</div>
+
+</main>
+<section class="content-area"><nav class="chapter-nav"><a href="05_risk_ratings.html" class="prev"><span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a><a href="07_treasury_deficit.html" class="next"><span data-lang-en>The Treasury Deficit</span><span data-lang-de>Das Kassendefizit</span></a></nav></section>
+<footer class="site-footer"><div class="footer-inner"><div class="footer-disclaimer"><p data-lang-en>This analysis presents documented facts, calculations derived from source data, and legal framework analysis under German corporate and tax law. It does not constitute legal advice or a finding of liability. All individuals are presumed innocent. Specific legal claims require formal judicial determination.</p><p data-lang-de>Diese Analyse pr&auml;sentiert dokumentierte Fakten und rechtliche Rahmenanalyse. Sie stellt keine Rechtsberatung oder Haftungsfeststellung dar. Alle Personen gelten als unschuldig.</p></div><div class="footer-meta"><span><span data-lang-en>Last updated:</span><span data-lang-de>Letzte Aktualisierung:</span> <time datetime="2026-02-08">8 February 2026</time></span><span><span data-lang-en>Cookie-free. No personal data collected.</span><span data-lang-de>Ohne Cookies.</span></span></div></div></footer>
+<script>
+(function(){var currentLang='en',menuOpen=false;document.addEventListener('DOMContentLoaded',function(){var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;sm.classList.remove('open');ov.classList.remove('visible')})}var lb=document.querySelector('.lang-toggle');if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'})})})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+Chart.defaults.font.family="'Source Sans 3','Helvetica Neue',sans-serif";Chart.defaults.font.size=12;Chart.defaults.color="#262A33";
+/* === EXPANDED TIMELINE: 7 transactions Dec 2022 – Aug 2025 === */
+var dates=['Dec 2022','Mar 2023','May 2023','Jun 2023\n(Perseus)','Jun 2023\n(bgh)','May 2024','Aug 2025'];
+var prices=[18.96,1.00,20.56,20.56,20.56,23.64,23.00];
+var entities=['H.G. Perseus GmbH','H.G. Perseus GmbH','Tiven GmbH','H.G. Perseus GmbH','bgh Vermögensverwaltung','5th Dimension Investment','ATLASI / Callidus'];
+var shares=[158208,127885,48632,16211,32421,55550,21739];
+var totals=[3000004,127885,1000000,333340,667000,1313400,500000];
+var ptColors=['#0D7680','#990F3D','#0D7680','#593380','#0D7680','#0D7680','#0D7680'];
+var ptSizes=[7,12,7,7,6,7,6];
+/* Data-label plugin — shows price on each point */
+var dataLabelsPlugin={id:'priceLabels',afterDatasetsDraw:function(chart){var ctx=chart.ctx;var meta=chart.getDatasetMeta(0);meta.data.forEach(function(pt,i){ctx.save();var yOff=i===1?18:-14;ctx.font=(i===1?"800 14px":"600 11px")+"'Source Sans 3',sans-serif";ctx.fillStyle=i===1?'#990F3D':'rgba(38,42,51,0.7)';ctx.textAlign='center';ctx.textBaseline=i===1?'top':'bottom';var label='\u20ac'+prices[i].toFixed(2);if(i===1)label='\u20ac1.00 \u26A0';ctx.fillText(label,pt.x,pt.y+yOff);if(i===1){ctx.font="700 9px 'Source Sans 3',sans-serif";ctx.fillStyle='#990F3D';ctx.fillText('95% DISCOUNT',pt.x,pt.y+32)}ctx.restore()})}};
+new Chart(document.getElementById('collapseChart').getContext('2d'),{type:'line',
+plugins:[dataLabelsPlugin],
+data:{labels:dates,datasets:[{label:'Price per Share',data:prices,borderColor:'#262A33',backgroundColor:'transparent',tension:0,pointRadius:ptSizes,pointBackgroundColor:ptColors,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:12,borderWidth:2,borderDash:[6,3]}]},
+options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:30,right:20}},
+plugins:{legend:{display:false},
+tooltip:{backgroundColor:'#262A33',cornerRadius:4,padding:14,callbacks:{title:function(items){var i=items[0].dataIndex;return dates[i].replace('\n',' ')+' \u2014 '+entities[i]},label:function(item){var i=item.dataIndex;return['\u20ac'+prices[i].toFixed(2)+' per share',shares[i].toLocaleString()+' shares issued','Total: \u20ac'+totals[i].toLocaleString()]}}},
+annotation:{annotations:{
+anomalyBand:{type:'box',xMin:0.7,xMax:1.3,backgroundColor:'rgba(153,15,61,0.07)',borderColor:'rgba(153,15,61,0.2)',borderWidth:1},
+fairValueLine:{type:'line',yMin:18.96,yMax:18.96,borderColor:'rgba(13,118,128,0.25)',borderWidth:1,borderDash:[4,4],label:{display:true,content:'FMV \u20ac18.96',position:'start',backgroundColor:'rgba(13,118,128,0.75)',color:'#fff',font:{size:9},padding:3}},
+returnLabel:{type:'label',xValue:3,yValue:16,content:['Perseus returns','at \u20ac20.56 \u2014 proof','of known FMV'],backgroundColor:'rgba(89,51,128,0.85)',color:'#fff',font:{size:9,weight:'600'},padding:{x:8,y:5},borderRadius:3},
+extLabel:{type:'label',xValue:5,yValue:19,content:['\u20ac23.64','external investor'],backgroundColor:'rgba(13,118,128,0.8)',color:'#fff',font:{size:9,weight:'600'},padding:{x:8,y:4},borderRadius:3}
+}}},
+scales:{y:{title:{display:true,text:'Price per Share (\u20ac)',font:{size:13,weight:'700'},color:'rgba(38,42,51,0.6)'},grid:{color:'rgba(242,223,206,0.6)'},ticks:{callback:function(v){return '\u20ac'+v},font:{size:12}},min:0,max:28},x:{grid:{display:false},ticks:{font:{size:10,weight:'600'},maxRotation:0,autoSkip:false}}}}});
+var preN=['BOSYNC','AURIGA','DSI Digital','Augusta Software','H.G. Perseus','Other'],preP=[48.3,16.1,16.1,14.3,3.0,2.2],preC=['#0D7680','#262A33','#66605C','#0F5499','#990F3D','#F2DFCE'];
+var pieLabelPlugin={id:'pieLabels',afterDatasetsDraw:function(chart){var ctx=chart.ctx;var ds=chart.data.datasets[0];var meta=chart.getDatasetMeta(0);meta.data.forEach(function(arc,i){if(ds.data[i]<5)return;var pos=arc.tooltipPosition();ctx.save();ctx.font="700 11px 'Source Sans 3',sans-serif";ctx.fillStyle=i===5?'#262A33':'#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(ds.data[i]+'%',pos.x,pos.y);ctx.restore()})}};
+new Chart(document.getElementById('piePre').getContext('2d'),{type:'pie',plugins:[pieLabelPlugin],data:{labels:preN,datasets:[{data:preP,backgroundColor:preC,borderColor:'#FFF1E5',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,generateLabels:function(chart){return chart.data.labels.map(function(l,i){return{text:l+' '+preP[i]+'%',fillStyle:preC[i],strokeStyle:'#FFF1E5',lineWidth:2,index:i}})}}},tooltip:{callbacks:{label:function(item){return item.label+': '+item.parsed+'%'}}}}}});
+var postN=['BOSYNC','AURIGA','DSI Digital','Augusta Software','H.G. Perseus','Other'],postP=[47.2,15.7,15.7,13.9,5.3,2.1],postC=['#0D7680','#262A33','#66605C','#0F5499','#990F3D','#F2DFCE'];
+var pieLabelPost={id:'pieLabelsPost',afterDatasetsDraw:function(chart){var ctx=chart.ctx;var ds=chart.data.datasets[0];var meta=chart.getDatasetMeta(0);meta.data.forEach(function(arc,i){if(ds.data[i]<5)return;var pos=arc.tooltipPosition();ctx.save();ctx.font=(i===4?"800 12px":"700 11px")+" 'Source Sans 3',sans-serif";ctx.fillStyle=i===5?'#262A33':'#fff';ctx.textAlign='center';ctx.textBaseline='middle';var txt=ds.data[i]+'%';if(i===4)txt+='\u25B2';ctx.fillText(txt,pos.x,pos.y);ctx.restore()})}};
+new Chart(document.getElementById('piePost').getContext('2d'),{type:'pie',plugins:[pieLabelPost],data:{labels:postN,datasets:[{data:postP,backgroundColor:postC,borderColor:'#FFF1E5',borderWidth:2,offset:function(ctx){return ctx.dataIndex===4?12:0}}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8,generateLabels:function(chart){return chart.data.labels.map(function(l,i){var d=i===4?' \u25B2':'';return{text:l+' '+postP[i]+'%'+d,fillStyle:postC[i],strokeStyle:'#FFF1E5',lineWidth:2,index:i,fontColor:i===4?'#990F3D':'#262A33'}})}}},tooltip:{callbacks:{label:function(item){var t=item.label+': '+item.parsed+'%';if(item.dataIndex===4)t+=' (was 3.0%)';return t}}}}}});
+});
+</script>
+</body></html>

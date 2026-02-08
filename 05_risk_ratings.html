@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 5 — UBO Risk Assessment | SyncPilot SE Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px;--risk-high:#CC0000;--risk-med:#FF8833;--risk-low:#00994D}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
+.side-menu.open{left:0}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
+.chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.risk-summary{display:flex;gap:var(--sp-4);flex-wrap:wrap;margin:var(--sp-6) 0}
+.risk-summary-box{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);flex:1;min-width:180px;text-align:center}
+.risk-summary-dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+.risk-summary-val{font-family:var(--font-ui);font-size:1.8rem;font-weight:700;line-height:1.1}
+.risk-summary-label{font-family:var(--font-ui);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(38,42,51,.45);margin-top:4px}
+.risk-summary-pct{font-family:var(--font-ui);font-size:.82rem;font-weight:600;margin-top:2px}
+.danger-zone{margin:var(--sp-8) 0}
+.danger-heading{display:flex;align-items:center;gap:var(--sp-3);font-family:var(--font-ui);font-size:1.1rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--risk-high);margin-bottom:var(--sp-6);padding-bottom:var(--sp-3);border-bottom:3px solid var(--risk-high)}
+.danger-card{background:var(--white);border:2px solid var(--risk-high);border-left:8px solid var(--risk-high);border-radius:8px;padding:var(--sp-6) var(--sp-8);margin-bottom:var(--sp-6);position:relative;box-shadow:0 4px 20px rgba(204,0,0,.1)}
+.danger-card::before{content:"\26A0\FE0F";position:absolute;top:var(--sp-4);right:var(--sp-4);font-size:1.2rem;opacity:.25}
+.danger-card-header{display:flex;align-items:center;gap:var(--sp-4);margin-bottom:var(--sp-4)}
+.danger-dot{width:18px;height:18px;border-radius:50%;background:var(--risk-high);flex-shrink:0;box-shadow:0 0 0 4px rgba(204,0,0,.15);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(204,0,0,.15)}50%{box-shadow:0 0 0 6px rgba(204,0,0,.08)}}
+.danger-name{font-family:var(--font-ui);font-weight:700;font-size:1.35rem;flex:1}
+.danger-name a{color:var(--risk-high);text-decoration:none}.danger-name a:hover{text-decoration:underline}
+.danger-pct{font-family:var(--font-ui);font-weight:700;font-size:1.3rem;color:var(--risk-high)}
+.danger-findings{list-style:none;margin:0;padding:0}
+.danger-findings li{font-family:var(--font-ui);font-size:1.02rem;font-weight:600;line-height:1.55;padding:8px 0 8px 32px;position:relative;color:rgba(38,42,51,.9);border-bottom:1px solid rgba(204,0,0,.06)}
+.danger-findings li:last-child{border-bottom:none}
+.danger-findings li::before{content:"\26A0\FE0F";position:absolute;left:0;top:10px;font-size:.9rem}
+.danger-findings li strong{color:var(--risk-high);font-weight:800;font-size:1.05rem}
+.danger-criteria{margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(204,0,0,.12);display:flex;gap:8px;flex-wrap:wrap}
+.crit-high{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(204,0,0,.12);color:var(--risk-high);padding:5px 12px;border-radius:4px;border:1.5px solid rgba(204,0,0,.3)}
+.crit-high::before{content:"\1F6A8 "}
+.crit-med{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(255,136,51,.12);color:#CC6600;padding:5px 12px;border-radius:4px;border:1.5px solid rgba(255,136,51,.3)}
+.crit-med::before{content:"\26A0\FE0F "}
+.crit-low-tag{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(0,0,0,.04);color:#555;padding:5px 12px;border-radius:4px;border:1.5px solid rgba(0,0,0,.1)}
+.crit-low-tag::before{content:"\1F310 "}
+.medium-zone{margin:var(--sp-8) 0}
+.medium-heading{display:flex;align-items:center;gap:var(--sp-3);font-family:var(--font-ui);font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--risk-med);margin-bottom:var(--sp-4);padding-bottom:var(--sp-3);border-bottom:2px solid var(--risk-med)}
+.medium-card{background:var(--white);border:1px solid var(--risk-med);border-left:4px solid var(--risk-med);border-radius:6px;padding:var(--sp-4) var(--sp-6);margin-bottom:var(--sp-3)}
+.medium-card-header{display:flex;align-items:center;gap:var(--sp-3)}
+.medium-dot{width:12px;height:12px;border-radius:50%;background:var(--risk-med);flex-shrink:0}
+.medium-name{font-family:var(--font-ui);font-weight:700;font-size:1rem;flex:1}
+.medium-name a{color:var(--slate);text-decoration:none}.medium-name a:hover{color:var(--risk-med);text-decoration:underline}
+.medium-pct{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--risk-med)}
+.medium-detail{font-family:var(--font-ui);font-size:.88rem;color:rgba(38,42,51,.65);margin:var(--sp-2) 0 var(--sp-2) 27px;line-height:1.45}
+.medium-criteria{margin-left:27px;display:flex;gap:6px;flex-wrap:wrap}
+.method-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.method-item{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4)}
+.method-weight{font-family:var(--font-ui);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border-radius:2px;display:inline-block;margin-bottom:var(--sp-2)}
+.method-title{font-family:var(--font-ui);font-weight:700;font-size:.88rem;margin-bottom:4px}
+.method-desc{font-size:.82rem;color:rgba(38,42,51,.6);line-height:1.4}
+.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
+.chapter-nav a:hover{color:var(--claret)}
+.chapter-nav .prev::before{content:"\2190 "}.chapter-nav .next::after{content:" \2192"}
+.site-footer{background:var(--slate);color:rgba(255,241,229,.7);padding:var(--sp-8) var(--sp-6);margin-top:var(--sp-16);font-family:var(--font-ui);font-size:.78rem;line-height:1.6}
+.footer-inner{max-width:var(--max-width);margin:0 auto}
+.footer-disclaimer{max-width:700px;margin-bottom:var(--sp-4)}
+.footer-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(255,241,229,.15);font-size:.72rem;color:rgba(255,241,229,.45)}
+[data-lang-de]{display:none}[data-lang-en]{display:inline}div[data-lang-de],p[data-lang-de]{display:none}div[data-lang-en],p[data-lang-en]{display:block}span[data-lang-en]{display:inline}span[data-lang-de]{display:none}
+body.lang-de [data-lang-de]{display:inline}body.lang-de [data-lang-en]{display:none !important}body.lang-de div[data-lang-de],body.lang-de p[data-lang-de]{display:block}body.lang-de span[data-lang-de]{display:inline}
+@media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.risk-summary{flex-direction:column}.method-grid{grid-template-columns:1fr}.danger-card{padding:var(--sp-4)}.footer-meta{flex-direction:column}}
+@media print{body{padding-top:0;background:#fff;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+</style>
+</head>
+<body>
+<nav class="site-nav" role="navigation"><div class="nav-left"><button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button><a href="index.html" class="nav-title">SyncPilot SE Dossier</a></div><div class="nav-right"><button class="lang-toggle" aria-label="Toggle language">DE</button></div></nav>
+<aside class="side-menu" role="navigation" aria-label="Chapter navigation"><div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-3);padding-bottom:var(--sp-2);border-bottom:2px solid var(--oxford)">Chapters</div><ul style="list-style:none"><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="01_ubo_directory.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">1. Ultimate Beneficial Owners</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="02_capital_events.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">2. Capital Events Timeline</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="03_valuation.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">3. Corporate Valuation</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="04_revenue.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">4. Revenue Analysis</a></li><li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="05_risk_ratings.html" style="text-decoration:none;font-size:.95rem;font-weight:700;color:var(--claret)">5. UBO Risk Assessment</a></li><li style="padding:var(--sp-3) 0"><a href="06_perseus_breach.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">6. The Perseus Breach</a></li></ul></aside>
+<div class="side-menu-overlay"></div>
+<main class="content-area">
+<header class="hero"><div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret)">Chapter 5</div><h1><span data-lang-en>Five Shareholders, Five Red&nbsp;Flags</span><span data-lang-de>F&uuml;nf Aktion&auml;re, f&uuml;nf Warnsignale</span></h1><hr class="hero-rule"><div class="hero-subtitle"><p data-lang-en>36.5% of SyncPilot SE equity is controlled by individuals with documented pricing anomalies, criminal prosecution history, or opaque multi-layered corporate structures. Here is what due diligence turns up.</p><p data-lang-de>36,5&nbsp;% des SyncPilot-SE-Eigenkapitals werden von Personen kontrolliert, bei denen dokumentierte Preisanomalien, strafrechtliche Verfolgung oder undurchsichtige mehrschichtige Unternehmensstrukturen vorliegen. Das ergibt die Sorgfaltspr&uuml;fung.</p></div></header>
+<div class="risk-summary"><div class="risk-summary-box" style="border-top:4px solid var(--risk-high)"><div class="risk-summary-val" style="color:var(--risk-high)">5</div><div class="risk-summary-label"><span class="risk-summary-dot" style="background:var(--risk-high)"></span><span data-lang-en>High Risk</span><span data-lang-de>Hohes Risiko</span></div><div class="risk-summary-pct" style="color:var(--risk-high)">36.5% <span data-lang-en>of equity</span><span data-lang-de>des Eigenkapitals</span></div></div><div class="risk-summary-box" style="border-top:4px solid var(--risk-med)"><div class="risk-summary-val" style="color:var(--risk-med)">3</div><div class="risk-summary-label"><span class="risk-summary-dot" style="background:var(--risk-med)"></span><span data-lang-en>Medium Risk</span><span data-lang-de>Mittleres Risiko</span></div><div class="risk-summary-pct" style="color:var(--risk-med)">17.0% <span data-lang-en>of equity</span><span data-lang-de>des Eigenkapitals</span></div></div><div class="risk-summary-box" style="border-top:4px solid var(--risk-low)"><div class="risk-summary-val" style="color:var(--risk-low)">23</div><div class="risk-summary-label"><span class="risk-summary-dot" style="background:var(--risk-low)"></span><span data-lang-en>Low Risk</span><span data-lang-de>Niedriges Risiko</span></div><div class="risk-summary-pct" style="color:var(--risk-low)">46.5% <span data-lang-en>of equity</span><span data-lang-de>des Eigenkapitals</span></div></div></div>
+<div style="display:flex;height:28px;border-radius:4px;overflow:hidden;margin:0 0 var(--sp-4)"><div style="flex:36.5;background:var(--risk-high);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:#fff">36.5%</div><div style="flex:17;background:var(--risk-med);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:#fff">17.0%</div><div style="flex:46.5;background:var(--risk-low);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:#fff">46.5%</div></div>
+<p data-lang-en>Five individuals controlling <strong>36.5%</strong> of SyncPilot SE equity present high governance risk. Under AktG &sect;93 (<em>Sorgfaltspflicht des Vorstands</em>) and &sect;116 (<em>Sorgfaltspflicht des Aufsichtsrats</em>), directors owe a duty of care and loyalty to the company and all shareholders. Where a director approves a share issuance at a 95% discount to a related party, the presumption of <em>Treuepflichtverletzung</em> and <em>Interessenkonflikt</em> is difficult to overcome.</p>
+<p data-lang-de>F&uuml;nf Personen, die <strong>36,5 %</strong> des Eigenkapitals der SyncPilot SE kontrollieren, weisen ein hohes Governance-Risiko auf. Nach AktG &sect;93 (<em>Sorgfaltspflicht des Vorstands</em>) und &sect;116 (<em>Sorgfaltspflicht des Aufsichtsrats</em>) schulden Vorstandsmitglieder der Gesellschaft und allen Aktion&auml;ren eine Sorgfalts- und Treuepflicht.</p>
+
+<!-- ========== HIGH RISK ZONE ========== -->
+<div class="danger-zone">
+<div class="danger-heading">&#x26A0; <span data-lang-en>High Risk &mdash; 5 UBOs &mdash; 36.5% of Equity</span><span data-lang-de>Hohes Risiko &mdash; 5 UBOs &mdash; 36,5 % des Eigenkapitals</span></div>
+
+<!-- HUNSTEIN -->
+<div class="danger-card">
+<div class="danger-card-header"><div class="danger-dot"></div><div class="danger-name"><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></div><div class="danger-pct">3.51%</div></div>
+<ul class="danger-findings">
+<li data-lang-en><strong>Pricing anomaly:</strong> Party to the <a href="06_perseus_breach.html">&euro;1/share Perseus transaction</a> &mdash; a 94.7% discount to the documented fair market value of &euro;18.96</li>
+<li data-lang-de><strong>Preisanomalie:</strong> Beteiligt an der <a href="06_perseus_breach.html">Perseus-1-&euro;/Aktie-Transaktion</a> &mdash; 94,7 % Abschlag zum dokumentierten Verkehrswert von 18,96 &euro;</li>
+<li data-lang-en><strong>Criminal prosecution:</strong> Co-defendant in the <a href="06_perseus_breach.html#goldfinger">Goldfinger tax fraud prosecution</a> (LG Augsburg, 2019&ndash;2020) &mdash; proceedings discontinued without conviction</li>
+<li data-lang-de><strong>Strafverfahren:</strong> Mitangeklagter im <a href="06_perseus_breach.html#goldfinger">Goldfinger-Steuerbetrugsverfahren</a> (LG Augsburg, 2019&ndash;2020) &mdash; Verfahren ohne Verurteilung eingestellt</li>
+<li data-lang-en><strong>Insider vehicle:</strong> Controls H.G. Perseus GmbH StBG &mdash; named after the principals&rsquo; initials (H.=Hunstein, G.=Goerg)</li>
+<li data-lang-de><strong>Insider-Vehikel:</strong> Kontrolliert H.G. Perseus GmbH StBG &mdash; benannt nach den Initialen der Handelnden (H.=Hunstein, G.=Goerg)</li>
+</ul>
+<div class="danger-criteria"><span class="crit-high"><span data-lang-en>Pricing anomaly</span><span data-lang-de>Preisanomalie</span></span><span class="crit-high"><span data-lang-en>Regulatory history</span><span data-lang-de>Regulat&ouml;rische Vorgeschichte</span></span></div>
+</div>
+
+<!-- GOERG -->
+<div class="danger-card">
+<div class="danger-card-header"><div class="danger-dot"></div><div class="danger-name"><a href="01_ubo_directory.html#ubo-14">Diethard Erik Goerg</a></div><div class="danger-pct">3.51%</div></div>
+<ul class="danger-findings">
+<li data-lang-en><strong>Pricing anomaly:</strong> Co-controller of H.G. Perseus GmbH StBG &mdash; party to the <a href="06_perseus_breach.html">&euro;1/share acquisition</a> while documented fair value stood at &euro;18.96&ndash;&euro;20.56</li>
+<li data-lang-de><strong>Preisanomalie:</strong> Mitkontrolleur der H.G. Perseus GmbH StBG &mdash; beteiligt am <a href="06_perseus_breach.html">1-&euro;/Aktie-Erwerb</a>, w&auml;hrend der dokumentierte Verkehrswert bei 18,96&ndash;20,56 &euro; lag</li>
+<li data-lang-en><strong>Criminal prosecution:</strong> Co-defendant in the <a href="06_perseus_breach.html#goldfinger">Goldfinger prosecution</a> &mdash; marketed aggressive gold-trading tax schemes through H.G. Perseus / former firm AFR</li>
+<li data-lang-de><strong>Strafverfahren:</strong> Mitangeklagter im <a href="06_perseus_breach.html#goldfinger">Goldfinger-Verfahren</a> &mdash; vermarktete aggressive Goldhandels-Steuermodelle &uuml;ber H.G. Perseus / ehemalige Kanzlei AFR</li>
+<li data-lang-en><strong>Pattern of self-dealing:</strong> Perseus returned 8 weeks later to buy additional shares at &euro;20.56 &mdash; proving awareness of true market value</li>
+<li data-lang-de><strong>Muster der Selbstbeg&uuml;nstigung:</strong> Perseus kehrte 8 Wochen sp&auml;ter zur&uuml;ck und kaufte weitere Aktien zu 20,56 &euro; &mdash; Beweis der Kenntnis des wahren Marktwerts</li>
+</ul>
+<div class="danger-criteria"><span class="crit-high"><span data-lang-en>Pricing anomaly</span><span data-lang-de>Preisanomalie</span></span><span class="crit-high"><span data-lang-en>Regulatory history</span><span data-lang-de>Regulat&ouml;rische Vorgeschichte</span></span></div>
+</div>
+
+<!-- BLEICHER -->
+<div class="danger-card">
+<div class="danger-card-header"><div class="danger-dot"></div><div class="danger-name"><a href="01_ubo_directory.html#ubo-0">Franz-Xaver Bleicher</a></div><div class="danger-pct">16.48%</div></div>
+<ul class="danger-findings">
+<li data-lang-en><strong>Control concentration:</strong> Largest single UBO (16.5%) AND holds Vorstand (CEO) position &mdash; concentrates ownership and oversight in the same hands</li>
+<li data-lang-de><strong>Kontrollkonzentration:</strong> Gr&ouml;&szlig;ter einzelner UBO (16,5 %) UND Vorstandsposition (CEO) &mdash; vereinigt Eigentum und Aufsicht in einer Hand</li>
+<li data-lang-en><strong>Multi-layered control:</strong> Routes ownership through BOSYNC Beteiligungs UG &rarr; SyncPilot SE &mdash; intermediary structure obscures direct beneficial ownership</li>
+<li data-lang-de><strong>Mehrstufige Kontrolle:</strong> Leitet Eigentum &uuml;ber BOSYNC Beteiligungs UG &rarr; SyncPilot SE &mdash; Zwischenstruktur verschleiert direkte wirtschaftliche Berechtigung</li>
+<li data-lang-en><strong>Board authority over Perseus deal:</strong> As Vorstand, bore fiduciary duty to block the &euro;1/share issuance to insiders &mdash; approved it instead</li>
+<li data-lang-de><strong>Vorstandsverantwortung:</strong> Als Vorstand trug er die Treuepflicht, die 1-&euro;/Aktie-Ausgabe an Insider zu blockieren &mdash; genehmigte sie stattdessen</li>
+</ul>
+<div class="danger-criteria"><span class="crit-high"><span data-lang-en>Multi-layered control</span><span data-lang-de>Mehrstufige Kontrolle</span></span><span class="crit-med"><span data-lang-en>Control concentration</span><span data-lang-de>Kontrollkonzentration</span></span></div>
+</div>
+
+<!-- STEINER -->
+<div class="danger-card">
+<div class="danger-card-header"><div class="danger-dot"></div><div class="danger-name"><a href="01_ubo_directory.html#ubo-2">Harald Steiner</a></div><div class="danger-pct">8.58%</div></div>
+<ul class="danger-findings">
+<li data-lang-en><strong>Control concentration:</strong> Second-largest founding entity (DSI Digital Solutions Invest GmbH) &mdash; holds board-level influence and 8.6% equity simultaneously</li>
+<li data-lang-de><strong>Kontrollkonzentration:</strong> Zweitgr&ouml;&szlig;te Gr&uuml;ndungsgesellschaft (DSI Digital Solutions Invest GmbH) &mdash; h&auml;lt gleichzeitig Vorstands-Einfluss und 8,6 % Eigenkapital</li>
+<li data-lang-en><strong>Multi-layered control:</strong> Routes ownership through DSI Digital Solutions Invest GmbH &rarr; SyncPilot SE &mdash; obscuring direct beneficial ownership</li>
+<li data-lang-de><strong>Mehrstufige Kontrolle:</strong> Leitet Eigentum &uuml;ber DSI Digital Solutions Invest GmbH &rarr; SyncPilot SE &mdash; verschleiert direkte wirtschaftliche Berechtigung</li>
+<li data-lang-en><strong>Family bloc:</strong> Multiple family members (Christiane Steiner 4.29%, Daniel Steiner 1.43%) collectively control 14.3% &mdash; amplifying governance concentration risk</li>
+<li data-lang-de><strong>Familienblock:</strong> Mehrere Familienmitglieder (Christiane Steiner 4,29 %, Daniel Steiner 1,43 %) kontrollieren zusammen 14,3 % &mdash; verst&auml;rkt das Konzentrationsrisiko</li>
+</ul>
+<div class="danger-criteria"><span class="crit-high"><span data-lang-en>Multi-layered control</span><span data-lang-de>Mehrstufige Kontrolle</span></span><span class="crit-med"><span data-lang-en>Control concentration</span><span data-lang-de>Kontrollkonzentration</span></span></div>
+</div>
+
+<!-- PURKERT -->
+<div class="danger-card">
+<div class="danger-card-header"><div class="danger-dot"></div><div class="danger-name"><a href="01_ubo_directory.html#ubo-6">Gert Purkert</a></div><div class="danger-pct">4.38%</div></div>
+<ul class="danger-findings">
+<li data-lang-en><strong>Cross-jurisdictional opacity:</strong> Routes 4.4% stake through Tiven GmbH &rarr; Tiven S.A. (Luxembourg) &rarr; SyncPilot SE &mdash; 3+ intermediary layers across jurisdictions</li>
+<li data-lang-de><strong>Grenz&uuml;berschreitende Intransparenz:</strong> Leitet 4,4-%-Anteil &uuml;ber Tiven GmbH &rarr; Tiven S.A. (Luxemburg) &rarr; SyncPilot SE &mdash; 3+ Zwischenebenen</li>
+<li data-lang-en><strong>Pricing context:</strong> Tiven paid &euro;20.56/share just 58 days after Perseus paid &euro;1 &mdash; raising questions about differential pricing to connected parties</li>
+<li data-lang-de><strong>Preiskontext:</strong> Tiven zahlte 20,56 &euro;/Aktie nur 58 Tage nach dem Perseus-1-&euro;-Preis &mdash; Fragen zur differenzierten Preisgestaltung</li>
+<li data-lang-en><strong>Multi-layered control:</strong> Luxembourg S.A. adds opacity layer &mdash; beneficial ownership not immediately ascertainable from German registers</li>
+<li data-lang-de><strong>Mehrstufige Kontrolle:</strong> Luxemburgische S.A. f&uuml;gt Intransparenzebene hinzu &mdash; wirtschaftliche Berechtigung nicht aus deutschen Registern ermittelbar</li>
+</ul>
+<div class="danger-criteria"><span class="crit-high"><span data-lang-en>Multi-layered control</span><span data-lang-de>Mehrstufige Kontrolle</span></span><span class="crit-low-tag"><span data-lang-en>Cross-jurisdictional</span><span data-lang-de>Grenz&uuml;berschreitend</span></span></div>
+</div>
+</div>
+
+<!-- ========== MEDIUM RISK ========== -->
+<div class="medium-zone">
+<div class="medium-heading"><span data-lang-en>Medium Risk &mdash; 3 UBOs &mdash; 17.0% of Equity</span><span data-lang-de>Mittleres Risiko &mdash; 3 UBOs &mdash; 17,0 % des Eigenkapitals</span></div>
+<div class="medium-card"><div class="medium-card-header"><div class="medium-dot"></div><div class="medium-name"><a href="01_ubo_directory.html#ubo-1">Dr. Ingo Krocke</a></div><div class="medium-pct">8.65%</div></div><div class="medium-detail"><span data-lang-en>Controls AURIGA Capital AG (Malta-registered). Routes 8.65% stake through cross-jurisdictional offshore vehicle.</span><span data-lang-de>Kontrolliert AURIGA Capital AG (in Malta registriert). Leitet 8,65-%-Beteiligung &uuml;ber grenz&uuml;berschreitendes Offshore-Vehikel.</span></div><div class="medium-criteria"><span class="crit-high"><span data-lang-en>Multi-layered control</span><span data-lang-de>Mehrstufige Kontrolle</span></span><span class="crit-low-tag"><span data-lang-en>Cross-jurisdictional</span><span data-lang-de>Grenz&uuml;berschreitend</span></span></div></div>
+<div class="medium-card"><div class="medium-card-header"><div class="medium-dot"></div><div class="medium-name"><a href="01_ubo_directory.html#ubo-5">Alexander Schaeff</a></div><div class="medium-pct">4.67%</div></div><div class="medium-detail"><span data-lang-en>Controls Schaeff Group Holding AG &rarr; Schaeff Maschinen Verwaltung &rarr; Augusta Software GmbH &rarr; SE. Multi-layered holding structure.</span><span data-lang-de>Kontrolliert Schaeff Group Holding AG &rarr; Schaeff Maschinen Verwaltung &rarr; Augusta Software GmbH &rarr; SE. Mehrstufige Holdingstruktur.</span></div><div class="medium-criteria"><span class="crit-high"><span data-lang-en>Multi-layered control</span><span data-lang-de>Mehrstufige Kontrolle</span></span></div></div>
+<div class="medium-card"><div class="medium-card-header"><div class="medium-dot"></div><div class="medium-name"><a href="01_ubo_directory.html#ubo-12">Marc F. Kimmich</a></div><div class="medium-pct">3.70%</div></div><div class="medium-detail"><span data-lang-en>Entered at &euro;13/share (December 2021). Share transfers to other entities lack full documentation trail.</span><span data-lang-de>Einstieg zu 13 &euro;/Aktie (Dezember 2021). Aktien&uuml;bertragungen an andere Gesellschaften ohne vollst&auml;ndige Dokumentation.</span></div><div class="medium-criteria"><span class="crit-med"><span data-lang-en>Opaque transfers</span><span data-lang-de>Intransparente &Uuml;bertragungen</span></span></div></div>
+</div>
+
+<p data-lang-en style="font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.45);margin:var(--sp-4) 0">The remaining 23 UBOs (46.5% of equity) are rated <span style="color:var(--risk-low);font-weight:700">LOW RISK</span> &mdash; no pricing anomaly involvement, no multi-layered control structures, no regulatory history identified. See <a href="01_ubo_directory.html">Chapter 1</a> for the full UBO directory.</p>
+<p data-lang-de style="font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.45);margin:var(--sp-4) 0">Die verbleibenden 23 UBOs (46,5 % des Eigenkapitals) werden als <span style="color:var(--risk-low);font-weight:700">NIEDRIGES RISIKO</span> eingestuft. Siehe <a href="01_ubo_directory.html">Kapitel 1</a> f&uuml;r das vollst&auml;ndige UBO-Verzeichnis.</p>
+
+<h2><span data-lang-en>Ownership by Risk Tier</span><span data-lang-de>Eigentumsanteile nach Risikostufe</span></h2>
+<div class="chart-container"><div class="chart-title"><span data-lang-en>UBO Equity Stakes (%) &mdash; High &amp; Medium Risk Only</span><span data-lang-de>UBO-Eigenkapitalanteile (%) &mdash; Nur Hohes &amp; Mittleres Risiko</span></div><div class="chart-canvas-wrap" style="height:300px"><canvas id="riskChart"></canvas></div><div class="chart-source">Source: Ultimate_Shareholders.xlsx merged with SyncPilot_SE_Project.xlsx risk analysis</div></div>
+
+<h2><span data-lang-en>Rating Methodology</span><span data-lang-de>Bewertungsmethodik</span></h2>
+<div class="method-grid">
+<div class="method-item"><div class="method-weight" style="background:rgba(204,0,0,.1);color:#CC0000"><span data-lang-en>High Weight</span><span data-lang-de>Hohe Gewichtung</span></div><div class="method-title">1. <span data-lang-en>Pricing Anomaly</span><span data-lang-de>Preisanomalie</span></div><div class="method-desc"><span data-lang-en>Was the UBO party to a transaction at a price significantly deviating from fair market value?</span><span data-lang-de>War der UBO an einer Transaktion zu einem Preis beteiligt, der erheblich vom Verkehrswert abweicht?</span></div></div>
+<div class="method-item"><div class="method-weight" style="background:rgba(204,0,0,.1);color:#CC0000"><span data-lang-en>High Weight</span><span data-lang-de>Hohe Gewichtung</span></div><div class="method-title">2. <span data-lang-en>Multi-Layered Control</span><span data-lang-de>Mehrstufige Kontrolle</span></div><div class="method-desc"><span data-lang-en>Does the UBO control SE entities through 3+ intermediary layers?</span><span data-lang-de>Kontrolliert der UBO SE-Einheiten &uuml;ber 3+ Zwischenebenen?</span></div></div>
+<div class="method-item"><div class="method-weight" style="background:rgba(204,0,0,.1);color:#CC0000"><span data-lang-en>High Weight</span><span data-lang-de>Hohe Gewichtung</span></div><div class="method-title">3. <span data-lang-en>Regulatory / Legal History</span><span data-lang-de>Regulat&ouml;rische Vorgeschichte</span></div><div class="method-desc"><span data-lang-en>Is the UBO connected to prior fraud investigations or prosecutions?</span><span data-lang-de>Ist der UBO mit fr&uuml;heren Betrugsermittlungen oder Strafverfahren verbunden?</span></div></div>
+<div class="method-item"><div class="method-weight" style="background:rgba(255,136,51,.1);color:#CC6600"><span data-lang-en>Medium Weight</span><span data-lang-de>Mittlere Gewichtung</span></div><div class="method-title">4. <span data-lang-en>Opaque Transfers</span><span data-lang-de>Intransparente &Uuml;bertragungen</span></div><div class="method-desc"><span data-lang-en>Was the UBO involved in share transfers lacking proper documentation?</span><span data-lang-de>War der UBO an Aktien&uuml;bertragungen beteiligt, denen Dokumentation fehlt?</span></div></div>
+<div class="method-item"><div class="method-weight" style="background:rgba(255,136,51,.1);color:#CC6600"><span data-lang-en>Medium Weight</span><span data-lang-de>Mittlere Gewichtung</span></div><div class="method-title">5. <span data-lang-en>Control Concentration</span><span data-lang-de>Kontrollkonzentration</span></div><div class="method-desc"><span data-lang-en>Does the UBO hold board/management positions AND significant equity simultaneously?</span><span data-lang-de>H&auml;lt der UBO gleichzeitig Vorstands-/Managementpositionen UND erhebliche Kapitalanteile?</span></div></div>
+<div class="method-item"><div class="method-weight" style="background:rgba(0,153,77,.08);color:#00773D"><span data-lang-en>Low Weight</span><span data-lang-de>Niedrige Gewichtung</span></div><div class="method-title">6. <span data-lang-en>Cross-Jurisdictional Opacity</span><span data-lang-de>Grenz&uuml;berschreitende Intransparenz</span></div><div class="method-desc"><span data-lang-en>Does the UBO route ownership through Malta, Luxembourg, or other opacity-prone jurisdictions?</span><span data-lang-de>Leitet der UBO Eigentum &uuml;ber Malta, Luxemburg oder andere intransparente Jurisdiktionen?</span></div></div>
+</div>
+</main>
+<section class="content-area"><nav class="chapter-nav"><a href="04_revenue.html" class="prev"><span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></a><a href="06_perseus_breach.html" class="next"><span data-lang-en>The Perseus Breach</span><span data-lang-de>Der Perseus-Versto&szlig;</span></a></nav></section>
+<footer class="site-footer"><div class="footer-inner"><div class="footer-disclaimer"><p data-lang-en>Risk ratings represent analytical assessments based on documented patterns and publicly available information, not legal determinations. HIGH risk does not imply guilt or wrongdoing. All individuals are presumed innocent. Ratings apply AktG &sect;93, &sect;116 (Sorgfaltspflicht), GmbHG &sect;43 (Gesch&auml;ftsf&uuml;hrerhaftung) governance frameworks.</p><p data-lang-de>Risikobewertungen stellen analytische Einsch&auml;tzungen auf Basis dokumentierter Muster dar, keine rechtlichen Feststellungen. HOHES Risiko impliziert keine Schuld. Alle Personen gelten als unschuldig.</p></div><div class="footer-meta"><span><span data-lang-en>Last updated:</span><span data-lang-de>Letzte Aktualisierung:</span> <time datetime="2026-02-08">8 February 2026</time></span><span><span data-lang-en>Cookie-free. No personal data collected.</span><span data-lang-de>Ohne Cookies.</span></span></div></div></footer>
+<script>
+(function(){var currentLang='en',menuOpen=false;document.addEventListener('DOMContentLoaded',function(){var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;sm.classList.remove('open');ov.classList.remove('visible')})}var lb=document.querySelector('.lang-toggle');if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'})})})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){Chart.defaults.font.family="'Source Sans 3','Helvetica Neue',sans-serif";Chart.defaults.font.size=12;Chart.defaults.color="#262A33";
+var names=['Bleicher','Krocke','Steiner','Schaeff','Purkert','Kimmich','Hunstein','Goerg'];
+var pcts=[16.48,8.65,8.58,4.67,4.38,3.70,3.51,3.51];
+var colors=['#CC0000','#FF8833','#CC0000','#FF8833','#CC0000','#FF8833','#CC0000','#CC0000'];
+var ratings=['HIGH','MEDIUM','HIGH','MEDIUM','HIGH','MEDIUM','HIGH','HIGH'];
+new Chart(document.getElementById('riskChart').getContext('2d'),{
+plugins:[{id:'riskLabels',afterDatasetsDraw:function(chart){var ctx=chart.ctx;chart.getDatasetMeta(0).data.forEach(function(bar,i){ctx.save();ctx.fillStyle='rgba(38,42,51,0.6)';ctx.font="700 10px 'Source Sans 3',sans-serif";ctx.textAlign='left';ctx.textBaseline='middle';var icon=ratings[i]==='HIGH'?'\u26A0 ':'';ctx.fillText(icon+pcts[i].toFixed(1)+'%',bar.x+4,bar.y);ctx.restore()})}}],
+type:'bar',data:{labels:names,datasets:[{label:'Equity (%)',data:pcts,backgroundColor:colors,borderRadius:3,borderSkipped:false}]},
+options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#262A33',cornerRadius:4,padding:12,callbacks:{title:function(items){return names[items[0].dataIndex]},label:function(item){return[pcts[item.dataIndex].toFixed(2)+'% equity','Risk: '+ratings[item.dataIndex]]}}}},scales:{x:{title:{display:true,text:'Equity Stake (%)',font:{size:12,weight:'600'},color:'rgba(38,42,51,0.5)'},grid:{color:'rgba(242,223,206,0.6)'},ticks:{callback:function(v){return v+'%'}}},y:{grid:{display:false},ticks:{font:{size:11,weight:'700'}}}}}});});
+</script>
+</body></html>
