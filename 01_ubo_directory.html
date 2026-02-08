@@ -117,6 +117,101 @@ body.lang-de span[data-lang-de]{display:inline}
 @media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.footer-meta{flex-direction:column}}
 @media print{body{padding-top:0;background:#fff;color:#000;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay,.search-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
 
+
+
+/* === MASONRY UBO GRID === */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin:var(--sp-6) 0;align-items:center}
+.filter-bar label{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.5);margin-right:4px}
+.filter-btn{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 14px;border-radius:20px;border:1.5px solid rgba(38,42,51,.15);background:transparent;color:rgba(38,42,51,.6);cursor:pointer;transition:all .15s}
+.filter-btn:hover{border-color:rgba(38,42,51,.3);color:var(--slate)}
+.filter-btn.active{background:var(--slate);color:#fff;border-color:var(--slate)}
+.filter-btn[data-risk="high"].active{background:#CC0000;border-color:#CC0000}
+.filter-btn[data-risk="medium"].active{background:#CC6600;border-color:#CC6600}
+.filter-btn[data-risk="low"].active{background:#00773D;border-color:#00773D}
+
+.ubo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin:var(--sp-6) 0}
+@media(max-width:700px){.ubo-grid{grid-template-columns:1fr}}
+
+.ubo-card{background:var(--white);border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);cursor:pointer;transition:all .2s;border:1.5px solid transparent;position:relative}
+.ubo-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-2px);border-color:rgba(38,42,51,.1)}
+.ubo-card[data-risk="high"]{border-left:4px solid #CC0000}
+.ubo-card[data-risk="medium"]{border-left:4px solid #CC6600}
+.ubo-card[data-risk="low"]{border-left:4px solid #e0e0e0}
+.ubo-card.hidden{display:none}
+
+.ubo-card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.ubo-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:800;font-size:.82rem;color:#fff;flex-shrink:0;letter-spacing:.04em}
+.ubo-identity{flex:1;min-width:0}
+.ubo-name{font-family:var(--font-ui);font-weight:700;font-size:1.02rem;color:var(--slate);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ubo-role{font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.45);margin-top:2px}
+.card-loc{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.4);margin-top:3px}
+.ubo-pct-block{text-align:right;flex-shrink:0}
+.ubo-pct{font-family:var(--font-ui);font-weight:800;font-size:1.25rem;color:var(--slate);line-height:1.2}
+.risk-pill{display:inline-block;font-family:var(--font-ui);font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:10px;margin-top:4px}
+.risk-pill.risk-high{background:rgba(204,0,0,.1);color:#CC0000}
+.risk-pill.risk-medium{background:rgba(204,102,0,.08);color:#CC6600}
+.risk-pill.risk-low{background:rgba(0,119,61,.06);color:#888}
+
+.ubo-via{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.5);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.via-label{font-weight:700;color:rgba(38,42,51,.35)}
+
+.ubo-chips{display:flex;gap:6px;flex-wrap:wrap}
+.entity-chip{font-family:var(--font-ui);font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:6px;background:rgba(38,42,51,.04);color:rgba(38,42,51,.6);border:1px solid rgba(38,42,51,.08);white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+.entity-chip.sp{background:rgba(13,118,128,.06);color:#0D7680;border-color:rgba(13,118,128,.15)}
+.entity-chip.more{background:rgba(38,42,51,.08);color:rgba(38,42,51,.5);font-style:italic;cursor:pointer}
+
+/* === SLIDE-OVER PANEL === */
+.panel-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:999;opacity:0;pointer-events:none;transition:opacity .25s}
+.panel-overlay.open{opacity:1;pointer-events:auto}
+
+.detail-panel{position:fixed;top:0;right:0;bottom:0;width:440px;max-width:92vw;background:var(--white);z-index:1000;box-shadow:-8px 0 40px rgba(0,0,0,.15);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);overflow-y:auto;display:flex;flex-direction:column}
+.detail-panel.open{transform:translateX(0)}
+
+.panel-header{padding:24px 24px 16px;border-bottom:1px solid rgba(242,223,206,.6);position:sticky;top:0;background:var(--white);z-index:2}
+.panel-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:rgba(38,42,51,.4);padding:4px 8px;border-radius:4px}
+.panel-close:hover{background:rgba(38,42,51,.06);color:var(--slate)}
+.panel-top{display:flex;gap:16px;align-items:center}
+.panel-avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:800;font-size:1.1rem;color:#fff;flex-shrink:0}
+.panel-name{font-family:var(--font-ui);font-weight:800;font-size:1.3rem;color:var(--slate);line-height:1.2}
+.panel-badges{margin-top:6px}
+.role-badge{font-family:var(--font-ui);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;border-radius:3px;margin-right:4px}
+.role-badge.badge-ceo{background:rgba(153,15,61,.1);color:#990F3D}
+.role-badge.badge-md{background:rgba(13,84,153,.08);color:#0F5499}
+.role-badge.badge-dir{background:rgba(38,42,51,.06);color:#555}
+.role-badge.badge-sh{background:rgba(38,42,51,.04);color:#888}
+.role-badge.badge-intermed{background:rgba(204,102,0,.08);color:#CC6600}
+
+.panel-body{padding:0 24px 24px;flex:1}
+.panel-section{margin:20px 0 0}
+.panel-section-title{font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(38,42,51,.4);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(242,223,206,.4)}
+
+.panel-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.meta-item{font-family:var(--font-ui);font-size:.82rem}
+.meta-label{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.4);margin-bottom:2px}
+.meta-value{font-weight:600;color:var(--slate)}
+
+.panel-risk-box{padding:14px;border-radius:8px;margin-top:16px;font-family:var(--font-ui);font-size:.85rem;line-height:1.5}
+.panel-risk-box.risk-high{background:rgba(204,0,0,.04);border:1px solid rgba(204,0,0,.12);color:rgba(38,42,51,.8)}
+.panel-risk-box.risk-medium{background:rgba(204,102,0,.03);border:1px solid rgba(204,102,0,.1);color:rgba(38,42,51,.8)}
+.panel-risk-box.risk-low{background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.06);color:rgba(38,42,51,.5)}
+.panel-risk-label{font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+
+.crit-tag{font-family:var(--font-ui);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:3px;margin-right:4px;margin-top:6px;display:inline-block}
+.crit-tag.crit-high{background:rgba(204,0,0,.08);color:#CC0000}
+.crit-tag.crit-medium{background:rgba(204,102,0,.06);color:#CC6600}
+.crit-tag.crit-low{background:rgba(0,0,0,.04);color:#888}
+
+.co-list{list-style:none;margin:0;padding:0}
+.co-item{padding:6px 0;border-bottom:1px solid rgba(242,223,206,.3);font-family:var(--font-ui);font-size:.8rem;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.co-item:last-child{border-bottom:none}
+.co-item.sp-entity{background:rgba(13,118,128,.03);margin:0 -8px;padding:6px 8px;border-radius:4px}
+.co-name{font-weight:600;color:var(--slate);flex:1;min-width:120px}
+.co-pos{font-size:.72rem;color:rgba(38,42,51,.5)}
+.co-pct{font-weight:700;color:var(--oxford);font-size:.72rem}
+.co-until{font-size:.68rem;color:rgba(204,0,0,.6);font-style:italic}
+
+@media print{.detail-panel,.panel-overlay{display:none!important}.ubo-card{break-inside:avoid;page-break-inside:avoid}}
+
 </style>
 </head>
 <body>
@@ -136,13 +231,13 @@ body.lang-de span[data-lang-de]{display:inline}
 <aside class="side-menu">
   <a href="index.html" class="menu-link" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
   <div class="menu-group-label"><span data-lang-en>Corporate Profile</span><span data-lang-de>Unternehmensprofil</span></div>
-  <a href="01_ubo_directory.html" class="menu-link active"><span class="ch-num">01</span> <span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></a>
-  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span> <span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></a>
-  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></a>
-  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></a>
+  <a href="01_ubo_directory.html" class="menu-link active"><span class="ch-num">01</span> <span data-lang-en>Who Controls This Company?</span><span data-lang-de>Wer kontrolliert das Unternehmen?</span></a>
+  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span> <span data-lang-en>14 Capital Events, Zero Oversight</span><span data-lang-de>14 Kapitalmaßnahmen, null Aufsicht</span></a>
+  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
+  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Where Is the Revenue?</span><span data-lang-de>Wo bleibt der Umsatz?</span></a>
   <div class="menu-group-label"><span data-lang-en>Evidence &amp; Analysis</span><span data-lang-de>Beweise &amp; Analyse</span></div>
-  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>UBO Risk Assessment</span><span data-lang-de>UBO-Risikobewertung</span></a>
-  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The Perseus Breach</span><span data-lang-de>Der Perseus-Verstoß</span></a>
+  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a>
+  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The 95% Discount</span><span data-lang-de>Der 95%-Rabatt</span></a>
   <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
   <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
   <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
@@ -151,28 +246,22 @@ body.lang-de span[data-lang-de]{display:inline}
   <a href="12_goldfinger.html" class="menu-link"><span class="ch-num">12</span> <span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></a>
 </aside>
 
-<div class="search-overlay" role="search">
-  <div class="search-box">
-    <input type="text" class="search-input" placeholder="Search across all chapters…" aria-label="Search query">
-    <div class="search-results"></div>
-  </div>
-</div>
-
 <main class="content-area">
-  <p style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--claret);margin-bottom:var(--sp-2)">
-    <span data-lang-en>Chapter 01</span><span data-lang-de>Kapitel 01</span>
-  </p>
-
-  <h1><span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></h1>
+<header class="hero">
+  <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret)">Chapter 1</div>
+  <h1><span data-lang-en>Who Really Controls This&nbsp;Company?</span><span data-lang-de>Wer kontrolliert dieses Unternehmen&nbsp;wirklich?</span></h1>
+  <hr class="hero-rule">
+  <div class="hero-subtitle">
+    <p data-lang-en>31 names. 6 jurisdictions. 3 people who hold a third of the equity — none of whose names appear on the share register.</p>
+    <p data-lang-de>31 Namen. 6 Rechtsordnungen. 3 Personen, die ein Drittel des Eigenkapitals halten — ohne dass ihre Namen im Aktienregister erscheinen.</p>
+  </div>
+</header>
 
   <div class="bluf">
     <div class="bluf-label"><span data-lang-en>Key Finding</span><span data-lang-de>Kernbefund</span></div>
-    <p data-lang-en>SyncPilot SE's ownership is distributed across 30+ entities, but ultimate control traces back to fewer than 10 individuals operating through layered corporate vehicles in Germany, Malta, Luxembourg, and Liechtenstein.</p>
-    <p data-lang-de>Die Eigentümerschaft der SyncPilot SE verteilt sich auf über 30 Gesellschaften, doch die tatsächliche Kontrolle liegt bei weniger als 10 natürlichen Personen, die über mehrschichtige Unternehmensstrukturen in Deutschland, Malta, Luxemburg und Liechtenstein agieren.</p>
+    <p data-lang-en>SyncPilot SE's share register lists corporate entities — not people. To identify who actually controls the company, this chapter traces ownership through each intermediate vehicle back to the natural persons who hold final beneficial interests. The result: a directory of 31 individuals whose combined stakes account for 100% of SyncPilot SE's 5,576,031 shares — including five rated <strong style="color:#CC0000">HIGH RISK</strong>.</p>
+    <p data-lang-de>Das Aktienregister der SyncPilot SE listet juristische Personen — keine natürlichen Personen. Um festzustellen, wer das Unternehmen tatsächlich kontrolliert, verfolgt dieses Kapitel die Eigentumsverhältnisse durch jede Zwischengesellschaft zurück zu den natürlichen Personen, die die endgültigen wirtschaftlichen Interessen halten. Das Ergebnis: ein Verzeichnis von 31 Personen, deren Anteile 100 % der 5.576.031 Aktien ausmachen — darunter fünf mit der Einstufung <strong style="color:#CC0000">HOHES RISIKO</strong>.</p>
   </div>
-
-  <p data-lang-en>SyncPilot SE's share register lists corporate entities — not people. To identify who actually controls the company, this chapter traces ownership through each intermediate vehicle back to the natural persons who hold final beneficial interests. The result is a directory of 31 individuals whose combined stakes account for 100% of SyncPilot SE's 5,576,031 shares.</p>
-  <p data-lang-de>Das Aktienregister der SyncPilot SE listet juristische Personen — keine natürlichen Personen. Um festzustellen, wer das Unternehmen tatsächlich kontrolliert, verfolgt dieses Kapitel die Eigentumsverhältnisse durch jede Zwischengesellschaft zurück zu den natürlichen Personen, die die endgültigen wirtschaftlichen Interessen halten. Das Ergebnis ist ein Verzeichnis von 31 Personen, deren zusammengefasste Anteile 100 % der 5.576.031 Aktien der SyncPilot SE ausmachen.</p>
 
   <p data-lang-en>The most striking pattern: Franz Xaver Bleicher commands 16.48% — the single largest effective stake — entirely through his holding company BOSYNC Beteiligungs UG, where he serves as Geschäftsführer and holds 70% directly. The next two largest beneficiaries, Dr. Ingo Krocke (8.65%) and Harald Steiner (8.58%), route their interests through Attegia Holding and AURIGA Capital respectively. Together, these three individuals control over a third of SyncPilot SE without their names appearing directly on the company's share register.</p>
   <p data-lang-de>Das auffälligste Muster: Franz Xaver Bleicher verfügt über 16,48 % — den größten Einzelanteil — ausschließlich über seine Holdinggesellschaft BOSYNC Beteiligungs UG, in der er Geschäftsführer ist und 70 % direkt hält. Die nächsten beiden größten Berechtigten, Dr. Ingo Krocke (8,65 %) und Harald Steiner (8,58 %), leiten ihre Anteile über Attegia Holding bzw. AURIGA Capital. Zusammen kontrollieren diese drei Personen über ein Drittel der SyncPilot SE, ohne dass ihre Namen direkt im Aktienregister erscheinen.</p>
@@ -180,686 +269,547 @@ body.lang-de span[data-lang-de]{display:inline}
   <p data-lang-en>Six jurisdictions appear in the ownership chain: Germany, Malta, Luxembourg, Liechtenstein, the United Kingdom, and France. The Kurth family routes its 12% combined stake through Lapis Ltd., registered at London addresses. Gert Purkert channels 4.38% through Tiven S.A. — an entity that project records indicate may not exist as a registered company. Martin Hunstein and Diethard Goerg hold 3.51% each via Perseus Innovations and Services Holding Ltd., operating from Malta.</p>
   <p data-lang-de>Sechs Jurisdiktionen erscheinen in der Eigentumskette: Deutschland, Malta, Luxemburg, Liechtenstein, das Vereinigte Königreich und Frankreich. Die Familie Kurth leitet ihren kombinierten Anteil von 12 % über Lapis Ltd. an Londoner Adressen. Gert Purkert kanalisiert 4,38 % über Tiven S.A. — eine Gesellschaft, die laut Projektunterlagen möglicherweise nicht als eingetragenes Unternehmen existiert. Martin Hunstein und Diethard Goerg halten jeweils 3,51 % über Perseus Innovations and Services Holding Ltd. mit Sitz auf Malta.</p>
 
-  <h2><span data-lang-en>Control Cards</span><span data-lang-de>Kontrollkarten</span></h2>
 </main>
 
 <section style="max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)">
-  <div class="card-grid">
-<div class="card" id="ubo-0">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Bleicher, Franz-Xaver</div>
-      <div class="card-subtitle">Augsburg · 09.09.1972</div>
-      <div style="margin-top:4px"><span class="badge badge-ceo">CEO</span><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">16.48%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">918,947 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> BOSYNC Beteiligungs UG</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>BOSYNC Beteiligungs UG (70%) · Managing Director</li>
-<li>Quintus Beteiligungs GmbH (90%) · Managing Director</li>
-<li>SyncPilot S.P.S.A GmbH · Managing Director</li>
-<li>SyncPilot Beteiligungs GmbH · Managing Director</li>
-<li>SIP SyncPilot GmbH · Managing Director</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>NOB Vermögensverwaltungs GmbH · Liquidator</li></ul>
-</div>
-<div class="card" id="ubo-1">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Krocke, Dr. Ingo</div>
-      <div class="card-subtitle"></div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-dir">DIR</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">8.65%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">482,113 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Attegia Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Attegia Services Ltd. · Director</li>
-<li>Attegia Services Ltd. · ppa</li>
-<li>Attegia Ltd. · Director</li>
-<li>Attegia Ltd. · ppa</li>
-<li>Attegia Holding Ltd. · Director</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>Company · Position</li>
-<li>AUCTUS Capital Partners AG · CxO</li>
-<li>AUCTUS Capital Partners AG · Managing Partner</li>
-<li>Actrax Holding GmbH · Managing Director</li></ul>
-</div>
-<div class="card" id="ubo-2">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Steiner, Harald</div>
-      <div class="card-subtitle">Bad Wörishofen · 11.08.1967</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">8.58%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">478,431 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> AURIGA Capital AG, BOSYNC Beteiligungs UG</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>AURIGA Projekt GmbH · Managing Director</li>
-<li>AURIGA Verwaltungs GmbH · Managing Director</li>
-<li>AURIGA Software Invest GmbH (100%) · Managing Director</li>
-<li>AURIGA Capital AG · Member of Executve Board</li>
-<li>AURIGA Capital AG (60%) · Shareholder</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>INTERCON Management GmbH · Managing Director</li>
-<li>GEK energy1 GmbH & Co. KG · Limited Capital</li>
-<li>PROSPERA Capital GmbH · Managing Director</li></ul>
-</div>
-<div class="card" id="ubo-3">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Jakisch, Bernd</div>
-      <div class="card-subtitle">Augsburg · 08.09.1973</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.70%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">262,100 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Augusta Software GmbH</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Augusta Software GmbH (50%) · Managing Director</li>
-<li>SyncPilot Beteiligungs GmbH · Authorized Signatory (ppa)</li>
-<li>SyncPilot S.P.S.A GmbH · Authorized Signatory (ppa)</li>
-<li>SIP SyncPilot GmbH · Authorized Signatory (ppa)</li></ul>
-</div>
-<div class="card" id="ubo-4">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Funk, Dirk</div>
-      <div class="card-subtitle">Augsburg · 07.02.1984</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.70%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">262,100 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Augusta Software GmbH</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Augusta Software GmbH (50%) · Managing Director</li></ul>
-</div>
-<div class="card" id="ubo-5">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schaeff, Alexander</div>
-      <div class="card-subtitle">Germany</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.67%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">260,160 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Schaeff Group Holding AG, Schaeff Maschinen Verwaltung GmbH, Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Schaeff Group Holding AG (93.8%) · Shareholder (93.8%)</li>
-<li>SCHAEFF Maschinen Verwaltung GmbH · Related entity</li></ul>
-</div>
-<div class="card" id="ubo-6">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Purkert, Gert</div>
-      <div class="card-subtitle">München · 31.07.1970</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span><span class="badge badge-intermed">INT</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.38%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">244,445 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Tiven S.A. (Sàrl?)</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Tiven GmbH · Managing Director</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>Napoleone Classic Cars GmbH</li>
-<li>Aurelius REO 4 SARL · Beneficial Owner</li>
-<li>Aurelius REO 5 SARL · Beneficial Owner</li>
-<li>Aurelius REO 7 SARL · Beneficial Owner</li>
-<li style='opacity:.5'>+2 more</li></ul>
-</div>
-<div class="card" id="ubo-7">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Steiner, Christiane</div>
-      <div class="card-subtitle">Bad Wörishofen · 03.02.1966</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.29%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">239,215 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> AURIGA Capital AG, BOSYNC Beteiligungs UG</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>AURIGA Capital AG · Member of Executve Board</li>
-<li>AURIGA Capital AG (30%) · Shareholder</li></ul>
-</div>
-<div class="card" id="ubo-8">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Kurth, Cornelius Vincent</div>
-      <div class="card-subtitle">SW1E 6AZ</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.00%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">222,802 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Lapis Ltd.</div>
-</div>
-<div class="card" id="ubo-9">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Kurth, Lauritz Corvin Paul</div>
-      <div class="card-subtitle">29 Victoria Road, London W8 5RF</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.00%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">222,802 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Lapis Ltd.</div>
-</div>
-<div class="card" id="ubo-10">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Kurth, Dr. Hans-Rudolf</div>
-      <div class="card-subtitle">51 Egerton Crescent, London SW3 2ED</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">4.00%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">222,802 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Lapis Ltd.</div>
-</div>
-<div class="card" id="ubo-11">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">unbekannt</div>
-      <div class="card-subtitle">Unknown</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">3.70%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">206,040 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> ZAR Group AG</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>ZAR Group AG · UBO (unidentified)</li></ul>
-</div>
-<div class="card" id="ubo-12">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Kimmich, Marc F.</div>
-      <div class="card-subtitle">UK</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">3.70%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">206,040 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>COPRO Gruppe · Founder</li>
-<li>COPRO Gruppe · Member of the Board</li></ul>
-</div>
-<div class="card" id="ubo-13">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Hunstein, Martin</div>
-      <div class="card-subtitle">München · 10.06.1971</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span><span class="badge badge-dir">DIR</span><span class="badge badge-intermed">INT</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">3.51%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">195,843 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Perseus Innovations and Services Holding Ltd., ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>H.G. Perseus GmbH StBG · Shareholder <em style='opacity:.5'>until 16.01.2025</em></li>
-<li>H.G. Perseus GmbH StBG (50%) · Managing Director</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>GHR Goerg Hunstein Rechtsanwälte Steuerberater Partnerschaft mbB Partnerschaft · Partner</li>
-<li>GHR Goerg Hunstein Rechtsanwälte Steuerberater Partnerschaft mbB Partnerschaft · Shareholder</li>
-<li>Ayurveda Pura GmbH · Managing Director</li></ul>
-</div>
-<div class="card" id="ubo-14">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Goerg, Diethard Erik</div>
-      <div class="card-subtitle">München · 24.05.1973</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span><span class="badge badge-dir">DIR</span><span class="badge badge-intermed">INT</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">3.51%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">195,843 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Perseus Innovations and Services Holding Ltd., ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>H.G. Perseus GmbH StBG · Shareholder <em style='opacity:.5'>until 16.01.2025</em></li>
-<li>H.G. Perseus GmbH StBG (50%) · Managing Director</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>AFR Aigner Fischer Rechtsanwälte PartG mbB · Partner</li>
-<li>Aigner Goerg Immobilienbeteiligungs Verwaltungs GmbH · Managing Director</li>
-<li>Aigner Goerg Immobilienbeteiligungs GmbH & Co. KG · Limited Capital</li>
-<li>Projekt TBS Verwaltungs GmbH · Managing Director</li>
-<li style='opacity:.5'>+3 more</li></ul>
-</div>
-<div class="card" id="ubo-15">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Hansen, Bernd Gerhard</div>
-      <div class="card-subtitle">Sulzbach-Laufen · 20.08.1955</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">2.14%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">119,363 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>bgh Vermögensverwaltung GmbH · Shareholder</li>
-<li>bgh Vermögensverwaltung GmbH (20%) · Managing Director</li></ul>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>Vermögensverwaltung thermo-pack eGbR · Shareholder</li></ul>
-</div>
-<div class="card" id="ubo-16">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Hansen, Friedrich Bernd</div>
-      <div class="card-subtitle">Schwäbisch Hall · 27.06.1987</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">2.14%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">119,363 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>bgh Vermögensverwaltung GmbH · Shareholder</li></ul>
-</div>
-<div class="card" id="ubo-17">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Hansen, Jakob Gerhard</div>
-      <div class="card-subtitle">Schwäbisch Hall · 15.06.1989</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">2.14%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">119,363 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>bgh Vermögensverwaltung GmbH · Shareholder</li></ul>
-</div>
-<div class="card" id="ubo-18">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Hansen, Wilhelm Reinhold</div>
-      <div class="card-subtitle">Sulzbach-Laufen · 04.08.1992</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">2.14%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">119,363 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>bgh Vermögensverwaltung GmbH · Shareholder</li></ul>
-</div>
-<div class="card" id="ubo-19">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Hansen, Paul Maria</div>
-      <div class="card-subtitle">Sulzbach-Laufen · 05.11.1999</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">2.14%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">119,363 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>Hansen, Paul Maria · 05.11.1999</li></ul>
-</div>
-<div class="card" id="ubo-20">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Steiner, Daniel</div>
-      <div class="card-subtitle">München · 29.09.2000</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">1.43%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">79,738 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> AURIGA Capital AG, BOSYNC Beteiligungs UG</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>AURIGA Capital AG (10%) · Shareholder</li></ul>
-</div>
-<div class="card" id="ubo-21">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schaeff, Karl</div>
-      <div class="card-subtitle">Germany</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.92%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">51,259 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Schaeff Group Holding AG, Schaeff Maschinen Verwaltung GmbH, Schaeff Pulp & Paper Holding Gmbh, ZKP Innovations Holding Ltd.</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Schaeff Group Holding AG (6%) · Shareholder (6%)</li></ul>
-</div>
-<div class="card" id="ubo-22">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Saupe, Christiane</div>
-      <div class="card-subtitle">Berlin</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.91%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">50,962 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> direkt</div>
-</div>
-<div class="card" id="ubo-23">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Gerstner, Thomas</div>
-      <div class="card-subtitle">Wettingen, CH</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.72%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">40,134 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> ATLASI GROUP GmbH</div>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>Atlasi Group GmbH · Shareholder</li>
-<li>Atlasi Group GmbH · Managing Director</li></ul>
-</div>
-<div class="card" id="ubo-24">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schorr, Rainer</div>
-      <div class="card-subtitle">Berlin · 19.06.1960</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.61%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">33,885 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> 5th. Dimension Investment GmbH</div>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>5th. Dimension Investment GmbH · Managing Director</li>
-<li>RSB Beratungsgesellschaft mbH & Co. KG · Limited Capital</li>
-<li>PRS Family Trust GmbH · Managing Director</li>
-<li>Schorr Immobilien Verwaltungsgesellschaft mbH · Managing Director</li>
-<li style='opacity:.5'>+15 more</li></ul>
-</div>
-<div class="card" id="ubo-25">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schorr, Petra</div>
-      <div class="card-subtitle">Berlin · 08.10.1979</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.39%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">21,664 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> 5th. Dimension Investment GmbH</div>
-  <div class="card-section-label"><span data-lang-en>Other Holdings</span><span data-lang-de>Weitere Beteiligungen</span></div>
-  <ul class="card-list"><li>5th. Dimension Investment GmbH · Managing Director</li>
-<li>Freddy Leck seine Marken GmbH · Managing Director</li>
-<li>GL Mining und Finance GmbH · Managing Director</li>
-<li>PRS Beteiligungen GmbH · Managing Director</li>
-<li style='opacity:.5'>+4 more</li></ul>
-</div>
-<div class="card" id="ubo-26">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schaeff, Leonie</div>
-      <div class="card-subtitle">Germany</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.37%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">20,604 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.</div>
-</div>
-<div class="card" id="ubo-27">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schaeff, Antonia</div>
-      <div class="card-subtitle">Germany</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.37%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">20,604 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.</div>
-</div>
-<div class="card" id="ubo-28">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Schaeff, Kilian</div>
-      <div class="card-subtitle">Germany</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.37%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">20,604 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.</div>
-</div>
-<div class="card" id="ubo-29">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Brinkmann, Johann</div>
-      <div class="card-subtitle">München · 21.03.1986</div>
-      <div style="margin-top:4px"><span class="badge badge-md">MD</span><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.18%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">10,033 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Callidus Ventures GmbH</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Callidus Ventures GmbH · Shareholder</li>
-<li>Callidus Ventures GmbH · Managing Director</li></ul>
-</div>
-<div class="card" id="ubo-30">
-  <div class="card-header">
-    <div class="card-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
-    <div>
-      <div class="card-name">Brinkmann, Marisa</div>
-      <div class="card-subtitle">München</div>
-      <div style="margin-top:4px"><span class="badge badge-sh">SH</span></div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px">
-    <div>
-      <div class="card-pct">0.18%</div>
-      <div class="card-pct-label"><span data-lang-en>Effective SE share</span><span data-lang-de>Effektiver SE-Anteil</span></div>
-    </div>
-    <div style="text-align:right;font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.55)">10,033 <span data-lang-en>shares</span><span data-lang-de>Aktien</span></div>
-  </div>
-  <div class="card-meta"><span data-lang-en>Via:</span><span data-lang-de>Über:</span> Callidus Ventures GmbH</div>
-  <div class="card-section-label"><span data-lang-en>SP Entities Controlled</span><span data-lang-de>Kontrollierte SP-Gesellschaften</span></div>
-  <ul class="card-list"><li>Callidus Ventures GmbH · Shareholder</li></ul>
-</div>
+  <h2 style="font-family:var(--font-body);font-size:1.6rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-2)"><span data-lang-en>The 31 Beneficial Owners — Click Any Card to Investigate</span><span data-lang-de>Die 31 wirtschaftlich Berechtigten — Klicken Sie auf eine Karte</span></h2>
 
+  <div class="filter-bar">
+    <label>Filter:</label>
+    <button class="filter-btn active" data-risk="all" onclick="filterCards('all',this)">All 31</button>
+    <button class="filter-btn" data-risk="high" onclick="filterCards('high',this)">⚠ High Risk (5)</button>
+    <button class="filter-btn" data-risk="medium" onclick="filterCards('medium',this)">Medium (3)</button>
+    <button class="filter-btn" data-risk="low" onclick="filterCards('low',this)">Low (23)</button>
+  </div>
+
+  <div class="ubo-grid">
+<div class="ubo-card" id="ubo-0" data-risk="high" data-pct="16.48" onclick="openPanel(0)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC0000">FB</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Bleicher, Franz-Xaver</div>
+      <div class="ubo-role">Chief Executive</div>
+      <div class="card-loc">📍 Augsburg</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">16.48%</div>
+      <span class="risk-pill risk-high">HIGH</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> BOSYNC Beteiligungs UG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">BOSYNC Beteiligungs UG (70%)</span> <span class="entity-chip sp">Quintus Beteiligungs GmbH (90%)</span> <span class="entity-chip sp">SyncPilot S.P.S.A GmbH</span> <span class="entity-chip more">+4 more</span></div>
+</div>
+<div class="ubo-card" id="ubo-1" data-risk="medium" data-pct="8.65" onclick="openPanel(1)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC6600">IK</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Krocke, Dr. Ingo</div>
+      <div class="ubo-role">Managing Director</div>
+      
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">8.65%</div>
+      <span class="risk-pill risk-medium">MEDIUM</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Attegia Holding Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Attegia Services Ltd.</span> <span class="entity-chip sp">Attegia Services Ltd.</span> <span class="entity-chip sp">Attegia Ltd.</span> <span class="entity-chip more">+4 more</span></div>
+</div>
+<div class="ubo-card" id="ubo-2" data-risk="high" data-pct="8.58" onclick="openPanel(2)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC0000">HS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Steiner, Harald</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Bad Wörishofen</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">8.58%</div>
+      <span class="risk-pill risk-high">HIGH</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> AURIGA Capital AG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">AURIGA Projekt GmbH</span> <span class="entity-chip sp">AURIGA Verwaltungs GmbH</span> <span class="entity-chip sp">AURIGA Software Invest GmbH (100%)</span> <span class="entity-chip more">+4 more</span></div>
+</div>
+<div class="ubo-card" id="ubo-3" data-risk="low" data-pct="4.7" onclick="openPanel(3)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">BJ</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Jakisch, Bernd</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Augsburg</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.7%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Augusta Software GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Augusta Software GmbH (50%)</span> <span class="entity-chip sp">SyncPilot Beteiligungs GmbH</span> <span class="entity-chip sp">SyncPilot S.P.S.A GmbH</span> <span class="entity-chip more">+1 more</span></div>
+</div>
+<div class="ubo-card" id="ubo-4" data-risk="low" data-pct="4.7" onclick="openPanel(4)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">DF</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Funk, Dirk</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Augsburg</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.7%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Augusta Software GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Augusta Software GmbH (50%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-5" data-risk="medium" data-pct="4.67" onclick="openPanel(5)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC6600">AS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schaeff, Alexander</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Germany</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.67%</div>
+      <span class="risk-pill risk-medium">MEDIUM</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Schaeff Group Holding AG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Schaeff Group Holding AG (93.8%)</span> <span class="entity-chip sp">SCHAEFF Maschinen Verwaltung GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-6" data-risk="high" data-pct="4.38" onclick="openPanel(6)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC0000">GP</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Purkert, Gert</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 München</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.38%</div>
+      <span class="risk-pill risk-high">HIGH</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Tiven S.A. (Sàrl?)</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Tiven GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-7" data-risk="low" data-pct="4.29" onclick="openPanel(7)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">CS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Steiner, Christiane</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Bad Wörishofen</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.29%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> AURIGA Capital AG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">AURIGA Capital AG</span> <span class="entity-chip sp">AURIGA Capital AG (30%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-8" data-risk="low" data-pct="4.0" onclick="openPanel(8)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">CK</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Kurth, Cornelius Vincent</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 64 Buckingham Gate, London, SW1E 6AZ</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.0%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Lapis Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-9" data-risk="low" data-pct="4.0" onclick="openPanel(9)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">LK</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Kurth, Lauritz Corvin Paul</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 29 Victoria Road, London W8 5RF</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.0%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Lapis Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-10" data-risk="low" data-pct="4.0" onclick="openPanel(10)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">HK</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Kurth, Dr. Hans-Rudolf</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 51 Egerton Crescent, London SW3 2ED</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">4.0%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Lapis Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-11" data-risk="low" data-pct="3.7" onclick="openPanel(11)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">UN</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">unbekannt</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Unknown</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">3.7%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> ZAR Group AG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">ZAR Group AG</span></div>
+</div>
+<div class="ubo-card" id="ubo-12" data-risk="medium" data-pct="3.7" onclick="openPanel(12)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC6600">MK</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Kimmich, Marc F.</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 UK</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">3.7%</div>
+      <span class="risk-pill risk-medium">MEDIUM</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> ZKP Innovations Holding Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-13" data-risk="high" data-pct="3.51" onclick="openPanel(13)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC0000">MH</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Hunstein, Martin</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 München</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">3.51%</div>
+      <span class="risk-pill risk-high">HIGH</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Perseus Innovations and Services Holding Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip sp">H.G. Perseus GmbH StBG</span> <span class="entity-chip sp">H.G. Perseus GmbH StBG (50%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-14" data-risk="high" data-pct="3.51" onclick="openPanel(14)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#CC0000">DG</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Goerg, Diethard Erik</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 München</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">3.51%</div>
+      <span class="risk-pill risk-high">HIGH</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Perseus Innovations and Services Holding Ltd.</div>
+  <div class="ubo-chips"><span class="entity-chip sp">H.G. Perseus GmbH StBG</span> <span class="entity-chip sp">H.G. Perseus GmbH StBG (50%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-15" data-risk="low" data-pct="2.14" onclick="openPanel(15)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">BH</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Hansen, Bernd Gerhard</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Sulzbach-Laufen</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">2.14%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> bgh Vermögensverwaltung GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">bgh Vermögensverwaltung GmbH</span> <span class="entity-chip sp">bgh Vermögensverwaltung GmbH (20%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-16" data-risk="low" data-pct="2.14" onclick="openPanel(16)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">FH</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Hansen, Friedrich Bernd</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Schwäbisch Hall</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">2.14%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> bgh Vermögensverwaltung GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">bgh Vermögensverwaltung GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-17" data-risk="low" data-pct="2.14" onclick="openPanel(17)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">JH</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Hansen, Jakob Gerhard</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Schwäbisch Hall</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">2.14%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> bgh Vermögensverwaltung GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">bgh Vermögensverwaltung GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-18" data-risk="low" data-pct="2.14" onclick="openPanel(18)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">WH</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Hansen, Wilhelm Reinhold</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Sulzbach-Laufen</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">2.14%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> bgh Vermögensverwaltung GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">bgh Vermögensverwaltung GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-19" data-risk="low" data-pct="2.14" onclick="openPanel(19)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">PH</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Hansen, Paul Maria</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Sulzbach-Laufen</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">2.14%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> bgh Vermögensverwaltung GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-20" data-risk="low" data-pct="1.43" onclick="openPanel(20)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">DS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Steiner, Daniel</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 München</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">1.43%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> AURIGA Capital AG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">AURIGA Capital AG (10%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-21" data-risk="low" data-pct="0.92" onclick="openPanel(21)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">KS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schaeff, Karl</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Germany</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.92%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Schaeff Group Holding AG</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Schaeff Group Holding AG (6%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-22" data-risk="low" data-pct="0.91" onclick="openPanel(22)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">CS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Saupe, Christiane</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Berlin</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.91%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> direkt</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-23" data-risk="low" data-pct="0.72" onclick="openPanel(23)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">TG</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Gerstner, Thomas</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Wettingen, CH</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.72%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> ATLASI GROUP GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Atlasi Group GmbH</span> <span class="entity-chip sp">Atlasi Group GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-24" data-risk="low" data-pct="0.61" onclick="openPanel(24)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">RS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schorr, Rainer</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Berlin</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.61%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> 5th. Dimension Investment GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">5th. Dimension Investment GmbH (61%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-25" data-risk="low" data-pct="0.39" onclick="openPanel(25)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">PS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schorr, Petra</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 Berlin</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.39%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> 5th. Dimension Investment GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">5th. Dimension Investment GmbH (39%)</span></div>
+</div>
+<div class="ubo-card" id="ubo-26" data-risk="low" data-pct="0.37" onclick="openPanel(26)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">LS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schaeff, Leonie</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Germany</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.37%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Schaeff Pulp & Paper Holding Gmbh</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-27" data-risk="low" data-pct="0.37" onclick="openPanel(27)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">AS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schaeff, Antonia</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Germany</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.37%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Schaeff Pulp & Paper Holding Gmbh</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-28" data-risk="low" data-pct="0.37" onclick="openPanel(28)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">KS</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Schaeff, Kilian</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 Germany</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.37%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Schaeff Pulp & Paper Holding Gmbh</div>
+  <div class="ubo-chips"><span class="entity-chip">—</span></div>
+</div>
+<div class="ubo-card" id="ubo-29" data-risk="low" data-pct="0.18" onclick="openPanel(29)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">JB</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Brinkmann, Johann</div>
+      <div class="ubo-role">Managing Director</div>
+      <div class="card-loc">📍 München</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.18%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Callidus Ventures GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Callidus Ventures GmbH</span> <span class="entity-chip sp">Callidus Ventures GmbH</span></div>
+</div>
+<div class="ubo-card" id="ubo-30" data-risk="low" data-pct="0.18" onclick="openPanel(30)">
+  <div class="ubo-card-top">
+    <div class="ubo-avatar" style="background:#00773D">MB</div>
+    <div class="ubo-identity">
+      <div class="ubo-name">Brinkmann, Marisa</div>
+      <div class="ubo-role">Shareholder</div>
+      <div class="card-loc">📍 München</div>
+    </div>
+    <div class="ubo-pct-block">
+      <div class="ubo-pct">0.18%</div>
+      <span class="risk-pill risk-low">LOW</span>
+    </div>
+  </div>
+  <div class="ubo-via"><span class="via-label">Via:</span> Callidus Ventures GmbH</div>
+  <div class="ubo-chips"><span class="entity-chip sp">Callidus Ventures GmbH</span></div>
+</div>
   </div>
 </section>
 
+<!-- Slide-over Panel -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="panel-header">
+    <button class="panel-close" onclick="closePanel()">&times;</button>
+    <div class="panel-top">
+      <div class="panel-avatar" id="panelAvatar"></div>
+      <div>
+        <div class="panel-name" id="panelName"></div>
+        <div class="panel-badges" id="panelBadges"></div>
+      </div>
+    </div>
+    <div class="panel-meta" id="panelMeta"></div>
+  </div>
+  <div class="panel-body">
+    <div class="panel-risk-box" id="panelRisk"></div>
+    <div class="panel-section" id="panelCompanies">
+      <div class="panel-section-title"><span data-lang-en>All Corporate Positions</span><span data-lang-de>Alle Unternehmenspositionen</span></div>
+      <ul class="co-list" id="panelCoList"></ul>
+    </div>
+  </div>
+</div>
+
 <section class="content-area">
-  <h2><span data-lang-en>Ownership Distribution</span><span data-lang-de>Eigentumsverteilung</span></h2>
+  <h2><span data-lang-en>Who Holds the Largest Stakes?</span><span data-lang-de>Wer hält die größten Anteile?</span></h2>
 
   <div class="chart-container">
-    <div class="chart-title"><span data-lang-en>Top 15 UBOs by Effective SE Share (%)</span><span data-lang-de>Top 15 UBOs nach effektivem SE-Anteil (%)</span></div>
+    <div class="chart-title"><span data-lang-en>The People Behind the Curtain — Top 15 UBOs, Risk-Colour Coded</span><span data-lang-de>Die Personen hinter dem Vorhang — Top 15 UBOs, risiko-farbcodiert</span></div>
     <div class="chart-canvas-wrap" style="height:420px">
       <canvas id="uboChart"></canvas>
     </div>
@@ -868,13 +818,13 @@ body.lang-de span[data-lang-de]{display:inline}
 
   <div class="info-box" style="margin-top:var(--sp-8)">
     <div class="info-box-label"><span data-lang-en>Reading This Chart</span><span data-lang-de>So lesen Sie diese Grafik</span></div>
-    <p data-lang-en style="margin-bottom:0">Each bar represents a natural person's effective (ultimate) share of SyncPilot SE, traced through all intermediate holding companies. Risk tier colouring will be applied in <a href="05_risk_ratings.html">Chapter 5</a>. Hover over each bar for full name, share count, and the holding vehicle(s) used.</p>
-    <p data-lang-de style="margin-bottom:0">Jeder Balken zeigt den effektiven (wirtschaftlichen) Anteil einer natürlichen Person an der SyncPilot SE. Die Risikostufen-Färbung wird in <a href="05_risk_ratings.html">Kapitel 5</a> angewendet. Bewegen Sie den Mauszeiger über jeden Balken für Details.</p>
+    <p data-lang-en style="margin-bottom:0">Each bar represents a natural person's effective (ultimate) share of SyncPilot SE, traced through all intermediate holding companies. <strong style="color:#CC0000">Red bars</strong> = HIGH risk, <strong style="color:#CC6600">orange</strong> = MEDIUM. See <a href="05_risk_ratings.html">Chapter 5</a> for full risk methodology.</p>
+    <p data-lang-de style="margin-bottom:0">Jeder Balken zeigt den effektiven Anteil einer natürlichen Person an der SyncPilot SE. <strong style="color:#CC0000">Rote Balken</strong> = HOHES Risiko, <strong style="color:#CC6600">orange</strong> = MITTLERES. Siehe <a href="05_risk_ratings.html">Kapitel 5</a> für die vollständige Risiko-Methodik.</p>
   </div>
 
   <nav class="chapter-nav">
     <a href="index.html" class="prev"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
-    <a href="02_capital_events.html" class="next"><span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></a>
+    <a href="02_capital_events.html" class="next"><span data-lang-en>14 Capital Events, Zero Oversight</span><span data-lang-de>14 Kapitalmaßnahmen, null Aufsicht</span></a>
   </nav>
 </section>
 
@@ -891,36 +841,49 @@ body.lang-de span[data-lang-de]{display:inline}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-window.searchIndex=[
-  {chapter:"Ch 1",title:"Ultimate Beneficial Owners",href:"01_ubo_directory.html",text:"SyncPilot SE ownership 30+ entities fewer than 10 individuals Bleicher Steiner Purkert Krocke Schaeff Hunstein Goerg"},
-  {chapter:"Ch 2",title:"Capital Events Timeline",href:"02_capital_events.html",text:"14+ capital events share issuances transfers 2020 2025"},
-  {chapter:"Ch 3",title:"Corporate Valuation",href:"03_valuation.html",text:"Implied valuation 0.1M 131M discontinuities"},
-  {chapter:"Ch 4",title:"Revenue Analysis",href:"04_revenue.html",text:"ARR 7M 25M 2024 2025 Volkswagen E.ON"},
-  {chapter:"Ch 5",title:"UBO Risk Assessment",href:"05_risk_ratings.html",text:"Risk ratings HIGH MEDIUM LOW"},
-  {chapter:"Ch 6",title:"The Perseus Breach",href:"06_perseus_breach.html",text:"Perseus 127885 shares 1.00 euro 95% discount"},
-  {chapter:"Ch 7",title:"The Treasury Deficit",href:"07_treasury_deficit.html",text:"Treasury deficit capital called"},
-  {chapter:"Ch 8",title:"Circular Control & Wash Trades",href:"08_wash_trades.html",text:"Tiven S.A. existiert nicht circular"},
-  {chapter:"Ch 9",title:"Bleicher — The Architect",href:"09_bleicher_profile.html",text:"Bleicher corporate vehicles BOSYNC"},
-  {chapter:"Ch 10",title:"The Pictet Investment",href:"10_pictet_investment.html",text:"Pictet investment valuation"},
-  {chapter:"Ch 11",title:"The LVS Convertible Loan",href:"11_lvs_loan.html",text:"LVS 6.15 million convertible loan"},
-  {chapter:"Ch 12",title:"The Goldfinger Connection",href:"12_goldfinger.html",text:"Goldfinger tax fraud Hunstein Goerg"}
-];
-</script>
+/* Nav & Language */
+(function(){var currentLang='en',menuOpen=false;document.addEventListener('DOMContentLoaded',function(){var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;sm.classList.remove('open');ov.classList.remove('visible')})}var lb=document.querySelector('.lang-toggle');if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'})})})()</script>
 <script>
-(function(){
-  var currentLang='en',menuOpen=false,searchOpen=false;
-  document.addEventListener('DOMContentLoaded',function(){
-    var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');
-    if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;hb.classList.toggle('active',menuOpen);sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
-    var lb=document.querySelector('.lang-toggle');
-    if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'});
-    var sb=document.querySelector('.search-btn'),so=document.querySelector('.search-overlay'),si=document.querySelector('.search-input'),sr=document.querySelector('.search-results');
-    if(sb&&so){sb.addEventListener('click',function(){searchOpen=!searchOpen;so.classList.toggle('open',searchOpen);if(searchOpen&&si)setTimeout(function(){si.focus()},100)});so.addEventListener('click',function(e){if(e.target===so){searchOpen=false;so.classList.remove('open')}})}
-    if(si&&sr){var t;si.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){var q=si.value;sr.innerHTML='';if(!q||q.length<2)return;var idx=window.searchIndex||[],terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>=2}),res=[];idx.forEach(function(e){var h=(e.title+' '+e.text).toLowerCase(),s=0;terms.forEach(function(t){if(h.indexOf(t)!==-1)s+=10;if(e.title.toLowerCase().indexOf(t)!==-1)s+=20});if(s>0)res.push({e:e,s:s})});res.sort(function(a,b){return b.s-a.s});if(!res.length){sr.innerHTML='<div class="search-no-results">No results</div>';return}res.slice(0,10).forEach(function(r){var a=document.createElement('a');a.className='search-result-item';a.href=r.e.href;a.innerHTML='<div class="result-chapter">'+r.e.chapter+'</div><div class="result-text">'+r.e.title+'</div>';sr.appendChild(a)})},200)})}
-    document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(searchOpen){searchOpen=false;if(so)so.classList.remove('open')}if(menuOpen){menuOpen=false;if(hb)hb.classList.remove('active');if(sm)sm.classList.remove('open');if(ov)ov.classList.remove('visible')}}});
+/* Panel data */
+var PD=[{"n":"Bleicher, Franz-Xaver","p":16.48,"s":918947,"v":"BOSYNC Beteiligungs UG","d":"09.09.1972","r":"Augsburg","a":"Augsburg, James-Cook-Str. 25","b":"<span class=\"role-badge badge-ceo\">CEO</span> <span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"HIGH","de":"Controls SyncPilot SE through BOSYNC Beteiligungs UG (largest UBO at 16.5%). Holds board position and majority equity simultaneously. Multi-layered control via BOSYNC → SE.","dd":"Kontrolliert die SyncPilot SE über die BOSYNC Beteiligungs UG (größter UBO mit 16,5 %). Hält gleichzeitig Vorstandsposition und Mehrheitsbeteiligung. Mehrstufige Kontrolle über BOSYNC → SE.","cr":"<span class=\"crit-tag crit-high\">Multi-layered control</span><span class=\"crit-tag crit-high\">Control concentration</span>","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">BOSYNC Beteiligungs UG</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">70%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">NOB Vermögensverwaltungs GmbH</span><span class=\"co-pos\">Liquidator</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Quintus Beteiligungs GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">90%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SyncPilot S.P.S.A GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SyncPilot Beteiligungs GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SIP SyncPilot GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Syncpilot SAS</span><span class=\"co-pos\">President</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SYNCPILOT SE</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"FB"},{"n":"Krocke, Dr. Ingo","p":8.65,"s":482113,"v":"Attegia Holding Ltd.","d":"","r":"","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-dir\">DIR</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"MEDIUM","de":"Controls AURIGA Capital AG (Malta-registered). Routes ownership through cross-jurisdictional structure. 8.65% stake via offshore vehicle.","dd":"Kontrolliert die AURIGA Capital AG (in Malta registriert). Leitet Eigentum über grenzüberschreitende Struktur. 8,65 %-Beteiligung über Offshore-Vehikel.","cr":"<span class=\"crit-tag crit-medium\">Multi-layered control</span><span class=\"crit-tag crit-medium\">Cross-jurisdictional</span>","co":"<li class=\"co-item\"><span class=\"co-name\">AUCTUS Capital Partners AG</span><span class=\"co-pos\">CxO</span></li>\n<li class=\"co-item\"><span class=\"co-name\">AUCTUS Capital Partners AG</span><span class=\"co-pos\">Managing Partner</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia Services Ltd.</span><span class=\"co-pos\">Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia Services Ltd.</span><span class=\"co-pos\">ppa</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia Ltd.</span><span class=\"co-pos\">Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia Ltd.</span><span class=\"co-pos\">ppa</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia Holding Ltd.</span><span class=\"co-pos\">Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia Holding Ltd.</span><span class=\"co-pos\">ppa</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Attegia GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Actrax Holding GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"IK"},{"n":"Steiner, Harald","p":8.58,"s":478431,"v":"AURIGA Capital AG, BOSYNC Beteiligungs UG","d":"11.08.1967","r":"Bad Wörishofen","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"HIGH","de":"Controls DSI Digital Solutions Invest GmbH (second-largest founding entity). Holds board-level influence and significant equity (8.6%). Multiple family members also hold shares.","dd":"Kontrolliert die DSI Digital Solutions Invest GmbH (zweitgrößte Gründungsgesellschaft). Hält Vorstands-Einfluss und erhebliche Beteiligung (8,6 %). Mehrere Familienmitglieder halten ebenfalls Anteile.","cr":"<span class=\"crit-tag crit-high\">Multi-layered control</span><span class=\"crit-tag crit-high\">Control concentration</span>","co":"<li class=\"co-item\"><span class=\"co-name\">INTERCON Management GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Projekt GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Verwaltungs GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Software Invest GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">100%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Capital AG</span><span class=\"co-pos\">Member of Executve Board</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Capital AG</span><span class=\"co-pos\">Shareholder</span> <span class=\"co-pct\">60%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Invest GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">GEK energy1 GmbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Asset Management GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PROSPERA Capital GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"HS"},{"n":"Jakisch, Bernd","p":4.7,"s":262100,"v":"Augusta Software GmbH","d":"08.09.1973","r":"Augsburg","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Augusta Software GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SyncPilot Beteiligungs GmbH</span><span class=\"co-pos\">Authorized Signatory (ppa)</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SyncPilot S.P.S.A GmbH</span><span class=\"co-pos\">Authorized Signatory (ppa)</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SIP SyncPilot GmbH</span><span class=\"co-pos\">Authorized Signatory (ppa)</span></li>\n","i":"BJ"},{"n":"Funk, Dirk","p":4.7,"s":262100,"v":"Augusta Software GmbH","d":"07.02.1984","r":"Augsburg","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Augusta Software GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">50%</span></li>\n","i":"DF"},{"n":"Schaeff, Alexander","p":4.67,"s":260160,"v":"Schaeff Group Holding AG, Schaeff Maschinen Verwaltung GmbH, Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.","d":"","r":"Germany","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"MEDIUM","de":"Controls Schaeff Group Holding AG → Schaeff Maschinen Verwaltung → Augusta Software GmbH → SE. Multi-layered holding structure.","dd":"Kontrolliert Schaeff Group Holding AG → Schaeff Maschinen Verwaltung → Augusta Software GmbH → SE. Mehrstufige Holdingstruktur.","cr":"<span class=\"crit-tag crit-medium\">Multi-layered control</span>","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Schaeff Group Holding AG</span><span class=\"co-pos\">Shareholder (93.8%)</span> <span class=\"co-pct\">93.8%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">SCHAEFF Maschinen Verwaltung GmbH</span><span class=\"co-pos\">Related entity</span></li>\n","i":"AS"},{"n":"Purkert, Gert","p":4.38,"s":244445,"v":"Tiven S.A. (Sàrl?)","d":"31.07.1970","r":"München","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span> <span class=\"role-badge badge-intermed\">INT</span>","rt":"HIGH","de":"Routes ownership through Tiven GmbH → Tiven S.A. (Luxembourg) → SyncPilot SE. 3+ intermediary layers across jurisdictions. Tiven paid €20.56/share just 8 weeks after Perseus paid €1.","dd":"Leitet Eigentum über Tiven GmbH → Tiven S.A. (Luxemburg) → SyncPilot SE. 3+ Zwischenebenen über Jurisdiktionen hinweg. Tiven zahlte 20,56 €/Aktie nur 8 Wochen nach dem Perseus-1-€-Preis.","cr":"<span class=\"crit-tag crit-high\">Multi-layered control</span><span class=\"crit-tag crit-high\">Cross-jurisdictional</span>","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Tiven GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Napoleone Classic Cars GmbH</span><span class=\"co-pos\"></span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Aurelius REO 4 SARL</span><span class=\"co-pos\">Beneficial Owner</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Aurelius REO 5 SARL</span><span class=\"co-pos\">Beneficial Owner</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Aurelius REO 7 SARL</span><span class=\"co-pos\">Beneficial Owner</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Halifax Management Advisory AG</span><span class=\"co-pos\">Member of Executve Board</span></li>\n<li class=\"co-item\"><span class=\"co-name\">TrisoInvest GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"GP"},{"n":"Steiner, Christiane","p":4.29,"s":239215,"v":"AURIGA Capital AG, BOSYNC Beteiligungs UG","d":"03.02.1966","r":"Bad Wörishofen","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Capital AG</span><span class=\"co-pos\">Member of Executve Board</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Capital AG</span><span class=\"co-pos\">Shareholder</span> <span class=\"co-pct\">30%</span></li>\n","i":"CS"},{"n":"Kurth, Cornelius Vincent","p":4.0,"s":222802,"v":"Lapis Ltd.","d":"","r":"64 Buckingham Gate, London, SW1E 6AZ","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"CK"},{"n":"Kurth, Lauritz Corvin Paul","p":4.0,"s":222802,"v":"Lapis Ltd.","d":"","r":"29 Victoria Road, London W8 5RF","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"LK"},{"n":"Kurth, Dr. Hans-Rudolf","p":4.0,"s":222802,"v":"Lapis Ltd.","d":"","r":"51 Egerton Crescent, London SW3 2ED","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"HK"},{"n":"unbekannt","p":3.7,"s":206040,"v":"ZAR Group AG","d":"","r":"Unknown","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">ZAR Group AG</span><span class=\"co-pos\">UBO (unidentified)</span></li>\n","i":"UN"},{"n":"Kimmich, Marc F.","p":3.7,"s":206040,"v":"ZKP Innovations Holding Ltd.","d":"","r":"UK","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"MEDIUM","de":"Entered at €13/share in December 2021. Share transfers to other entities lack full documentation trail. 3.7% stake.","dd":"Einstieg zu 13 €/Aktie im Dezember 2021. Aktienübertragungen an andere Gesellschaften ohne vollständige Dokumentation. 3,7 %-Beteiligung.","cr":"<span class=\"crit-tag crit-medium\">Opaque transfers</span>","co":"<li class=\"co-item\"><span class=\"co-name\">COPRO Gruppe</span><span class=\"co-pos\">Founder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">COPRO Gruppe</span><span class=\"co-pos\">Member of the Board</span></li>\n","i":"MK"},{"n":"Hunstein, Martin","p":3.51,"s":195843,"v":"Perseus Innovations and Services Holding Ltd., ZKP Innovations Holding Ltd.","d":"10.06.1971","r":"München","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span> <span class=\"role-badge badge-dir\">DIR</span> <span class=\"role-badge badge-intermed\">INT</span>","rt":"HIGH","de":"Party to the €1/share Perseus transaction (95% discount). Connected to the Goldfinger tax fraud prosecution (Augsburg, 2019–2020). Controls H.G. Perseus GmbH StBG.","dd":"Beteiligt an der Perseus-Transaktion zu 1 €/Aktie (95 % Abschlag). Verbindung zum Goldfinger-Steuerbetrugsverfahren (Augsburg, 2019–2020). Kontrolliert die H.G. Perseus GmbH StBG.","cr":"<span class=\"crit-tag crit-high\">Pricing anomaly</span><span class=\"crit-tag crit-high\">Regulatory/legal history</span>","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">H.G. Perseus GmbH StBG</span><span class=\"co-pos\">Shareholder</span> <span class=\"co-until\">until 16.01.2025</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">H.G. Perseus GmbH StBG</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">GHR Goerg Hunstein Rechtsanwälte Steuerberater Partnerschaft mbB Partnerschaft</span><span class=\"co-pos\">Partner</span></li>\n<li class=\"co-item\"><span class=\"co-name\">GHR Goerg Hunstein Rechtsanwälte Steuerberater Partnerschaft mbB Partnerschaft</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Ayurveda Pura GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"MH"},{"n":"Goerg, Diethard Erik","p":3.51,"s":195843,"v":"Perseus Innovations and Services Holding Ltd., ZKP Innovations Holding Ltd.","d":"24.05.1973","r":"München","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span> <span class=\"role-badge badge-dir\">DIR</span> <span class=\"role-badge badge-intermed\">INT</span>","rt":"HIGH","de":"Co-controller of H.G. Perseus GmbH StBG alongside Hunstein. Party to the €1/share transaction. Connected to the Goldfinger prosecution as co-defendant.","dd":"Mitkontrolleur der H.G. Perseus GmbH StBG neben Hunstein. Beteiligt an der 1-€/Aktie-Transaktion. Mitangeklagter im Goldfinger-Verfahren.","cr":"<span class=\"crit-tag crit-high\">Pricing anomaly</span><span class=\"crit-tag crit-high\">Regulatory/legal history</span>","co":"<li class=\"co-item\"><span class=\"co-name\">AFR Aigner Fischer Rechtsanwälte PartG mbB</span><span class=\"co-pos\">Partner</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Aigner Goerg Immobilienbeteiligungs Verwaltungs GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">H.G. Perseus GmbH StBG</span><span class=\"co-pos\">Shareholder</span> <span class=\"co-until\">until 16.01.2025</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Aigner Goerg Immobilienbeteiligungs GmbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">H.G. Perseus GmbH StBG</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Projekt TBS Verwaltungs GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">GHR Goerg Hunstein Rechtsanwälte Steuerberater Partnerschaft mbB Partnerschaft</span><span class=\"co-pos\">Partner</span></li>\n<li class=\"co-item\"><span class=\"co-name\">GHR Goerg Hunstein Rechtsanwälte Steuerberater Partnerschaft mbB Partnerschaft</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Projekt TBS Immobilien GmbH % Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">100%</span></li>\n","i":"DG"},{"n":"Hansen, Bernd Gerhard","p":2.14,"s":119363,"v":"bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.","d":"20.08.1955","r":"Sulzbach-Laufen","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">bgh Vermögensverwaltung GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">bgh Vermögensverwaltung GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">20%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Vermögensverwaltung thermo-pack eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n","i":"BH"},{"n":"Hansen, Friedrich Bernd","p":2.14,"s":119363,"v":"bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.","d":"27.06.1987","r":"Schwäbisch Hall","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">bgh Vermögensverwaltung GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n","i":"FH"},{"n":"Hansen, Jakob Gerhard","p":2.14,"s":119363,"v":"bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.","d":"15.06.1989","r":"Schwäbisch Hall","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">bgh Vermögensverwaltung GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n","i":"JH"},{"n":"Hansen, Wilhelm Reinhold","p":2.14,"s":119363,"v":"bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.","d":"04.08.1992","r":"Sulzbach-Laufen","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">bgh Vermögensverwaltung GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n","i":"WH"},{"n":"Hansen, Paul Maria","p":2.14,"s":119363,"v":"bgh Vermögensverwaltung GmbH, ZKP Innovations Holding Ltd.","d":"05.11.1999","r":"Sulzbach-Laufen","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item\"><span class=\"co-name\">Hansen, Paul Maria</span><span class=\"co-pos\">05.11.1999</span> <span class=\"co-pct\">Sulzbach-Laufen%</span></li>\n","i":"PH"},{"n":"Steiner, Daniel","p":1.43,"s":79738,"v":"AURIGA Capital AG, BOSYNC Beteiligungs UG","d":"29.09.2000","r":"München","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">AURIGA Capital AG</span><span class=\"co-pos\">Shareholder</span> <span class=\"co-pct\">10%</span></li>\n","i":"DS"},{"n":"Schaeff, Karl","p":0.92,"s":51259,"v":"Schaeff Group Holding AG, Schaeff Maschinen Verwaltung GmbH, Schaeff Pulp & Paper Holding Gmbh, ZKP Innovations Holding Ltd.","d":"","r":"Germany","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Schaeff Group Holding AG</span><span class=\"co-pos\">Shareholder (6%)</span> <span class=\"co-pct\">6%</span></li>\n","i":"KS"},{"n":"Saupe, Christiane","p":0.91,"s":50962,"v":"direkt","d":"","r":"Berlin","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"CS"},{"n":"Gerstner, Thomas","p":0.72,"s":40134,"v":"ATLASI GROUP GmbH","d":"","r":"Wettingen, CH","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Atlasi Group GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Atlasi Group GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"TG"},{"n":"Schorr, Rainer","p":0.61,"s":33885,"v":"5th. Dimension Investment GmbH","d":"19.06.1960","r":"Berlin","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">5th. Dimension Investment GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">61%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">RSB Beratungsgesellschaft mbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">100%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PRS Family Trust GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Schorr Immobilien Verwaltungsgesellschaft mbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">50%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Schorr Immobilien und Beteiligungs GmbH & Co. Holding KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">100%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">RSB Mobil GmbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">100%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PRS Projekte GmbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">84%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">RSB Beteiligungs Holding GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PRS Grundvermögen GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">ADP 5. Wohnen GmbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">94%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">RSB Torstraße 225 UG</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">RSB Schillerstraße 11 UG</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Schorr Dritte Grundvermögen GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">3S Wildlife Farm GmbH & Co. KG</span><span class=\"co-pos\">Limited Capital</span> <span class=\"co-pct\">50.1%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PSRS Byhleguhre eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Mühlendorf 2 Grundstücks eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Miquelstrasse 25 eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Wildentensteig 13 eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PRS Beteiligungen GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"RS"},{"n":"Schorr, Petra","p":0.39,"s":21664,"v":"5th. Dimension Investment GmbH","d":"08.10.1979","r":"Berlin","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">5th. Dimension Investment GmbH</span><span class=\"co-pos\">Managing Director</span> <span class=\"co-pct\">39%</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Freddy Leck seine Marken GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">GL Mining und Finance GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PRS Beteiligungen GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n<li class=\"co-item\"><span class=\"co-name\">PSRS Byhleguhre eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Mühlendorf 2 Grundstücks eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Miquelstrasse 25 eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item\"><span class=\"co-name\">Wildentensteig 13 eGbR</span><span class=\"co-pos\">Shareholder</span></li>\n","i":"PS"},{"n":"Schaeff, Leonie","p":0.37,"s":20604,"v":"Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.","d":"","r":"Germany","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"LS"},{"n":"Schaeff, Antonia","p":0.37,"s":20604,"v":"Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.","d":"","r":"Germany","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"AS"},{"n":"Schaeff, Kilian","p":0.37,"s":20604,"v":"Schaeff Pulp & Paper Holding Gmbh, A. Schaeff Vermögensanlagen GbR, ZKP Innovations Holding Ltd.","d":"","r":"Germany","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"","i":"KS"},{"n":"Brinkmann, Johann","p":0.18,"s":10033,"v":"Callidus Ventures GmbH","d":"21.03.1986","r":"München","a":"","b":"<span class=\"role-badge badge-md\">MD</span> <span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Callidus Ventures GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n<li class=\"co-item sp-entity\"><span class=\"co-name\">Callidus Ventures GmbH</span><span class=\"co-pos\">Managing Director</span></li>\n","i":"JB"},{"n":"Brinkmann, Marisa","p":0.18,"s":10033,"v":"Callidus Ventures GmbH","d":"","r":"München","a":"","b":"<span class=\"role-badge badge-sh\">SH</span>","rt":"LOW","de":"No pricing anomaly involvement, no multi-layered control structure, no regulatory history identified.","dd":"Keine Beteiligung an Preisanomalien, keine mehrstufige Kontrollstruktur, keine regulatorische Vorgeschichte identifiziert.","cr":"","co":"<li class=\"co-item sp-entity\"><span class=\"co-name\">Callidus Ventures GmbH</span><span class=\"co-pos\">Shareholder</span></li>\n","i":"MB"}];
+var riskColors={high:'#CC0000',medium:'#CC6600',low:'#00773D'};
+function openPanel(i){
+  var d=PD[i],p=document.getElementById('detailPanel'),o=document.getElementById('panelOverlay');
+  document.getElementById('panelAvatar').textContent=d.i;
+  document.getElementById('panelAvatar').style.background=riskColors[d.rt.toLowerCase()]||'#6B7280';
+  document.getElementById('panelName').textContent=d.n;
+  document.getElementById('panelBadges').innerHTML=d.b;
+  var meta='<div class="meta-item"><div class="meta-label">Effective SE Share</div><div class="meta-value">'+d.p+'%</div></div>';
+  meta+='<div class="meta-item"><div class="meta-label">Shares</div><div class="meta-value">'+d.s.toLocaleString()+'</div></div>';
+  if(d.v)meta+='<div class="meta-item"><div class="meta-label">Via</div><div class="meta-value">'+d.v+'</div></div>';
+  if(d.d)meta+='<div class="meta-item"><div class="meta-label">DOB</div><div class="meta-value">'+d.d+'</div></div>';
+  if(d.r)meta+='<div class="meta-item"><div class="meta-label">Residence</div><div class="meta-value">'+d.r+'</div></div>';
+  if(d.a)meta+='<div class="meta-item"><div class="meta-label">Address</div><div class="meta-value">'+d.a+'</div></div>';
+  document.getElementById('panelMeta').innerHTML=meta;
+  var rbox=document.getElementById('panelRisk');
+  rbox.className='panel-risk-box risk-'+d.rt.toLowerCase();
+  var isDE=document.body.classList.contains('lang-de');
+  rbox.innerHTML='<div class="panel-risk-label" style="color:'+riskColors[d.rt.toLowerCase()]+'">'+d.rt+' RISK</div>'+(isDE?d.dd:d.de)+(d.cr?'<div style="margin-top:8px">'+d.cr+'</div>':'');
+  document.getElementById('panelCoList').innerHTML=d.co;
+  p.classList.add('open');o.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePanel(){
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function filterCards(risk,btn){
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  document.querySelectorAll('.ubo-card').forEach(function(c){
+    if(risk==='all')c.classList.remove('hidden');
+    else c.classList.toggle('hidden',c.dataset.risk!==risk);
   });
-})();
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePanel()});
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -936,12 +899,27 @@ document.addEventListener("DOMContentLoaded", function() {
   var ctx = document.getElementById('uboChart').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
+    plugins: [{
+      id: 'uboBarLabels',
+      afterDatasetsDraw: function(chart) {
+        var ctx2 = chart.ctx;
+        chart.getDatasetMeta(0).data.forEach(function(bar, i) {
+          ctx2.save();
+          ctx2.fillStyle = 'rgba(38,42,51,0.6)';
+          ctx2.font = "700 10px 'Source Sans 3',sans-serif";
+          ctx2.textAlign = 'left';
+          ctx2.textBaseline = 'middle';
+          ctx2.fillText(data[i].toFixed(1) + '%', bar.x + 4, bar.y);
+          ctx2.restore();
+        });
+      }
+    }],
     data: {
       labels: labels,
       datasets: [{
         label: 'Effective SE Share (%)',
         data: data,
-        backgroundColor: 'rgba(38,42,51,0.55)',
+        backgroundColor: ['#CC0000','#CC6600','#CC0000','rgba(38,42,51,0.35)','rgba(38,42,51,0.35)','#CC6600','#CC0000','rgba(38,42,51,0.35)','rgba(38,42,51,0.35)','rgba(38,42,51,0.35)','rgba(38,42,51,0.35)','rgba(38,42,51,0.35)','#CC6600','#CC0000','#CC0000'],
         hoverBackgroundColor: '#990F3D',
         borderRadius: 3,
         borderSkipped: false
@@ -989,5 +967,4 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-</body>
-</html>
+</body></html>
