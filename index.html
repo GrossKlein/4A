@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyncPilot SE — An OSINT Corporate Analysis</title>
+  <meta name="description" content="An interactive evidence series documenting the application of open source intelligence skills to corporate analysis of SyncPilot SE.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:#FFF1E5;--claret:#990F3D;--oxford:#0D7680;--teal:#0D7680;--wheat:#F2DFCE;
+  --sky:#CCE6FF;--slate:#262A33;--mango:#FF8833;--mandarin:#FF7FAA;--lemon:#FFEC1A;
+  --bg:var(--paper);--text:var(--slate);--heading-primary:var(--claret);--heading-secondary:var(--oxford);
+  --link:var(--oxford);--link-hover:var(--claret);--card-bg:var(--wheat);--info-bg:var(--sky);
+  --risk-high:#CC0033;--risk-medium:var(--mango);--risk-low:#0A7D3F;
+  --font-body:'Source Serif 4','Georgia',serif;--font-ui:'Source Sans 3','Helvetica Neue',sans-serif;
+  --sp-1:0.25rem;--sp-2:0.5rem;--sp-3:0.75rem;--sp-4:1rem;--sp-6:1.5rem;--sp-8:2rem;--sp-12:3rem;--sp-16:4rem;
+  --max-width:1140px;--nav-height:56px;--sidebar-width:280px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.65;min-height:100vh;padding-top:var(--nav-height)}
+h1,h2,h3,h4{font-family:var(--font-body);font-weight:700;line-height:1.2;letter-spacing:-0.01em}
+h1{font-size:clamp(1.75rem,4vw,2.5rem);color:var(--heading-primary);margin-bottom:var(--sp-6)}
+h2{font-size:clamp(1.35rem,3vw,1.75rem);color:var(--heading-secondary);margin-top:var(--sp-12);margin-bottom:var(--sp-4);padding-bottom:var(--sp-2);border-bottom:1px solid var(--wheat)}
+h3{font-size:clamp(1.1rem,2.5vw,1.35rem);color:var(--heading-primary);margin-top:var(--sp-8);margin-bottom:var(--sp-3)}
+h4{font-size:1rem;color:var(--heading-secondary);font-family:var(--font-ui);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-top:var(--sp-6);margin-bottom:var(--sp-2)}
+p{margin-bottom:var(--sp-4)}
+a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px;transition:color .15s}
+a:hover{color:var(--link-hover)}
+strong{font-weight:600}
+hr{border:none;border-top:1px solid var(--wheat);margin:var(--sp-8) 0}
+.content-area{max-width:780px;margin:0 auto;padding:var(--sp-8) var(--sp-6)}
+
+/* Nav Bar */
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:6px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--paper);transition:transform .2s,opacity .2s}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-title{font-family:var(--font-ui);font-size:.95rem;font-weight:600;color:var(--paper);text-decoration:none;letter-spacing:.02em}
+.nav-title:hover{color:var(--wheat)}
+.lang-toggle{font-family:var(--font-ui);font-size:.8rem;font-weight:600;background:transparent;color:var(--paper);border:1px solid rgba(255,241,229,.4);border-radius:3px;padding:4px 10px;cursor:pointer;letter-spacing:.04em;transition:background .15s,border-color .15s}
+.lang-toggle:hover{background:rgba(255,241,229,.15);border-color:var(--paper)}
+.search-btn{background:none;border:none;color:var(--paper);cursor:pointer;font-size:1.1rem;padding:6px;line-height:1}
+.search-btn:hover{color:var(--wheat)}
+
+/* Side Menu */
+.side-menu{position:fixed;top:var(--nav-height);left:0;bottom:0;width:var(--sidebar-width);background:var(--slate);color:var(--paper);transform:translateX(-100%);transition:transform .25s ease;z-index:999;overflow-y:auto;padding:var(--sp-6) 0}
+.side-menu.open{transform:translateX(0)}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.45);z-index:998;opacity:0;pointer-events:none;transition:opacity .25s}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.menu-group-label{font-family:var(--font-ui);font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,241,229,.5);padding:var(--sp-4) var(--sp-6) var(--sp-2)}
+.menu-link{display:block;font-family:var(--font-ui);font-size:.88rem;color:var(--paper);text-decoration:none;padding:var(--sp-2) var(--sp-6);transition:background .12s;line-height:1.4}
+.menu-link:hover{background:rgba(255,241,229,.08);color:var(--paper)}
+.menu-link.active{border-left:3px solid var(--claret);padding-left:calc(var(--sp-6) - 3px);background:rgba(255,241,229,.05)}
+.menu-link .ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(255,241,229,.5);font-size:.78rem}
+
+/* Search Overlay */
+.search-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(38,42,51,.92);z-index:1001;display:none;justify-content:center;padding:var(--sp-8) var(--sp-6)}
+.search-overlay.open{display:flex}
+.search-box{width:100%;max-width:640px}
+.search-input{width:100%;font-family:var(--font-ui);font-size:1.1rem;padding:var(--sp-3) var(--sp-4);border:2px solid var(--wheat);border-radius:4px;background:var(--paper);color:var(--slate);outline:none}
+.search-input:focus{border-color:var(--oxford)}
+.search-input::placeholder{color:rgba(38,42,51,.4)}
+.search-results{margin-top:var(--sp-4);max-height:60vh;overflow-y:auto}
+.search-result-item{display:block;background:var(--paper);padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-2);border-radius:4px;text-decoration:none;transition:background .12s}
+.search-result-item:hover{background:var(--wheat)}
+.search-result-item .result-chapter{font-family:var(--font-ui);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--claret)}
+.search-result-item .result-text{font-size:.9rem;color:var(--slate);margin-top:2px}
+.search-no-results{color:var(--paper);font-family:var(--font-ui);text-align:center;padding:var(--sp-8);opacity:.7}
+
+/* Info Box */
+.info-box{background:var(--info-bg);border-radius:4px;padding:var(--sp-4) var(--sp-6);margin:var(--sp-6) 0;font-size:.95rem}
+.info-box-label{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-2)}
+
+/* Hero */
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+
+/* TOC */
+.toc-section{margin:var(--sp-8) 0}
+.toc-section-title{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-3);padding-bottom:var(--sp-2);border-bottom:2px solid var(--oxford)}
+.toc-list{list-style:none}
+.toc-item{padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)}
+.toc-item a{display:flex;align-items:baseline;gap:var(--sp-3);text-decoration:none;transition:color .12s}
+.toc-item a:hover{color:var(--claret)}
+.toc-item a:hover .toc-ch-title{color:var(--claret)}
+.toc-ch-num{font-family:var(--font-ui);font-size:.78rem;font-weight:700;color:var(--claret);min-width:28px}
+.toc-ch-title{font-family:var(--font-body);font-size:1.05rem;font-weight:600;color:var(--slate);transition:color .12s}
+.toc-ch-desc{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.55);margin-top:2px}
+
+/* Footer */
+.site-footer{background:var(--slate);color:rgba(255,241,229,.7);padding:var(--sp-8) var(--sp-6);margin-top:var(--sp-16);font-family:var(--font-ui);font-size:.78rem;line-height:1.6}
+.footer-inner{max-width:var(--max-width);margin:0 auto}
+.footer-disclaimer{max-width:700px;margin-bottom:var(--sp-4)}
+.footer-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(255,241,229,.15);font-size:.72rem;color:rgba(255,241,229,.45)}
+
+/* Lang */
+[data-lang-de]{display:none}[data-lang-en]{display:inline}
+div[data-lang-de],p[data-lang-de],li[data-lang-de]{display:none}
+div[data-lang-en],p[data-lang-en],li[data-lang-en]{display:block}
+span[data-lang-en]{display:inline}span[data-lang-de]{display:none}
+body.lang-de [data-lang-de]{display:inline}body.lang-de [data-lang-en]{display:none !important}
+body.lang-de div[data-lang-de],body.lang-de p[data-lang-de],body.lang-de li[data-lang-de]{display:block}
+body.lang-de span[data-lang-de]{display:inline}
+
+/* Responsive */
+@media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.footer-meta{flex-direction:column}}
+@media print{body{padding-top:0;background:#fff;color:#000;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay,.search-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-left">
+    <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <a href="index.html" class="nav-title">SyncPilot SE Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-toggle" aria-label="Switch to German">DE</button>
+    <button class="search-btn" aria-label="Search">&#x1F50D;</button>
+  </div>
+</nav>
+
+<div class="side-menu-overlay"></div>
+<aside class="side-menu">
+  <a href="index.html" class="menu-link active" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
+  <div class="menu-group-label"><span data-lang-en>Corporate Profile</span><span data-lang-de>Unternehmensprofil</span></div>
+  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span> <span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></a>
+  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span> <span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></a>
+  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></a>
+  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></a>
+  <div class="menu-group-label"><span data-lang-en>Evidence &amp; Analysis</span><span data-lang-de>Beweise &amp; Analyse</span></div>
+  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>UBO Risk Assessment</span><span data-lang-de>UBO-Risikobewertung</span></a>
+  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The Perseus Breach</span><span data-lang-de>Der Perseus-Verstoß</span></a>
+  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
+  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
+  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
+  <a href="10_pictet_investment.html" class="menu-link"><span class="ch-num">10</span> <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
+  <a href="11_lvs_loan.html" class="menu-link"><span class="ch-num">11</span> <span data-lang-en>The LVS Convertible Loan</span><span data-lang-de>Das LVS-Wandeldarlehen</span></a>
+  <a href="12_goldfinger.html" class="menu-link"><span class="ch-num">12</span> <span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></a>
+</aside>
+
+<div class="search-overlay" role="search">
+  <div class="search-box">
+    <input type="text" class="search-input" placeholder="Search across all chapters…" aria-label="Search query">
+    <div class="search-results"></div>
+  </div>
+</div>
+
+<header class="hero">
+  <h1><span data-lang-en>SyncPilot&nbsp;SE</span><span data-lang-de>SyncPilot&nbsp;SE</span></h1>
+  <hr class="hero-rule">
+  <p class="hero-subtitle">
+    <span data-lang-en>An interactive evidence series documenting the application of open-source intelligence skills to corporate analysis</span>
+    <span data-lang-de>Eine interaktive Evidenz-Reihe zur Anwendung von Open-Source-Intelligence-Methoden auf die Unternehmensanalyse</span>
+  </p>
+</header>
+
+<section class="content-area" style="padding-top:0">
+  <div class="info-box">
+    <div class="info-box-label"><span data-lang-en>About this dossier</span><span data-lang-de>Über dieses Dossier</span></div>
+    <p data-lang-en>This dossier examines the corporate structure, capital transactions, and governance patterns of SyncPilot SE, a German software company. It is structured as twelve chapters: four chapters of neutral corporate data, followed by eight chapters of evidence-based analysis. Every factual claim cites a source document. The analysis distinguishes between established facts, documented allegations, and analytical inferences through visual design hierarchy.</p>
+    <p data-lang-de>Dieses Dossier untersucht die Unternehmensstruktur, Kapitaltransaktionen und Governance-Muster der SyncPilot SE, eines deutschen Softwareunternehmens. Es ist in zwölf Kapitel gegliedert: vier Kapitel mit neutralen Unternehmensdaten, gefolgt von acht Kapiteln evidenzbasierter Analyse.</p>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title"><span data-lang-en>Part I — Corporate Profile</span><span data-lang-de>Teil I — Unternehmensprofil</span></div>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="01_ubo_directory.html"><span class="toc-ch-num">01</span><div><div class="toc-ch-title"><span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></div><div class="toc-ch-desc"><span data-lang-en>Control traces back to fewer than 10 individuals operating through layered vehicles in DE, MT, LU, and LI.</span><span data-lang-de>Die Kontrolle liegt bei weniger als 10 Personen über mehrschichtige Gesellschaften.</span></div></div></a></li>
+      <li class="toc-item"><a href="02_capital_events.html"><span class="toc-ch-num">02</span><div><div class="toc-ch-title"><span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></div><div class="toc-ch-desc"><span data-lang-en>14+ issuances, transfers, and restructurings between September 2020 and August 2025.</span><span data-lang-de>Über 14 Aktienausgaben und Umstrukturierungen zwischen September 2020 und August 2025.</span></div></div></a></li>
+      <li class="toc-item"><a href="03_valuation.html"><span class="toc-ch-num">03</span><div><div class="toc-ch-title"><span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></div><div class="toc-ch-desc"><span data-lang-en>Implied valuation fluctuated between €0.1M and €131M with sharp discontinuities at insider transactions.</span><span data-lang-de>Die implizite Bewertung schwankte zwischen 0,1 Mio. € und 131 Mio. €.</span></div></div></a></li>
+      <li class="toc-item"><a href="04_revenue.html"><span class="toc-ch-num">04</span><div><div class="toc-ch-title"><span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></div><div class="toc-ch-desc"><span data-lang-en>Projected ARR of €7–25M for 2024–2025, concentrated among a small number of enterprise clients.</span><span data-lang-de>Prognostizierter ARR von 7–25 Mio. € für 2024–2025.</span></div></div></a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title"><span data-lang-en>Part II — Evidence &amp; Analysis</span><span data-lang-de>Teil II — Beweise &amp; Analyse</span></div>
+    <ul class="toc-list">
+      <li class="toc-item"><a href="05_risk_ratings.html"><span class="toc-ch-num">05</span><div><div class="toc-ch-title"><span data-lang-en>UBO Risk Assessment</span><span data-lang-de>UBO-Risikobewertung</span></div><div class="toc-ch-desc"><span data-lang-en>At least five UBOs present elevated governance risk profiles across six weighted criteria.</span><span data-lang-de>Mindestens fünf UBOs weisen erhöhte Governance-Risikoprofile auf.</span></div></div></a></li>
+      <li class="toc-item"><a href="06_perseus_breach.html"><span class="toc-ch-num">06</span><div><div class="toc-ch-title"><span data-lang-en>The Hunstein-Goerg Perseus Breach</span><span data-lang-de>Der Hunstein-Goerg Perseus-Verstoß</span></div><div class="toc-ch-desc"><span data-lang-en>127,885 shares acquired at €1.00 while fair value stood at €18.96–€20.56 — a 95% discount.</span><span data-lang-de>127.885 Aktien zu 1,00 € erworben bei einem Verkehrswert von 18,96–20,56 €.</span></div></div></a></li>
+      <li class="toc-item"><a href="07_treasury_deficit.html"><span class="toc-ch-num">07</span><div><div class="toc-ch-title"><span data-lang-en>The Treasury Deficit</span><span data-lang-de>Das Bilanzdefizit</span></div><div class="toc-ch-desc"><span data-lang-en>A significant gap between capital called and amounts received, suggesting systematic value extraction.</span><span data-lang-de>Erhebliche Diskrepanz zwischen eingefordertem und eingezahltem Kapital.</span></div></div></a></li>
+      <li class="toc-item"><a href="08_wash_trades.html"><span class="toc-ch-num">08</span><div><div class="toc-ch-title"><span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle &amp; Wash Trades</span></div><div class="toc-ch-desc"><span data-lang-en>Transfers to a non-existent entity and interlocking ownership axes reveal circular patterns.</span><span data-lang-de>Übertragungen an eine nicht existierende Gesellschaft zeigen zirkuläre Muster.</span></div></div></a></li>
+      <li class="toc-item"><a href="09_bleicher_profile.html"><span class="toc-ch-num">09</span><div><div class="toc-ch-title"><span data-lang-en>Franz Xaver Bleicher — The Architect</span><span data-lang-de>Franz Xaver Bleicher — Der Architekt</span></div><div class="toc-ch-desc"><span data-lang-en>Control through 10+ interrelated vehicles across Germany and France.</span><span data-lang-de>Kontrolle über 10+ verbundene Gesellschaften in DE und FR.</span></div></div></a></li>
+      <li class="toc-item"><a href="10_pictet_investment.html"><span class="toc-ch-num">10</span><div><div class="toc-ch-title"><span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></div><div class="toc-ch-desc"><span data-lang-en>Investment appears secured on valuations that significantly overstate the company's financial position.</span><span data-lang-de>Die Investition scheint auf überhöhten Bewertungen zu beruhen.</span></div></div></a></li>
+      <li class="toc-item"><a href="11_lvs_loan.html"><span class="toc-ch-num">11</span><div><div class="toc-ch-title"><span data-lang-en>The LVS Convertible Loan</span><span data-lang-de>Das LVS-Wandeldarlehen</span></div><div class="toc-ch-desc"><span data-lang-en>€6.15M disbursed across four tranches; €12.6M and 750,000 shares remain outstanding.</span><span data-lang-de>6,15 Mio. € in vier Tranchen; 12,6 Mio. € und 750.000 Aktien ausstehend.</span></div></div></a></li>
+      <li class="toc-item"><a href="12_goldfinger.html"><span class="toc-ch-num">12</span><div><div class="toc-ch-title"><span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></div><div class="toc-ch-desc"><span data-lang-en>Hunstein and Goerg were indicted in Germany's largest tax fraud case before charges were dropped in 2020.</span><span data-lang-de>Hunstein und Goerg waren im größten deutschen Steuerstrafverfahren angeklagt.</span></div></div></a></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-disclaimer">
+      <p data-lang-en>This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.</p>
+      <p data-lang-de>Diese Analyse stellt Ermittlungsfragen und Mustererkennung dar, keine rechtlichen Feststellungen von Fehlverhalten. Personen gelten als unschuldig, bis das Gegenteil in einem Gerichtsverfahren bewiesen ist.</p>
+    </div>
+    <div class="footer-meta">
+      <span><span data-lang-en>Last updated:</span><span data-lang-de>Letzte Aktualisierung:</span> <time datetime="2026-02-08">8 February 2026</time></span>
+      <span><span data-lang-en>Cookie-free. No personal data collected.</span><span data-lang-de>Ohne Cookies. Keine personenbezogenen Daten erhoben.</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.searchIndex=[
+  {chapter:"Ch 1",title:"Ultimate Beneficial Owners",href:"01_ubo_directory.html",text:"SyncPilot SE ownership 30+ entities fewer than 10 individuals Bleicher Steiner Purkert Krocke Schaeff Hunstein Goerg"},
+  {chapter:"Ch 2",title:"Capital Events Timeline",href:"02_capital_events.html",text:"14+ capital events share issuances transfers restructurings 2020 2025 BOSYNC AURIGA Perseus Tiven"},
+  {chapter:"Ch 3",title:"Corporate Valuation",href:"03_valuation.html",text:"Implied valuation 0.1M 131M discontinuities insider transactions price per share"},
+  {chapter:"Ch 4",title:"Revenue Analysis",href:"04_revenue.html",text:"ARR 7M 25M 2024 2025 Volkswagen E.ON Vodafone enterprise clients"},
+  {chapter:"Ch 5",title:"UBO Risk Assessment",href:"05_risk_ratings.html",text:"Risk ratings HIGH MEDIUM LOW pricing anomaly multi-layered control"},
+  {chapter:"Ch 6",title:"The Perseus Breach",href:"06_perseus_breach.html",text:"Perseus 127885 shares 1.00 euro 95% discount 18.96 20.56 Hunstein Goerg"},
+  {chapter:"Ch 7",title:"The Treasury Deficit",href:"07_treasury_deficit.html",text:"Treasury deficit capital called versus received value extraction"},
+  {chapter:"Ch 8",title:"Circular Control & Wash Trades",href:"08_wash_trades.html",text:"Tiven S.A. existiert nicht Scheingeschäft circular ownership AURIGA BOSYNC"},
+  {chapter:"Ch 9",title:"Bleicher — The Architect",href:"09_bleicher_profile.html",text:"Bleicher 10 corporate vehicles Germany France BOSYNC Quintus"},
+  {chapter:"Ch 10",title:"The Pictet Investment",href:"10_pictet_investment.html",text:"Pictet investment valuation overstate Kapitalanlagebetrug"},
+  {chapter:"Ch 11",title:"The LVS Convertible Loan",href:"11_lvs_loan.html",text:"LVS 6.15 million four tranches convertible loan 12.6M outstanding"},
+  {chapter:"Ch 12",title:"The Goldfinger Connection",href:"12_goldfinger.html",text:"Goldfinger tax fraud Hunstein Goerg AFR gold trading 2020"}
+];
+(function(){
+  var currentLang='en',menuOpen=false,searchOpen=false;
+  document.addEventListener('DOMContentLoaded',function(){
+    var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');
+    if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;hb.classList.toggle('active',menuOpen);sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
+    var lb=document.querySelector('.lang-toggle');
+    if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'});
+    var sb=document.querySelector('.search-btn'),so=document.querySelector('.search-overlay'),si=document.querySelector('.search-input'),sr=document.querySelector('.search-results');
+    if(sb&&so){sb.addEventListener('click',function(){searchOpen=!searchOpen;so.classList.toggle('open',searchOpen);if(searchOpen&&si)setTimeout(function(){si.focus()},100)});so.addEventListener('click',function(e){if(e.target===so){searchOpen=false;so.classList.remove('open')}})}
+    if(si&&sr){var t;si.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){var q=si.value;sr.innerHTML='';if(!q||q.length<2)return;var idx=window.searchIndex||[],terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>=2}),res=[];idx.forEach(function(e){var h=(e.title+' '+e.text).toLowerCase(),s=0;terms.forEach(function(t){if(h.indexOf(t)!==-1)s+=10;if(e.title.toLowerCase().indexOf(t)!==-1)s+=20});if(s>0)res.push({e:e,s:s})});res.sort(function(a,b){return b.s-a.s});if(!res.length){sr.innerHTML='<div class="search-no-results">No results for "'+q+'"</div>';return}res.slice(0,10).forEach(function(r){var a=document.createElement('a');a.className='search-result-item';a.href=r.e.href;a.innerHTML='<div class="result-chapter">'+r.e.chapter+'</div><div class="result-text">'+r.e.title+'</div>';sr.appendChild(a)})},200)})}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(searchOpen){searchOpen=false;if(so)so.classList.remove('open')}if(menuOpen){menuOpen=false;if(hb)hb.classList.remove('active');if(sm)sm.classList.remove('open');if(ov)ov.classList.remove('visible')}}});
+  });
+})();
+</script>
+</body>
+</html>

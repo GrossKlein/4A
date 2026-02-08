@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch NN: CHAPTER_TITLE — SyncPilot SE Dossier</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js CDN — include only on chapters with visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAVIGATION BAR  (identical across all pages)
+     ============================================================ -->
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-left">
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="nav-title">SyncPilot SE Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-toggle" aria-label="Switch to German">DE</button>
+    <button class="search-btn" aria-label="Search">&#x1F50D;</button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     SLIDE-IN SIDE MENU  (identical across all pages)
+     ============================================================ -->
+<div class="side-menu-overlay" aria-hidden="true"></div>
+<aside class="side-menu" role="navigation" aria-label="Chapter navigation">
+
+  <a href="index.html" class="menu-link" style="font-weight:700; margin-bottom:8px;">
+    <span data-lang-en>Index</span><span data-lang-de>Übersicht</span>
+  </a>
+
+  <div class="menu-group-label">
+    <span data-lang-en>Corporate Profile</span><span data-lang-de>Unternehmensprofil</span>
+  </div>
+  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span>
+    <span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></a>
+  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span>
+    <span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></a>
+  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span>
+    <span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></a>
+  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span>
+    <span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></a>
+
+  <div class="menu-group-label">
+    <span data-lang-en>Evidence &amp; Analysis</span><span data-lang-de>Beweise &amp; Analyse</span>
+  </div>
+  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span>
+    <span data-lang-en>UBO Risk Assessment</span><span data-lang-de>UBO-Risikobewertung</span></a>
+  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span>
+    <span data-lang-en>The Perseus Breach</span><span data-lang-de>Der Perseus-Verstoß</span></a>
+  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span>
+    <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
+  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span>
+    <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
+  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span>
+    <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
+  <a href="10_pictet_investment.html" class="menu-link"><span class="ch-num">10</span>
+    <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
+  <a href="11_lvs_loan.html" class="menu-link"><span class="ch-num">11</span>
+    <span data-lang-en>The LVS Convertible Loan</span><span data-lang-de>Das LVS-Wandeldarlehen</span></a>
+  <a href="12_goldfinger.html" class="menu-link"><span class="ch-num">12</span>
+    <span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></a>
+</aside>
+
+<!-- ============================================================
+     SEARCH OVERLAY  (identical across all pages)
+     ============================================================ -->
+<div class="search-overlay" role="search" aria-label="Full-text search">
+  <div class="search-box">
+    <input type="text" class="search-input"
+           placeholder="Search across all chapters…"
+           aria-label="Search query">
+    <div class="search-results" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CHAPTER CONTENT
+     ============================================================ -->
+<main class="content-area">
+
+  <!-- Chapter number label -->
+  <p style="font-family:var(--font-ui); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--claret); margin-bottom:var(--sp-2);">
+    <span data-lang-en>Chapter NN</span>
+    <span data-lang-de>Kapitel NN</span>
+  </p>
+
+  <!-- Chapter title -->
+  <h1>
+    <span data-lang-en>CHAPTER_TITLE_EN</span>
+    <span data-lang-de>CHAPTER_TITLE_DE</span>
+  </h1>
+
+  <!-- BLUF Summary Box -->
+  <div class="bluf">
+    <div class="bluf-label">
+      <span data-lang-en>Key Finding</span>
+      <span data-lang-de>Kernbefund</span>
+    </div>
+    <p data-lang-en>BLUF_TEXT_EN</p>
+    <p data-lang-de>BLUF_TEXT_DE</p>
+  </div>
+
+  <!-- ========== MAIN NARRATIVE GOES HERE ========== -->
+
+  <!--
+    Content structure for each chapter:
+
+    1. Narrative text (300–500 words, bilingual, Classic Style)
+    2. Primary visualization (Chart.js canvas in .chart-container)
+    3. Secondary visualization or data table
+    4. Legal analysis section (for Ch 5–12 only)
+    5. Source references
+  -->
+
+  <p data-lang-en>[Chapter content will be generated in subsequent phases.]</p>
+  <p data-lang-de>[Kapitelinhalt wird in nachfolgenden Phasen generiert.]</p>
+
+
+  <!-- ========== VISUALIZATIONS GO HERE ========== -->
+
+  <!--
+  <div class="chart-container">
+    <div class="chart-title">CHART_TITLE</div>
+    <div class="chart-subtitle">CHART_SUBTITLE</div>
+    <div class="chart-canvas-wrap">
+      <canvas id="chartN" height="400"></canvas>
+    </div>
+    <div class="chart-source">
+      Source: SyncPilot_SE_Project.xlsx → "SyncPilot SE History"
+    </div>
+  </div>
+  -->
+
+
+  <!-- ========== CHAPTER PREV/NEXT NAVIGATION ========== -->
+  <nav class="chapter-nav" aria-label="Chapter pagination">
+    <a href="PREV_FILE.html" class="prev">
+      <span data-lang-en>PREV_TITLE_EN</span>
+      <span data-lang-de>PREV_TITLE_DE</span>
+    </a>
+    <a href="NEXT_FILE.html" class="next">
+      <span data-lang-en>NEXT_TITLE_EN</span>
+      <span data-lang-de>NEXT_TITLE_DE</span>
+    </a>
+  </nav>
+
+</main>
+
+<!-- ============================================================
+     FOOTER  (identical across all pages)
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-disclaimer">
+      <p data-lang-en>This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.</p>
+      <p data-lang-de>Diese Analyse stellt Ermittlungsfragen und Mustererkennung dar, keine rechtlichen Feststellungen von Fehlverhalten. Aussagen sind nach Evidenzstufen kategorisiert: gesicherte Fakten, dokumentierte Vorwürfe und analytische Schlussfolgerungen. Personen gelten als unschuldig, bis das Gegenteil in einem Gerichtsverfahren bewiesen ist.</p>
+    </div>
+    <div class="footer-meta">
+      <span>
+        <span data-lang-en>Last updated:</span>
+        <span data-lang-de>Letzte Aktualisierung:</span>
+        <time datetime="2026-02-08">8 February 2026</time>
+      </span>
+      <span>
+        <span data-lang-en>Cookie-free. No personal data collected.</span>
+        <span data-lang-de>Ohne Cookies. Keine personenbezogenen Daten erhoben.</span>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SEARCH INDEX (placeholder — copy from index.html)
+     ============================================================ -->
+<script>
+window.searchIndex = [
+  { chapter:"Ch 1",  title:"Ultimate Beneficial Owners",         href:"01_ubo_directory.html",     text:"SyncPilot SE ownership distributed across 30+ entities, ultimate control fewer than 10 individuals" },
+  { chapter:"Ch 2",  title:"Capital Events Timeline",            href:"02_capital_events.html",    text:"14+ capital events share issuances transfers restructurings September 2020 August 2025" },
+  { chapter:"Ch 3",  title:"Corporate Valuation",                href:"03_valuation.html",         text:"Implied valuation fluctuated 0.1M 131M sharp discontinuities insider transactions" },
+  { chapter:"Ch 4",  title:"Revenue Analysis",                   href:"04_revenue.html",           text:"Annual recurring revenue ARR 7M 25M 2024 2025 Volkswagen E.ON Vodafone" },
+  { chapter:"Ch 5",  title:"UBO Risk Assessment",                href:"05_risk_ratings.html",      text:"Risk ratings HIGH MEDIUM LOW pricing anomaly multi-layered control" },
+  { chapter:"Ch 6",  title:"The Hunstein-Goerg Perseus Breach",  href:"06_perseus_breach.html",    text:"Perseus 127885 shares 1.00 euro 95% discount Hunstein Goerg" },
+  { chapter:"Ch 7",  title:"The Treasury Deficit",               href:"07_treasury_deficit.html",  text:"Treasury deficit capital called versus received systematic value extraction" },
+  { chapter:"Ch 8",  title:"Circular Control & Wash Trades",     href:"08_wash_trades.html",       text:"Tiven S.A. existiert nicht Scheingeschäft circular ownership" },
+  { chapter:"Ch 9",  title:"Franz Xaver Bleicher — The Architect",href:"09_bleicher_profile.html", text:"Bleicher 10 interrelated corporate vehicles Germany France" },
+  { chapter:"Ch 10", title:"The Pictet Investment",               href:"10_pictet_investment.html", text:"Pictet investment valuation overstate Kapitalanlagebetrug" },
+  { chapter:"Ch 11", title:"The LVS Convertible Loan",           href:"11_lvs_loan.html",          text:"LVS 6.15 million four tranches convertible loan outstanding" },
+  { chapter:"Ch 12", title:"The Goldfinger Connection",          href:"12_goldfinger.html",        text:"Goldfinger tax fraud Hunstein Goerg AFR gold trading" }
+];
+</script>
+
+<script src="nav.js"></script>
+
+<!-- ============================================================
+     CHART.JS INITIALIZATION (per-chapter — customize below)
+     ============================================================ -->
+<!--
+<script>
+  // Chart.js global defaults for FT palette consistency
+  Chart.defaults.font.family = "'Source Sans 3', 'Helvetica Neue', sans-serif";
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = '#262A33';
+  Chart.defaults.plugins.legend.position = 'bottom';
+  Chart.defaults.plugins.tooltip.backgroundColor = '#262A33';
+  Chart.defaults.plugins.tooltip.titleFont = { weight: '600' };
+  Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
+  Chart.defaults.plugins.tooltip.cornerRadius = 4;
+  Chart.defaults.plugins.tooltip.padding = 10;
+
+  // Example chart initialization:
+  // const ctx = document.getElementById('chartN').getContext('2d');
+  // new Chart(ctx, { type: 'line', data: {...}, options: {...} });
+</script>
+-->
+
+</body>
+</html>

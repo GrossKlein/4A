@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 4 — Revenue Analysis | SyncPilot SE Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px;transition:transform .2s}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s ease;z-index:999;padding:var(--sp-6)}
+.side-menu.open{left:0}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.search-overlay{display:none;position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.5);z-index:1001;justify-content:center;padding-top:var(--sp-12)}
+.search-overlay.open{display:flex}
+.search-box{background:var(--white);border-radius:8px;padding:var(--sp-6);width:90%;max-width:500px;height:fit-content}
+.search-input{width:100%;font-family:var(--font-ui);font-size:1rem;padding:var(--sp-3);border:2px solid var(--wheat);border-radius:4px;outline:none}
+.search-results{margin-top:var(--sp-4)}
+.search-result-item{display:block;padding:var(--sp-3);border-bottom:1px solid var(--wheat);text-decoration:none;color:var(--slate)}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+.chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
+.chart-canvas-wrap{position:relative}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.kpi-row{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0}
+.kpi{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);flex:1;min-width:160px;text-align:center}
+.kpi-val{font-family:var(--font-ui);font-size:2rem;font-weight:700;color:var(--slate);line-height:1.1}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.45);margin-top:4px}
+.kpi-note{font-family:var(--font-ui);font-size:.72rem;color:var(--claret);margin-top:4px}
+.site-footer{background:var(--slate);color:rgba(255,241,229,.7);padding:var(--sp-8) var(--sp-6);margin-top:var(--sp-16);font-family:var(--font-ui);font-size:.78rem;line-height:1.6}
+.footer-inner{max-width:var(--max-width);margin:0 auto}
+.footer-disclaimer{max-width:700px;margin-bottom:var(--sp-4)}
+.footer-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(255,241,229,.15);font-size:.72rem;color:rgba(255,241,229,.45)}
+.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
+.chapter-nav a:hover{color:var(--claret)}
+.chapter-nav .prev::before{content:"\2190 "}
+.chapter-nav .next::after{content:" \2192"}
+[data-lang-de]{display:none}[data-lang-en]{display:inline}
+div[data-lang-de],p[data-lang-de]{display:none}div[data-lang-en],p[data-lang-en]{display:block}
+span[data-lang-en]{display:inline}span[data-lang-de]{display:none}
+body.lang-de [data-lang-de]{display:inline}body.lang-de [data-lang-en]{display:none !important}
+body.lang-de div[data-lang-de],body.lang-de p[data-lang-de]{display:block}
+body.lang-de span[data-lang-de]{display:inline}
+@media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.kpi-row{flex-direction:column}.footer-meta{flex-direction:column}}
+@media print{body{padding-top:0;background:#fff;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay,.search-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+</style>
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-left">
+    <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <a href="index.html" class="nav-title">SyncPilot SE Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="search-btn" aria-label="Search">&#x1F50D;</button>
+    <button class="lang-toggle" aria-label="Toggle language">DE</button>
+  </div>
+</nav>
+<aside class="side-menu" role="navigation" aria-label="Chapter navigation">
+  <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-3);padding-bottom:var(--sp-2);border-bottom:2px solid var(--oxford)">Chapters</div>
+  <ul style="list-style:none">
+    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="01_ubo_directory.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">1. Ultimate Beneficial Owners</a></li>
+    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="02_capital_events.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">2. Capital Events Timeline</a></li>
+    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="03_valuation.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">3. Corporate Valuation</a></li>
+    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="04_revenue.html" style="text-decoration:none;font-size:.95rem;font-weight:700;color:var(--claret)">4. Revenue Analysis</a></li>
+  </ul>
+</aside>
+<div class="side-menu-overlay"></div>
+<div class="search-overlay"><div class="search-box"><input type="text" class="search-input" placeholder="Search chapters..."><div class="search-results"></div></div></div>
+
+<main class="content-area">
+  <header class="hero">
+    <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret)">Chapter 4</div>
+    <h1><span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></h1>
+    <hr class="hero-rule">
+    <div class="hero-subtitle">
+      <p data-lang-en>SyncPilot SE projects annual recurring revenue of €7–25M for 2024–2025, concentrated among public-sector and social insurance clients, with growth assumptions that appear aggressive relative to historical performance.</p>
+      <p data-lang-de>Die SyncPilot SE prognostiziert wiederkehrende Jahresumsätze von 7–25 Mio. € für 2024–2025, konzentriert auf öffentliche und sozialversicherungsnahe Kunden, mit Wachstumsannahmen, die im Verhältnis zur historischen Leistung ambitioniert erscheinen.</p>
+    </div>
+  </header>
+
+  <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap;margin:var(--sp-6) 0;align-items:flex-end">
+    <!-- 2024 box: smaller (flex:1) -->
+    <div class="kpi" style="flex:1;min-width:120px;max-width:200px;padding:var(--sp-4)">
+      <div class="kpi-val" style="font-size:1.4rem">€17.43M</div>
+      <div class="kpi-label"><span data-lang-en>Projected 2024</span><span data-lang-de>Prognose 2024</span></div>
+    </div>
+    <!-- Growth arrow -->
+    <div style="display:flex;align-items:center;font-family:var(--font-ui);font-size:.78rem;font-weight:700;color:var(--claret);padding-bottom:var(--sp-6)">
+      <span style="font-size:1.3rem">→</span>&nbsp;+154%
+    </div>
+    <!-- 2025 box: 2.54× larger (flex:2.54) -->
+    <div class="kpi" style="flex:2.54;min-width:200px;max-width:480px;border-color:var(--claret);border-width:2px">
+      <div class="kpi-val" style="font-size:2.4rem;color:var(--claret)">€44.28M</div>
+      <div class="kpi-label"><span data-lang-en>Projected 2025</span><span data-lang-de>Prognose 2025</span></div>
+      <div class="kpi-note">2.54× growth in one year</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:var(--sp-4);flex-wrap:wrap;margin:0 0 var(--sp-6) 0">
+    <!-- Segmented client box -->
+    <div class="kpi" style="flex:2;min-width:280px">
+      <div class="kpi-val" style="font-size:1.6rem">55 <span style="font-size:.88rem;font-weight:400;color:rgba(38,42,51,.5)"><span data-lang-en>clients</span><span data-lang-de>Kunden</span></span></div>
+      <div style="display:flex;height:18px;border-radius:3px;overflow:hidden;margin:var(--sp-3) 0">
+        <div style="flex:18;background:var(--oxford)" title="Public: 18 clients (33%)"></div>
+        <div style="flex:14;background:var(--claret)" title="Health Insurance: 14 clients (25%)"></div>
+        <div style="flex:6;background:var(--slate)" title="Social Insurance: 6 clients (11%)"></div>
+        <div style="flex:17;background:#66605C" title="Other: 17 clients (31%)"></div>
+      </div>
+      <div style="display:flex;gap:var(--sp-4);font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.55);flex-wrap:wrap">
+        <span><span style="display:inline-block;width:8px;height:8px;background:var(--oxford);border-radius:1px;margin-right:3px;vertical-align:middle"></span>Public 18 (42%)</span>
+        <span><span style="display:inline-block;width:8px;height:8px;background:var(--claret);border-radius:1px;margin-right:3px;vertical-align:middle"></span>Health Ins. 14 (21%)</span>
+        <span><span style="display:inline-block;width:8px;height:8px;background:var(--slate);border-radius:1px;margin-right:3px;vertical-align:middle"></span>Social Ins. 6 (21%)</span>
+        <span><span style="display:inline-block;width:8px;height:8px;background:#66605C;border-radius:1px;margin-right:3px;vertical-align:middle"></span>Other 17 (16%)</span>
+      </div>
+    </div>
+    <!-- Top 3 concentration -->
+    <div class="kpi" style="flex:1;min-width:140px">
+      <div class="kpi-val">27.6%</div>
+      <div class="kpi-label"><span data-lang-en>Top 3 Concentration</span><span data-lang-de>Top-3-Konzentration</span></div>
+    </div>
+  </div>
+
+
+  <p data-lang-en>The revenue projections embedded in SyncPilot's internal planning documents tell a story of steep ambition. The company's ARR rises from €6.9M in January 2024 to €25.5M by December 2025 — a 3.7× increase in twenty-four months. The steepest jump occurs between August and October 2024, when projected ARR nearly doubles from €7.6M to €17.9M in just two months, driven almost entirely by new public-sector pipeline clients entering the forecast. Whether these projections were used to justify the €131M valuation at which the May 2024 share issuance to <strong>5th Dimension Investment</strong> was priced is a question worth examining.</p>
+  <p data-lang-de>Die in den internen Planungsdokumenten von SyncPilot enthaltenen Umsatzprognosen erzählen eine Geschichte steiler Ambitionen. Der ARR steigt von 6,9 Mio. € im Januar 2024 auf 25,5 Mio. € im Dezember 2025 — eine 3,7-fache Steigerung in vierundzwanzig Monaten. Der steilste Sprung erfolgt zwischen August und Oktober 2024, als der prognostizierte ARR in nur zwei Monaten von 7,6 Mio. € auf 17,9 Mio. € nahezu verdoppelt, getrieben fast ausschließlich durch neue Pipeline-Kunden des öffentlichen Sektors. Ob diese Prognosen zur Rechtfertigung der 131-Mio.-€-Bewertung verwendet wurden, zu der die Mai-2024-Aktienausgabe an <strong>5th Dimension Investment</strong> bepreist wurde, ist eine prüfenswerte Frage.</p>
+
+  <p data-lang-en>The client base is overwhelmingly German public-sector and social insurance: these two segments account for 63.6% of projected revenue. The largest single client, <strong>Bundesagentur für Arbeit</strong>, contributes €4.6M (10.4%) but almost entirely from 2025 pipeline — meaning it was not yet contracted at the time of planning. Several line items are labelled "Unknown Strategie" or "Unknown Upselling," placeholder entries totalling roughly €10M that inflate the 2025 forecast without identified customers.</p>
+  <p data-lang-de>Die Kundenbasis besteht überwiegend aus deutschem öffentlichem Sektor und Sozialversicherung: diese beiden Segmente machen 63,6 % des prognostizierten Umsatzes aus. Der größte Einzelkunde, <strong>Bundesagentur für Arbeit</strong>, trägt 4,6 Mio. € (10,4 %) bei, jedoch fast ausschließlich aus der 2025-Pipeline — also zum Planungszeitpunkt noch nicht vertraglich gebunden. Mehrere Positionen sind als „Unknown Strategie" oder „Unknown Upselling" gekennzeichnet, Platzhalter mit insgesamt rund 10 Mio. €, die die 2025-Prognose ohne identifizierte Kunden aufblähen.</p>
+
+  <h2><span data-lang-en>Annual Recurring Revenue — Monthly Trajectory</span><span data-lang-de>Wiederkehrende Jahresumsätze — Monatsverlauf</span></h2>
+
+  <div class="chart-container">
+    <div class="chart-title"><span data-lang-en>Projected ARR per Month (€M) — 2024–2025</span><span data-lang-de>Prognostizierter ARR pro Monat (Mio. €) — 2024–2025</span></div>
+    <div class="chart-canvas-wrap" style="height:340px">
+      <canvas id="arrChart"></canvas>
+    </div>
+    <div class="chart-source">Source: 20240315_Umsatzerlöse_2024_ff__1_2.xlsx → "2024 & 2025" (Row 4: ARR per month)</div>
+  </div>
+
+  <h2><span data-lang-en>Top Clients by Projected Revenue</span><span data-lang-de>Top-Kunden nach prognostiziertem Umsatz</span></h2>
+
+  <div class="chart-container">
+    <div class="chart-title"><span data-lang-en>Revenue by Client (€M) — Named Clients Only, 2024+2025 Combined</span><span data-lang-de>Umsatz nach Kunde (Mio. €) — Nur benannte Kunden, 2024+2025 kombiniert</span></div>
+    <div style="font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.5);margin-bottom:var(--sp-3)"><span data-lang-en>Total named client revenue: <strong style="color:var(--slate)">€36.01M</strong> of €44.23M projected (81.4%) — remainder is "Unknown" placeholders</span><span data-lang-de>Gesamtumsatz benannter Kunden: <strong style="color:var(--slate)">36,01 Mio. €</strong> von 44,23 Mio. € prognostiziert (81,4 %) — Rest sind „Unknown"-Platzhalter</span></div>
+    <div class="chart-canvas-wrap" style="height:460px">
+      <canvas id="clientChart"></canvas>
+    </div>
+    <div class="chart-source">Source: SyncPilot_SE_Project.xlsx → "SyncPilot Client List"</div>
+  </div>
+
+  <div style="display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0">
+    <div class="chart-container" style="flex:1;min-width:300px">
+      <div class="chart-title"><span data-lang-en>Client Share of Revenue</span><span data-lang-de>Kundenanteil am Umsatz</span></div>
+      <div class="chart-canvas-wrap" style="height:300px">
+        <canvas id="clientPieChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<section class="content-area">
+  <nav class="chapter-nav">
+    <a href="03_valuation.html" class="prev"><span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></a>
+    <a href="05_risk_ratings.html" class="next"><span data-lang-en>UBO Risk Assessment</span><span data-lang-de>UBO-Risikobewertung</span></a>
+  </nav>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-disclaimer">
+      <p data-lang-en>This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Revenue projections shown are internal company estimates as documented in planning spreadsheets, not audited figures.</p>
+      <p data-lang-de>Diese Analyse stellt Ermittlungsfragen und Mustererkennung dar. Die dargestellten Umsatzprognosen sind interne Unternehmensschätzungen aus Planungstabellen, keine geprüften Zahlen.</p>
+    </div>
+    <div class="footer-meta">
+      <span><span data-lang-en>Last updated:</span><span data-lang-de>Letzte Aktualisierung:</span> <time datetime="2026-02-08">8 February 2026</time></span>
+      <span><span data-lang-en>Cookie-free. No personal data collected.</span><span data-lang-de>Ohne Cookies. Keine personenbezogenen Daten erhoben.</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.searchIndex=[
+  {chapter:"Ch 1",title:"Ultimate Beneficial Owners",href:"01_ubo_directory.html",text:"UBO ownership Bleicher Steiner"},
+  {chapter:"Ch 2",title:"Capital Events Timeline",href:"02_capital_events.html",text:"capital events issuances transfers Perseus anomaly"},
+  {chapter:"Ch 3",title:"Corporate Valuation",href:"03_valuation.html",text:"valuation implied pricing anomaly"},
+  {chapter:"Ch 4",title:"Revenue Analysis",href:"04_revenue.html",text:"ARR revenue clients public sector concentration"}
+];
+(function(){
+  var currentLang='en',menuOpen=false,searchOpen=false;
+  document.addEventListener('DOMContentLoaded',function(){
+    var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');
+    if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;hb.classList.toggle('active',menuOpen);sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
+    var lb=document.querySelector('.lang-toggle');
+    if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'});
+    var sb=document.querySelector('.search-btn'),so=document.querySelector('.search-overlay'),si=document.querySelector('.search-input'),sr=document.querySelector('.search-results');
+    if(sb&&so){sb.addEventListener('click',function(){searchOpen=!searchOpen;so.classList.toggle('open',searchOpen);if(searchOpen&&si)setTimeout(function(){si.focus()},100)});so.addEventListener('click',function(e){if(e.target===so){searchOpen=false;so.classList.remove('open')}})}
+    if(si&&sr){var t;si.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){var q=si.value;sr.innerHTML='';if(!q||q.length<2)return;var idx=window.searchIndex||[],terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>=2}),res=[];idx.forEach(function(e){var h=(e.title+' '+e.text).toLowerCase(),s=0;terms.forEach(function(t){if(h.indexOf(t)!==-1)s+=10;if(e.title.toLowerCase().indexOf(t)!==-1)s+=20});if(s>0)res.push({e:e,s:s})});res.sort(function(a,b){return b.s-a.s});if(!res.length){sr.innerHTML='<div>No results</div>';return}res.slice(0,10).forEach(function(r){var a=document.createElement('a');a.className='search-result-item';a.href=r.e.href;a.innerHTML='<div>'+r.e.chapter+'</div><div>'+r.e.title+'</div>';sr.appendChild(a)});},200)})}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(searchOpen){searchOpen=false;if(so)so.classList.remove('open')}if(menuOpen){menuOpen=false;if(hb)hb.classList.remove('active');if(sm)sm.classList.remove('open');if(ov)ov.classList.remove('visible')}}});
+  });
+})();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  Chart.defaults.font.family = "'Source Sans 3', 'Helvetica Neue', sans-serif";
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = "#262A33";
+
+  // === ARR LINE CHART ===
+  var arrMonths = ["Jan 24", "Feb 24", "Mar 24", "Apr 24", "May 24", "Jun 24", "Jul 24", "Aug 24", "Sep 24", "Oct 24", "Nov 24", "Dec 24", "Jan 25", "Feb 25", "Mar 25", "Apr 25", "May 25", "Jun 25", "Jul 25", "Aug 25", "Sep 25", "Oct 25", "Nov 25", "Dec 25"];
+  var arrVals = [6.91, 6.94, 7.0, 7.13, 7.47, 7.58, 7.6, 7.57, 13.48, 17.94, 19.01, 19.27, 23.8, 23.25, 23.48, 23.92, 23.96, 24.06, 23.3, 23.3, 24.09, 24.24, 25.18, 25.47];
+
+  new Chart(document.getElementById('arrChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: arrMonths,
+      datasets: [{
+        label: 'ARR (\u20acM)',
+        data: arrVals,
+        borderColor: '#0D7680',
+        backgroundColor: 'rgba(13,118,128,0.08)',
+        fill: true,
+        tension: 0.2,
+        pointRadius: function(ctx) {
+          return (ctx.dataIndex >= 7 && ctx.dataIndex <= 10) ? 6 : 4;
+        },
+        pointBackgroundColor: '#0D7680',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 1.5,
+        pointHoverRadius: 7,
+        borderWidth: 2.5,
+        segment: {
+          borderColor: function(ctx) {
+            return (ctx.p0DataIndex >= 7 && ctx.p0DataIndex <= 9) ? '#990F3D' : '#0D7680';
+          },
+          borderWidth: function(ctx) {
+            return (ctx.p0DataIndex >= 7 && ctx.p0DataIndex <= 9) ? 3.5 : 2.5;
+          }
+        }
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#262A33',
+          cornerRadius: 4,
+          padding: 12,
+          callbacks: {
+            label: function(item) {
+              var line = '\u20ac' + item.parsed.y.toFixed(2) + 'M ARR';
+              if (item.dataIndex >= 8 && item.dataIndex <= 10) line += ' \u25c0 steep jump';
+              return line;
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            jumpBox: {
+              type: 'box',
+              xMin: 'Aug 24',
+              xMax: 'Nov 24',
+              backgroundColor: 'rgba(153,15,61,0.06)',
+              borderColor: 'rgba(153,15,61,0.25)',
+              borderWidth: 1,
+              borderDash: [3, 3]
+            },
+            jumpLabel: {
+              type: 'label',
+              xValue: 'Sep 24',
+              yValue: 10,
+              content: ['+136% in 2 months'],
+              backgroundColor: 'rgba(153,15,61,0.85)',
+              color: '#fff',
+              font: { size: 10, weight: '600', family: "'Source Sans 3', sans-serif" },
+              padding: { x: 6, y: 3 },
+              borderRadius: 3
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'ARR (\u20acM)', font: { size: 13, weight: '700' }, color: 'rgba(38,42,51,0.6)' },
+          grid: { color: 'rgba(242,223,206,0.6)' },
+          ticks: { callback: function(v) { return '\u20ac' + v + 'M'; }, font: { size: 12 } },
+          beginAtZero: true
+        },
+        x: {
+          grid: { display: false },
+          ticks: { maxRotation: 45, font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // === CLIENT HORIZONTAL BAR CHART ===
+  var clientNames = ["Bundesagentur f\u00fcr Arbeit", "ekom21 - KGRZ Hessen", "Senatskanzlei Berlin", "ITSG GmbH", "AKDB", "ITSCare", "Volkswagen AG", "AOK Baden-W\u00fcrttemberg", "AOK Bayern", "kubus IT", "S\u00e4chs. Staatskanzlei", "E.ON Digital Technology", "Komm.ONE", "VKBit Betrieb", "SVL Forst"];
+  var clientRevs = [4.59, 3.85, 3.78, 2.97, 2.95, 2.77, 2.21, 2.09, 1.86, 1.85, 1.76, 1.70, 1.31, 1.23, 1.09];
+  var clientCats = ["public", "public", "public", "social insurance", "public", "social insurance", "automotive", "health insurance", "health insurance", "social insurance", "public", "energy", "public", "general insurance", "social insurance"];
+  var clientColors = ["#0D7680", "#0D7680", "#0D7680", "#262A33", "#0D7680", "#262A33", "#66605C", "#990F3D", "#990F3D", "#262A33", "#0D7680", "#593380", "#0D7680", "#0F5499", "#262A33"];
+  var clientTotal = clientRevs.reduce(function(a, b) { return a + b; }, 0);
+
+  new Chart(document.getElementById('clientChart').getContext('2d'), {
+    plugins: [{
+      id: 'hbarLabelsAndTotal',
+      afterDatasetsDraw: function(chart) {
+        var ctx = chart.ctx;
+        chart.data.datasets.forEach(function(ds, di) {
+          var meta = chart.getDatasetMeta(di);
+          meta.data.forEach(function(bar, i) {
+            var val = ds.data[i];
+            ctx.save();
+            ctx.fillStyle = 'rgba(38,42,51,0.7)';
+            ctx.font = "600 11px 'Source Sans 3', sans-serif";
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('\u20ac' + val.toFixed(2) + 'M', bar.x + 6, bar.y);
+            ctx.restore();
+          });
+        });
+        // Total sum
+        ctx.save();
+        ctx.fillStyle = 'rgba(38,42,51,0.5)';
+        ctx.font = "bold 12px 'Source Sans 3', sans-serif";
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'top';
+        ctx.fillText('Total named: \u20ac' + clientTotal.toFixed(1) + 'M of \u20ac44.2M', chart.chartArea.right, chart.chartArea.bottom + 8);
+        ctx.restore();
+      }
+    }],
+    type: 'bar',
+    data: {
+      labels: clientNames,
+      datasets: [{
+        label: 'Revenue (\u20acM)',
+        data: clientRevs,
+        backgroundColor: clientColors,
+        borderRadius: 3,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#262A33',
+          cornerRadius: 4,
+          padding: 12,
+          callbacks: {
+            title: function(items) { return clientNames[items[0].dataIndex]; },
+            label: function(item) {
+              var i = item.dataIndex;
+              return ['\u20ac' + clientRevs[i].toFixed(2) + 'M', 'Sector: ' + clientCats[i]];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Revenue (\u20acM)', font: { size: 12, weight: '600' }, color: 'rgba(38,42,51,0.5)' },
+          grid: { color: 'rgba(242,223,206,0.6)' },
+          ticks: { callback: function(v) { return '\u20ac' + v + 'M'; } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // === CLIENT PIE CHART ===
+  var pieNames = clientNames.slice(0, 8);
+  var pieVals = clientRevs.slice(0, 8);
+  var otherVal = 0;
+  for (var k = 8; k < clientRevs.length; k++) otherVal += clientRevs[k];
+  pieNames.push('Others (' + (clientNames.length - 8) + ' clients)');
+  pieVals.push(Math.round(otherVal * 100) / 100);
+  var pieColors = ['#0D7680', '#262A33', '#990F3D', '#66605C', '#0F5499', '#593380', '#00994D', '#CC0000', '#F2DFCE'];
+
+  new Chart(document.getElementById('clientPieChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: pieNames,
+      datasets: [{
+        data: pieVals,
+        backgroundColor: pieColors,
+        borderColor: '#FFF1E5',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            font: { size: 11, family: "'Source Sans 3', sans-serif" },
+            padding: 10,
+            generateLabels: function(chart) {
+              var data = chart.data;
+              var total = data.datasets[0].data.reduce(function(a, b) { return a + b; }, 0);
+              return data.labels.map(function(label, i) {
+                var pct = Math.round(data.datasets[0].data[i] / total * 1000) / 10;
+                return {
+                  text: label + ' (\u20ac' + data.datasets[0].data[i].toFixed(1) + 'M, ' + pct + '%)',
+                  fillStyle: pieColors[i],
+                  strokeStyle: '#FFF1E5',
+                  lineWidth: 2,
+                  index: i
+                };
+              });
+            }
+          }
+        },
+        tooltip: {
+          backgroundColor: '#262A33',
+          cornerRadius: 4,
+          callbacks: {
+            label: function(item) {
+              var total = item.dataset.data.reduce(function(a, b) { return a + b; }, 0);
+              var pct = Math.round(item.parsed / total * 1000) / 10;
+              return item.label + ': \u20ac' + item.parsed.toFixed(2) + 'M (' + pct + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

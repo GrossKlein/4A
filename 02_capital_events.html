@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 2: Capital Events Timeline — SyncPilot SE Dossier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+
+:root {
+  --paper:#FFF1E5;--claret:#990F3D;--oxford:#0D7680;--teal:#0D7680;--wheat:#F2DFCE;
+  --sky:#CCE6FF;--slate:#262A33;--mango:#FF8833;--mandarin:#FF7FAA;--lemon:#FFEC1A;
+  --bg:var(--paper);--text:var(--slate);--heading-primary:var(--claret);--heading-secondary:var(--oxford);
+  --link:var(--oxford);--link-hover:var(--claret);--card-bg:var(--wheat);--info-bg:var(--sky);
+  --risk-high:#CC0033;--risk-medium:var(--mango);--risk-low:#0A7D3F;
+  --font-body:'Source Serif 4','Georgia',serif;--font-ui:'Source Sans 3','Helvetica Neue',sans-serif;
+  --sp-1:0.25rem;--sp-2:0.5rem;--sp-3:0.75rem;--sp-4:1rem;--sp-6:1.5rem;--sp-8:2rem;--sp-12:3rem;--sp-16:4rem;
+  --max-width:1140px;--nav-height:56px;--sidebar-width:280px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.65;min-height:100vh;padding-top:var(--nav-height)}
+h1,h2,h3,h4{font-family:var(--font-body);font-weight:700;line-height:1.2;letter-spacing:-0.01em}
+h1{font-size:clamp(1.75rem,4vw,2.5rem);color:var(--heading-primary);margin-bottom:var(--sp-6)}
+h2{font-size:clamp(1.35rem,3vw,1.75rem);color:var(--heading-secondary);margin-top:var(--sp-12);margin-bottom:var(--sp-4);padding-bottom:var(--sp-2);border-bottom:1px solid var(--wheat)}
+h3{font-size:clamp(1.1rem,2.5vw,1.35rem);color:var(--heading-primary);margin-top:var(--sp-8);margin-bottom:var(--sp-3)}
+h4{font-size:1rem;color:var(--heading-secondary);font-family:var(--font-ui);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-top:var(--sp-6);margin-bottom:var(--sp-2)}
+p{margin-bottom:var(--sp-4)}
+a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px;transition:color .15s}
+a:hover{color:var(--link-hover)}
+strong{font-weight:600}
+hr{border:none;border-top:1px solid var(--wheat);margin:var(--sp-8) 0}
+.content-area{max-width:780px;margin:0 auto;padding:var(--sp-8) var(--sp-6)}
+
+/* Nav Bar */
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:6px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--paper);transition:transform .2s,opacity .2s}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-title{font-family:var(--font-ui);font-size:.95rem;font-weight:600;color:var(--paper);text-decoration:none;letter-spacing:.02em}
+.nav-title:hover{color:var(--wheat)}
+.lang-toggle{font-family:var(--font-ui);font-size:.8rem;font-weight:600;background:transparent;color:var(--paper);border:1px solid rgba(255,241,229,.4);border-radius:3px;padding:4px 10px;cursor:pointer;letter-spacing:.04em;transition:background .15s,border-color .15s}
+.lang-toggle:hover{background:rgba(255,241,229,.15);border-color:var(--paper)}
+.search-btn{background:none;border:none;color:var(--paper);cursor:pointer;font-size:1.1rem;padding:6px;line-height:1}
+.search-btn:hover{color:var(--wheat)}
+
+/* Side Menu */
+.side-menu{position:fixed;top:var(--nav-height);left:0;bottom:0;width:var(--sidebar-width);background:var(--slate);color:var(--paper);transform:translateX(-100%);transition:transform .25s ease;z-index:999;overflow-y:auto;padding:var(--sp-6) 0}
+.side-menu.open{transform:translateX(0)}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.45);z-index:998;opacity:0;pointer-events:none;transition:opacity .25s}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.menu-group-label{font-family:var(--font-ui);font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,241,229,.5);padding:var(--sp-4) var(--sp-6) var(--sp-2)}
+.menu-link{display:block;font-family:var(--font-ui);font-size:.88rem;color:var(--paper);text-decoration:none;padding:var(--sp-2) var(--sp-6);transition:background .12s;line-height:1.4}
+.menu-link:hover{background:rgba(255,241,229,.08);color:var(--paper)}
+.menu-link.active{border-left:3px solid var(--claret);padding-left:calc(var(--sp-6) - 3px);background:rgba(255,241,229,.05)}
+.menu-link .ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(255,241,229,.5);font-size:.78rem}
+
+/* Search Overlay */
+.search-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(38,42,51,.92);z-index:1001;display:none;justify-content:center;padding:var(--sp-8) var(--sp-6)}
+.search-overlay.open{display:flex}
+.search-box{width:100%;max-width:640px}
+.search-input{width:100%;font-family:var(--font-ui);font-size:1.1rem;padding:var(--sp-3) var(--sp-4);border:2px solid var(--wheat);border-radius:4px;background:var(--paper);color:var(--slate);outline:none}
+.search-input:focus{border-color:var(--oxford)}
+.search-input::placeholder{color:rgba(38,42,51,.4)}
+.search-results{margin-top:var(--sp-4);max-height:60vh;overflow-y:auto}
+.search-result-item{display:block;background:var(--paper);padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-2);border-radius:4px;text-decoration:none;transition:background .12s}
+.search-result-item:hover{background:var(--wheat)}
+.search-result-item .result-chapter{font-family:var(--font-ui);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--claret)}
+.search-result-item .result-text{font-size:.9rem;color:var(--slate);margin-top:2px}
+.search-no-results{color:var(--paper);font-family:var(--font-ui);text-align:center;padding:var(--sp-8);opacity:.7}
+
+/* Info Box */
+.info-box{background:var(--info-bg);border-radius:4px;padding:var(--sp-4) var(--sp-6);margin:var(--sp-6) 0;font-size:.95rem}
+.info-box-label{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-2)}
+
+/* Hero */
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+
+/* TOC */
+.toc-section{margin:var(--sp-8) 0}
+.toc-section-title{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-3);padding-bottom:var(--sp-2);border-bottom:2px solid var(--oxford)}
+.toc-list{list-style:none}
+.toc-item{padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)}
+.toc-item a{display:flex;align-items:baseline;gap:var(--sp-3);text-decoration:none;transition:color .12s}
+.toc-item a:hover{color:var(--claret)}
+.toc-item a:hover .toc-ch-title{color:var(--claret)}
+.toc-ch-num{font-family:var(--font-ui);font-size:.78rem;font-weight:700;color:var(--claret);min-width:28px}
+.toc-ch-title{font-family:var(--font-body);font-size:1.05rem;font-weight:600;color:var(--slate);transition:color .12s}
+.toc-ch-desc{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.55);margin-top:2px}
+
+/* Footer */
+.site-footer{background:var(--slate);color:rgba(255,241,229,.7);padding:var(--sp-8) var(--sp-6);margin-top:var(--sp-16);font-family:var(--font-ui);font-size:.78rem;line-height:1.6}
+.footer-inner{max-width:var(--max-width);margin:0 auto}
+.footer-disclaimer{max-width:700px;margin-bottom:var(--sp-4)}
+.footer-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(255,241,229,.15);font-size:.72rem;color:rgba(255,241,229,.45)}
+
+/* Lang */
+[data-lang-de]{display:none}[data-lang-en]{display:inline}
+div[data-lang-de],p[data-lang-de],li[data-lang-de]{display:none}
+div[data-lang-en],p[data-lang-en],li[data-lang-en]{display:block}
+span[data-lang-en]{display:inline}span[data-lang-de]{display:none}
+body.lang-de [data-lang-de]{display:inline}body.lang-de [data-lang-en]{display:none !important}
+body.lang-de div[data-lang-de],body.lang-de p[data-lang-de],body.lang-de li[data-lang-de]{display:block}
+body.lang-de span[data-lang-de]{display:inline}
+
+/* Responsive */
+@media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.footer-meta{flex-direction:column}}
+@media print{body{padding-top:0;background:#fff;color:#000;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay,.search-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+
+.timeline-legend {display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-4) 0;font-family:var(--font-ui);font-size:.78rem}
+.timeline-legend-item {display:flex;align-items:center;gap:6px}
+.timeline-legend-dot {width:12px;height:12px;border-radius:50%}
+</style>
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-left">
+    <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <a href="index.html" class="nav-title">SyncPilot SE Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-toggle" aria-label="Switch to German">DE</button>
+    <button class="search-btn" aria-label="Search">&#x1F50D;</button>
+  </div>
+</nav>
+<div class="side-menu-overlay"></div>
+<aside class="side-menu">
+  <a href="index.html" class="menu-link" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
+  <div class="menu-group-label"><span data-lang-en>Corporate Profile</span><span data-lang-de>Unternehmensprofil</span></div>
+  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span> <span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></a>
+  <a href="02_capital_events.html" class="menu-link active"><span class="ch-num">02</span> <span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></a>
+  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></a>
+  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Revenue Analysis</span><span data-lang-de>Umsatzanalyse</span></a>
+  <div class="menu-group-label"><span data-lang-en>Evidence &amp; Analysis</span><span data-lang-de>Beweise &amp; Analyse</span></div>
+  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>UBO Risk Assessment</span><span data-lang-de>UBO-Risikobewertung</span></a>
+  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The Perseus Breach</span><span data-lang-de>Der Perseus-Verstoß</span></a>
+  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
+  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
+  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
+  <a href="10_pictet_investment.html" class="menu-link"><span class="ch-num">10</span> <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
+  <a href="11_lvs_loan.html" class="menu-link"><span class="ch-num">11</span> <span data-lang-en>The LVS Convertible Loan</span><span data-lang-de>Das LVS-Wandeldarlehen</span></a>
+  <a href="12_goldfinger.html" class="menu-link"><span class="ch-num">12</span> <span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></a>
+</aside>
+<div class="search-overlay" role="search">
+  <div class="search-box">
+    <input type="text" class="search-input" placeholder="Search across all chapters…" aria-label="Search query">
+    <div class="search-results"></div>
+  </div>
+</div>
+
+<main class="content-area">
+  <p style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--claret);margin-bottom:var(--sp-2)">
+    <span data-lang-en>Chapter 02</span><span data-lang-de>Kapitel 02</span>
+  </p>
+  <h1><span data-lang-en>Capital Events Timeline</span><span data-lang-de>Kapitalmaßnahmen</span></h1>
+
+  <div class="bluf">
+    <div class="bluf-label"><span data-lang-en>Key Finding</span><span data-lang-de>Kernbefund</span></div>
+    <p data-lang-en>Between September 2020 and August 2025, SyncPilot SE underwent 14+ capital events — share issuances, transfers, and restructurings — that repeatedly altered the ownership balance among insiders.</p>
+    <p data-lang-de>Zwischen September 2020 und August 2025 durchlief die SyncPilot SE über 14 Kapitalmaßnahmen — Aktienausgaben, Übertragungen und Umstrukturierungen — die das Eigentumsverhältnis unter Insidern wiederholt verschoben.</p>
+  </div>
+
+  <p data-lang-en>SyncPilot SE's capital history reads like a series of rapid-fire restructurings. The company formed in September 2020 when three entities — <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">DSI</a></strong>, and <strong><a href="01_ubo_directory.html#ubo-3">Augusta Software</a></strong> — contributed their existing stakes into a new Societas Europaea registered in Augsburg. Three months later, SyncPilot GmbH was contributed in kind at a declared valuation of €23.5 million, instantly creating 4.88 million new shares and establishing the core ownership triangle: <strong><a href="01_ubo_directory.html#ubo-0">Bleicher</a></strong> (via BOSYNC), <strong><a href="01_ubo_directory.html#ubo-2">Steiner</a></strong> (via DSI/AURIGA), and the <strong><a href="01_ubo_directory.html#ubo-3">Jakisch</a></strong>-<strong><a href="01_ubo_directory.html#ubo-4">Funk</a></strong> pair (via Augusta).</p>
+  <p data-lang-de>Die Kapitalhistorie der SyncPilot SE liest sich wie eine Serie schneller Umstrukturierungen. Das Unternehmen entstand im September 2020, als drei Gesellschaften — <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">DSI</a></strong> und <strong><a href="01_ubo_directory.html#ubo-3">Augusta Software</a></strong> — ihre bestehenden Anteile in eine neue Societas Europaea mit Sitz in Augsburg einbrachten. Drei Monate später wurde die SyncPilot GmbH als Sacheinlage zu einer erklärten Bewertung von 23,5 Mio. € eingebracht, wodurch sofort 4,88 Millionen neue Aktien entstanden und das zentrale Eigentümerdreieck etabliert wurde: <strong><a href="01_ubo_directory.html#ubo-0">Bleicher</a></strong> (über BOSYNC), <strong><a href="01_ubo_directory.html#ubo-2">Steiner</a></strong> (über DSI/AURIGA) und das Paar <strong><a href="01_ubo_directory.html#ubo-3">Jakisch</a></strong>-<strong><a href="01_ubo_directory.html#ubo-4">Funk</a></strong> (über Augusta).</p>
+
+  <p data-lang-en>From late 2021, the company began issuing shares to external investors and connected parties through its Authorized Capital II facility. <strong><a href="01_ubo_directory.html#ubo-22">Christiane Saupe</a></strong> and <strong><a href="01_ubo_directory.html#ubo-12">Marc Kimmich</a></strong> entered at €13 per share. <strong><a href="01_ubo_directory.html#ubo-13">H.G. Perseus</a></strong> — the vehicle of lawyers <strong><a href="01_ubo_directory.html#ubo-13">Hunstein</a></strong> and <strong><a href="01_ubo_directory.html#ubo-14">Goerg</a></strong> — first acquired shares in December 2022 at €18.96, pushing the implied valuation to €100 million. Then came the anomaly: on 14 March 2023, <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> received an additional 127,885 shares at just €1.00 each — a 95% discount. Eight weeks later, <strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (<strong><a href="01_ubo_directory.html#ubo-6">Purkert</a></strong>) paid €20.56 per share, and in May 2024 an external investor paid €23.64. The €1 Perseus issuance sits like a crater in the pricing landscape.</p>
+  <p data-lang-de>Ab Ende 2021 begann das Unternehmen, über sein Genehmigtes Kapital II Aktien an externe Investoren und verbundene Parteien auszugeben. <strong><a href="01_ubo_directory.html#ubo-22">Christiane Saupe</a></strong> und <strong><a href="01_ubo_directory.html#ubo-12">Marc Kimmich</a></strong> stiegen zu 13 € pro Aktie ein. <strong><a href="01_ubo_directory.html#ubo-13">H.G. Perseus</a></strong> — das Vehikel der Anwälte <strong><a href="01_ubo_directory.html#ubo-13">Hunstein</a></strong> und <strong><a href="01_ubo_directory.html#ubo-14">Goerg</a></strong> — erwarb erstmals im Dezember 2022 Aktien zu 18,96 €, was die implizite Bewertung auf 100 Mio. € trieb. Dann kam die Anomalie: Am 14. März 2023 erhielt <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> weitere 127.885 Aktien zu nur 1,00 € — ein Abschlag von 95 %. Acht Wochen später zahlte <strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (<strong><a href="01_ubo_directory.html#ubo-6">Purkert</a></strong>) 20,56 € pro Aktie, und im Mai 2024 zahlte ein externer Investor 23,64 €. Die 1-€-Perseus-Ausgabe steht wie ein Krater in der Preislandschaft.</p>
+
+  <p data-lang-en>The final phase — December 2023 through August 2025 — saw two mass transfer waves. In December 2023, seventeen simultaneous transfers redistributed roughly 6.6 million shares among existing holders, documented only in the minutes of a shareholder meeting held five months later. In August 2025, <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong> and <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> transferred further shares to two new entrants, <strong>ATLASI GROUP</strong> and <strong>Callidus Ventures</strong>, while a "correction" event reshuffled another 1.35 million shares. Throughout, the total share count rose from 120,000 to 5,576,031.</p>
+  <p data-lang-de>Die letzte Phase — Dezember 2023 bis August 2025 — brachte zwei Massenübertragungswellen. Im Dezember 2023 verteilten siebzehn gleichzeitige Übertragungen rund 6,6 Millionen Aktien unter bestehenden Haltern um, dokumentiert nur in der Niederschrift einer fünf Monate später stattfindenden Hauptversammlung. Im August 2025 übertrugen <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong> und <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> weitere Aktien an zwei neue Gesellschaften, <strong>ATLASI GROUP</strong> und <strong>Callidus Ventures</strong>, während eine „Korrektur" weitere 1,35 Millionen Aktien umschichtete. Insgesamt stieg die Gesamtzahl der Aktien von 120.000 auf 5.576.031.</p>
+
+  <h2><span data-lang-en>Price per Share at Each Capital Event</span><span data-lang-de>Preis pro Aktie bei jeder Kapitalmaßnahme</span></h2>
+
+  <div class="chart-container">
+    <div class="chart-title"><span data-lang-en>Price per Share (€) — Capital Events with Known Pricing</span><span data-lang-de>Preis pro Aktie (€) — Kapitalmaßnahmen mit bekannter Preisfindung</span></div>
+    <div class="chart-canvas-wrap" style="height:320px">
+      <canvas id="ppsChart"></canvas>
+    </div>
+    <div class="chart-source">Source: SyncPilot_SE_Project.xlsx → "SyncPilot SE History"</div>
+  </div>
+
+  <div class="timeline-legend">
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#0D7680"></div> <span data-lang-en>Issuance</span><span data-lang-de>Kapitalerhöhung</span></div>
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#66605C"></div> <span data-lang-en>Transfer</span><span data-lang-de>Übertragung</span></div>
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#990F3D"></div> <span data-lang-en>Anomalous pricing</span><span data-lang-de>Anomale Preisfindung</span></div>
+  </div>
+
+  <h2><span data-lang-en>Shares Involved per Event</span><span data-lang-de>Betroffene Aktien pro Ereignis</span></h2>
+
+  <div class="chart-container">
+    <div class="chart-title"><span data-lang-en>Share Volume by Capital Event</span><span data-lang-de>Aktienvolumen nach Kapitalmaßnahme</span></div>
+    <div class="chart-canvas-wrap" style="height:380px">
+      <canvas id="volumeChart"></canvas>
+    </div>
+    <div class="chart-source">Source: SyncPilot_SE_Project.xlsx → "SyncPilot SE History"</div>
+  </div>
+
+  <h2><span data-lang-en>The Capital Story</span><span data-lang-de>Die Kapitalgeschichte</span></h2>
+</main>
+
+<!-- STACKED NARRATIVE BLOCKS -->
+<section style="max-width:780px;margin:0 auto;padding:0 var(--sp-6)">
+
+<style>
+.evt{padding:var(--sp-8) 0;border-bottom:1px solid var(--wheat)}
+.evt:last-child{border-bottom:none}
+.evt-date{font-family:var(--font-ui);font-size:2.2rem;font-weight:300;color:rgba(38,42,51,.18);letter-spacing:-.02em;line-height:1;margin-bottom:4px}
+.evt-phase{font-family:var(--font-ui);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:inline-block;padding:2px 8px;border-radius:2px;margin-bottom:var(--sp-2)}
+.evt-phase-form{background:var(--oxford);color:#fff}
+.evt-phase-price{background:var(--claret);color:#fff}
+.evt-phase-dist{background:#66605C;color:#fff}
+.evt-headline{font-size:clamp(1.1rem,2.5vw,1.35rem);font-weight:700;color:var(--slate);line-height:1.3;margin-bottom:var(--sp-3)}
+.evt-body{font-size:.92rem;line-height:1.6;margin-bottom:var(--sp-4);color:rgba(38,42,51,.8)}
+.evt-metrics{display:flex;gap:var(--sp-8);flex-wrap:wrap;margin-bottom:var(--sp-4);font-family:var(--font-ui)}
+.evt-m-val{font-size:1.3rem;font-weight:700;color:var(--slate);line-height:1.2}
+.evt-m-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(38,42,51,.4);margin-top:2px}
+.evt-pps-row{display:flex;align-items:center;gap:12px;margin:var(--sp-3) 0}
+.evt-pps-label{font-family:var(--font-ui);font-size:.82rem;font-weight:600;min-width:70px;text-align:right}
+.evt-pps-track{flex:1;height:22px;background:var(--wheat);border-radius:3px;position:relative;overflow:hidden}
+.evt-pps-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.evt-pps-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.evt-pps-val-outside{position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:var(--claret);white-space:nowrap}
+.evt-anomaly{background:rgba(153,15,61,.04);border:1px solid rgba(153,15,61,.15);border-radius:6px;padding:var(--sp-6);margin:var(--sp-2) 0}
+.evt-entities{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.5)}
+</style>
+
+<!-- FORMATION EVENTS -->
+
+<div class="evt">
+  <div class="evt-phase evt-phase-form"><span data-lang-en>Formation</span><span data-lang-de>Gründung</span></div>
+  <div class="evt-date">23.09.2020</div>
+  <div class="evt-headline"><span data-lang-en>SE Formation — Three Vehicles Merge</span><span data-lang-de>SE-Gründung — Drei Vehikel verschmelzen</span></div>
+  <div class="evt-body"><span data-lang-en><strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">DSI</a></strong>, and <strong><a href="01_ubo_directory.html#ubo-3">Augusta Software</a></strong> contribute existing stakes into a new Societas Europaea. Seat moved to Augsburg. The founding triumvirate — <strong><a href="01_ubo_directory.html#ubo-0">Bleicher</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">Steiner</a></strong>, <strong><a href="01_ubo_directory.html#ubo-3">Jakisch</a></strong>/<strong><a href="01_ubo_directory.html#ubo-4">Funk</a></strong> — takes control.</span><span data-lang-de><strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">DSI</a></strong> und <strong><a href="01_ubo_directory.html#ubo-3">Augusta Software</a></strong> bringen bestehende Anteile in eine neue Societas Europaea ein. Sitzverlegung nach Augsburg. Das Gründungstrium — <strong><a href="01_ubo_directory.html#ubo-0">Bleicher</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">Steiner</a></strong>, <strong><a href="01_ubo_directory.html#ubo-3">Jakisch</a></strong>/<strong><a href="01_ubo_directory.html#ubo-4">Funk</a></strong> — übernimmt die Kontrolle.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">120,000</div><div class="evt-m-label"><span data-lang-en>shares</span><span data-lang-de>Aktien</span></div></div>
+  </div>
+</div>
+
+<div class="evt">
+  <div class="evt-phase evt-phase-form"><span data-lang-en>Formation</span><span data-lang-de>Gründung</span></div>
+  <div class="evt-date">07.12.2020</div>
+  <div class="evt-headline"><span data-lang-en>Contribution in Kind — SyncPilot GmbH at €23.5M</span><span data-lang-de>Sacheinlage — SyncPilot GmbH zu 23,5 Mio. €</span></div>
+  <div class="evt-body"><span data-lang-en>The operating company SyncPilot GmbH is contributed in kind, creating 4.88 million new shares. Declared valuation of €23.5M establishes the baseline.</span><span data-lang-de>Die operative SyncPilot GmbH wird als Sacheinlage eingebracht, wodurch 4,88 Millionen neue Aktien entstehen. Erklärte Bewertung von 23,5 Mio. € setzt die Ausgangsbasis.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">4,880,000</div><div class="evt-m-label"><span data-lang-en>shares created</span><span data-lang-de>Aktien geschaffen</span></div></div>
+    <div><div class="evt-m-val">€23.5M</div><div class="evt-m-label"><span data-lang-en>declared value</span><span data-lang-de>Erklärter Wert</span></div></div>
+  </div>
+</div>
+
+<!-- PRICING EVENTS -->
+
+<div class="evt">
+  <div class="evt-phase evt-phase-price"><span data-lang-en>Pricing</span><span data-lang-de>Preisbildung</span></div>
+  <div class="evt-date">03.12.2021</div>
+  <div class="evt-headline"><span data-lang-en><a href="01_ubo_directory.html#ubo-22">Saupe</a> Enters at €13 — First Market Price</span><span data-lang-de><a href="01_ubo_directory.html#ubo-22">Saupe</a> steigt ein zu 13 € — Erster Marktpreis</span></div>
+  <div class="evt-body"><span data-lang-en>First utilization of Authorized Capital II. External investor <strong><a href="01_ubo_directory.html#ubo-22">Christiane Saupe</a></strong> sets the initial price benchmark at €13/share.</span><span data-lang-de>Erste Nutzung des Genehmigten Kapitals II. Externe Investorin <strong><a href="01_ubo_directory.html#ubo-22">Christiane Saupe</a></strong> setzt die erste Preisbenchmark bei 13 €/Aktie.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">38,462</div><div class="evt-m-label"><span data-lang-en>shares</span><span data-lang-de>Aktien</span></div></div>
+    <div><div class="evt-m-val">€13.00</div><div class="evt-m-label"><span data-lang-en>per share</span><span data-lang-de>pro Aktie</span></div></div>
+  </div>
+  <div class="evt-pps-row">
+    <div class="evt-pps-label">€13.00</div>
+    <div class="evt-pps-track"><div class="evt-pps-fill" style="width:55%;background:var(--oxford)"><span class="evt-pps-val">€13</span></div></div>
+  </div>
+</div>
+
+<div class="evt">
+  <div class="evt-phase evt-phase-price"><span data-lang-en>Pricing</span><span data-lang-de>Preisbildung</span></div>
+  <div class="evt-date">09.12.2022</div>
+  <div class="evt-headline"><span data-lang-en>Perseus Enters at €18.96 — €100M Valuation</span><span data-lang-de>Perseus steigt ein zu 18,96 € — 100-Mio.-€-Bewertung</span></div>
+  <div class="evt-body"><span data-lang-en><strong>H.G. Perseus GmbH StBG</strong> — the vehicle of lawyers <strong><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></strong> and <strong><a href="01_ubo_directory.html#ubo-14">Diethard Goerg</a></strong> — acquires 158,208 shares. Price implies a company valuation of €100M.</span><span data-lang-de><strong>H.G. Perseus GmbH StBG</strong> — das Vehikel der Anwälte <strong><a href="01_ubo_directory.html#ubo-13">Martin Hunstein</a></strong> und <strong><a href="01_ubo_directory.html#ubo-14">Diethard Goerg</a></strong> — erwirbt 158.208 Aktien. Der Preis impliziert eine Unternehmensbewertung von 100 Mio. €.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">158,208</div><div class="evt-m-label"><span data-lang-en>shares</span><span data-lang-de>Aktien</span></div></div>
+    <div><div class="evt-m-val">€18.96</div><div class="evt-m-label"><span data-lang-en>per share</span><span data-lang-de>pro Aktie</span></div></div>
+    <div><div class="evt-m-val">€100M</div><div class="evt-m-label"><span data-lang-en>implied val.</span><span data-lang-de>impl. Bew.</span></div></div>
+  </div>
+  <div class="evt-pps-row">
+    <div class="evt-pps-label">€18.96</div>
+    <div class="evt-pps-track"><div class="evt-pps-fill" style="width:80.2%;background:var(--oxford)"><span class="evt-pps-val">€18.96</span></div></div>
+  </div>
+</div>
+
+<!-- THE ANOMALY -->
+
+<div class="evt">
+  <div class="evt-phase evt-phase-price"><span data-lang-en>Pricing</span><span data-lang-de>Preisbildung</span></div>
+  <div class="evt-date" style="color:var(--claret)">14.03.2023</div>
+  <div class="evt-anomaly">
+    <div class="evt-headline" style="color:var(--claret);font-size:clamp(1.25rem,3vw,1.6rem)"><span data-lang-en>Perseus at €1.00 — The 95% Discount</span><span data-lang-de>Perseus zu 1,00 € — Der 95-%-Abschlag</span></div>
+    <div class="evt-body"><span data-lang-en>Just <strong>94 days</strong> after paying €18.96, the same entity — <strong><a href="01_ubo_directory.html#ubo-13">H.G. Perseus</a></strong> (→ <strong><a href="01_ubo_directory.html#ubo-13">Hunstein</a></strong>, <strong><a href="01_ubo_directory.html#ubo-14">Goerg</a></strong>) — receives 127,885 additional shares at €1.00 each. The implied company valuation crashes from €100M to €5.4M. No public explanation has been documented.</span><span data-lang-de>Nur <strong>94 Tage</strong> nach Zahlung von 18,96 € erhält dieselbe Gesellschaft — <strong><a href="01_ubo_directory.html#ubo-13">H.G. Perseus</a></strong> (→ <strong><a href="01_ubo_directory.html#ubo-13">Hunstein</a></strong>, <strong><a href="01_ubo_directory.html#ubo-14">Goerg</a></strong>) — 127.885 weitere Aktien zu je 1,00 €. Die implizite Bewertung stürzt von 100 Mio. € auf 5,4 Mio. €. Keine öffentliche Erklärung ist dokumentiert.</span></div>
+    <div class="evt-metrics">
+      <div><div class="evt-m-val" style="color:var(--claret)">127,885</div><div class="evt-m-label"><span data-lang-en>shares</span><span data-lang-de>Aktien</span></div></div>
+      <div><div class="evt-m-val" style="color:var(--claret);font-size:1.8rem">€1.00</div><div class="evt-m-label"><span data-lang-en>per share</span><span data-lang-de>pro Aktie</span></div></div>
+      <div><div class="evt-m-val" style="color:var(--claret)">€5.4M</div><div class="evt-m-label"><span data-lang-en>implied val.</span><span data-lang-de>impl. Bew.</span></div></div>
+      <div><div class="evt-m-val" style="color:var(--claret)">−95%</div><div class="evt-m-label"><span data-lang-en>vs. prior</span><span data-lang-de>ggü. Vorher</span></div></div>
+    </div>
+    <div class="evt-pps-row">
+      <div class="evt-pps-label" style="color:var(--claret)">€1.00</div>
+      <div class="evt-pps-track"><div class="evt-pps-fill" style="width:4.2%;background:var(--claret)"></div><span class="evt-pps-val-outside">€1.00</span></div>
+    </div>
+    <p style="font-family:var(--font-ui);font-size:.78rem;color:var(--claret);margin:var(--sp-3) 0 0;font-style:italic"><span data-lang-en>Compare the bar above to the bars before and after. This is the same company, the same buyer, 94 days apart.</span><span data-lang-de>Vergleichen Sie den Balken oben mit den Balken davor und danach. Dasselbe Unternehmen, derselbe Käufer, 94 Tage Abstand.</span></p>
+  </div>
+</div>
+
+<div class="evt">
+  <div class="evt-phase evt-phase-price"><span data-lang-en>Pricing</span><span data-lang-de>Preisbildung</span></div>
+  <div class="evt-date">11.05.2023</div>
+  <div class="evt-headline"><span data-lang-en>Tiven at €20.56 — 20× the Perseus Price, 8 Weeks Later</span><span data-lang-de>Tiven zu 20,56 € — 20× der Perseus-Preis, 8 Wochen später</span></div>
+  <div class="evt-body"><span data-lang-en><strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (→ <strong><a href="01_ubo_directory.html#ubo-6">Gert Purkert</a></strong>) pays €20.56 per share. The company that was worth €5.4M eight weeks ago is suddenly worth €112M again.</span><span data-lang-de><strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (→ <strong><a href="01_ubo_directory.html#ubo-6">Gert Purkert</a></strong>) zahlt 20,56 € pro Aktie. Das Unternehmen, das vor acht Wochen 5,4 Mio. € wert war, ist plötzlich wieder 112 Mio. € wert.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">48,632</div><div class="evt-m-label"><span data-lang-en>shares</span><span data-lang-de>Aktien</span></div></div>
+    <div><div class="evt-m-val">€20.56</div><div class="evt-m-label"><span data-lang-en>per share</span><span data-lang-de>pro Aktie</span></div></div>
+    <div><div class="evt-m-val">€112M</div><div class="evt-m-label"><span data-lang-en>implied val.</span><span data-lang-de>impl. Bew.</span></div></div>
+  </div>
+  <div class="evt-pps-row">
+    <div class="evt-pps-label">€20.56</div>
+    <div class="evt-pps-track"><div class="evt-pps-fill" style="width:87%;background:var(--oxford)"><span class="evt-pps-val">€20.56</span></div></div>
+  </div>
+</div>
+
+<div class="evt">
+  <div class="evt-phase evt-phase-price"><span data-lang-en>Pricing</span><span data-lang-de>Preisbildung</span></div>
+  <div class="evt-date">17.05.2024</div>
+  <div class="evt-headline"><span data-lang-en>5th Dimension at €23.64 — All-Time High</span><span data-lang-de>5th Dimension zu 23,64 € — Allzeithoch</span></div>
+  <div class="evt-body"><span data-lang-en>External investor <strong>5th Dimension Investment</strong> pays the highest price recorded in any SE capital event. Implied valuation: €131M.</span><span data-lang-de>Externer Investor <strong>5th Dimension Investment</strong> zahlt den höchsten je verzeichneten Preis bei einer SE-Kapitalmaßnahme. Implizite Bewertung: 131 Mio. €.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">55,550</div><div class="evt-m-label"><span data-lang-en>shares</span><span data-lang-de>Aktien</span></div></div>
+    <div><div class="evt-m-val">€23.64</div><div class="evt-m-label"><span data-lang-en>per share</span><span data-lang-de>pro Aktie</span></div></div>
+    <div><div class="evt-m-val">€131M</div><div class="evt-m-label"><span data-lang-en>implied val.</span><span data-lang-de>impl. Bew.</span></div></div>
+  </div>
+  <div class="evt-pps-row">
+    <div class="evt-pps-label">€23.64</div>
+    <div class="evt-pps-track"><div class="evt-pps-fill" style="width:100%;background:var(--oxford)"><span class="evt-pps-val">€23.64</span></div></div>
+  </div>
+</div>
+
+<!-- REDISTRIBUTION EVENTS -->
+
+<div class="evt">
+  <div class="evt-phase evt-phase-dist"><span data-lang-en>Redistribution</span><span data-lang-de>Umverteilung</span></div>
+  <div class="evt-date">31.12.2023</div>
+  <div class="evt-headline"><span data-lang-en>Mass Transfer — 17 Simultaneous Moves, 6.6M Shares</span><span data-lang-de>Massenübertragung — 17 gleichzeitige Verschiebungen, 6,6 Mio. Aktien</span></div>
+  <div class="evt-body"><span data-lang-en>In a single day, ~6.6 million shares change hands among insiders. <strong><a href="01_ubo_directory.html#ubo-2">AURIGA</a></strong> and <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong> distribute to <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong>, <strong><a href="01_ubo_directory.html#ubo-12">ZKP</a></strong>, <strong><a href="01_ubo_directory.html#ubo-8">Lapis</a></strong>, <strong><a href="01_ubo_directory.html#ubo-1">Attegia</a></strong>, <strong><a href="01_ubo_directory.html#ubo-6">Tiven</a></strong>, <strong><a href="01_ubo_directory.html#ubo-5">Schaeff Group</a></strong>, and others. The transfers are documented only in HV minutes filed five months later.</span><span data-lang-de>An einem einzigen Tag wechseln ~6,6 Mio. Aktien unter Insidern den Besitzer. <strong><a href="01_ubo_directory.html#ubo-2">AURIGA</a></strong> und <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong> verteilen an <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong>, <strong><a href="01_ubo_directory.html#ubo-12">ZKP</a></strong>, <strong><a href="01_ubo_directory.html#ubo-8">Lapis</a></strong>, <strong><a href="01_ubo_directory.html#ubo-1">Attegia</a></strong>, <strong><a href="01_ubo_directory.html#ubo-6">Tiven</a></strong>, <strong><a href="01_ubo_directory.html#ubo-5">Schaeff Group</a></strong> u.a. Die Übertragungen sind nur im HV-Protokoll fünf Monate später dokumentiert.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">6,645,726</div><div class="evt-m-label"><span data-lang-en>shares moved</span><span data-lang-de>Aktien übertragen</span></div></div>
+    <div><div class="evt-m-val">17</div><div class="evt-m-label"><span data-lang-en>simultaneous transfers</span><span data-lang-de>gleichzeitige Übertragungen</span></div></div>
+  </div>
+</div>
+
+<div class="evt">
+  <div class="evt-phase evt-phase-dist"><span data-lang-en>Redistribution</span><span data-lang-de>Umverteilung</span></div>
+  <div class="evt-date">05.08.2025</div>
+  <div class="evt-headline"><span data-lang-en>Final Corrections & New Entrants</span><span data-lang-de>Letzte Korrekturen & Neuzugänge</span></div>
+  <div class="evt-body"><span data-lang-en>Ownership corrected to match HV attendance register. <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong> and <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> transfer shares to new entrants <strong>ATLASI GROUP</strong> and <strong>Callidus Ventures</strong> via purchase agreements dated 31.7.25. Total shares reach 5,576,031.</span><span data-lang-de>Eigentümerschaft an HV-Teilnehmerverzeichnis angepasst. <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong> und <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> übertragen Aktien an Neuzugänge <strong>ATLASI GROUP</strong> und <strong>Callidus Ventures</strong> über Kaufverträge vom 31.7.25. Gesamtaktien erreichen 5.576.031.</span></div>
+  <div class="evt-metrics">
+    <div><div class="evt-m-val">1,450,515</div><div class="evt-m-label"><span data-lang-en>shares moved</span><span data-lang-de>Aktien übertragen</span></div></div>
+    <div><div class="evt-m-val">5,576,031</div><div class="evt-m-label"><span data-lang-en>total shares</span><span data-lang-de>Gesamtaktien</span></div></div>
+  </div>
+</div>
+
+
+
+<section class="content-area">
+  <nav class="chapter-nav">
+    <a href="01_ubo_directory.html" class="prev"><span data-lang-en>Ultimate Beneficial Owners</span><span data-lang-de>Wirtschaftlich Berechtigte</span></a>
+    <a href="03_valuation.html" class="next"><span data-lang-en>Corporate Valuation</span><span data-lang-de>Unternehmensbewertung</span></a>
+  </nav>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-disclaimer">
+      <p data-lang-en>This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.</p>
+      <p data-lang-de>Diese Analyse stellt Ermittlungsfragen und Mustererkennung dar, keine rechtlichen Feststellungen von Fehlverhalten. Personen gelten als unschuldig, bis das Gegenteil bewiesen ist.</p>
+    </div>
+    <div class="footer-meta">
+      <span><span data-lang-en>Last updated:</span><span data-lang-de>Letzte Aktualisierung:</span> <time datetime="2026-02-08">8 February 2026</time></span>
+      <span><span data-lang-en>Cookie-free. No personal data collected.</span><span data-lang-de>Ohne Cookies. Keine personenbezogenen Daten erhoben.</span></span>
+    </div>
+  </div>
+</footer>
+<script>
+window.searchIndex=[
+  {chapter:"Ch 1",title:"Ultimate Beneficial Owners",href:"01_ubo_directory.html",text:"UBO ownership Bleicher Steiner"},
+  {chapter:"Ch 2",title:"Capital Events Timeline",href:"02_capital_events.html",text:"capital events issuances transfers 2020 2025 Perseus anomaly"},
+  {chapter:"Ch 3",title:"Corporate Valuation",href:"03_valuation.html",text:"valuation 0.1M 131M"},
+  {chapter:"Ch 4",title:"Revenue Analysis",href:"04_revenue.html",text:"ARR revenue"},
+  {chapter:"Ch 5",title:"UBO Risk Assessment",href:"05_risk_ratings.html",text:"risk ratings"},
+  {chapter:"Ch 6",title:"The Perseus Breach",href:"06_perseus_breach.html",text:"Perseus 95% discount"},
+  {chapter:"Ch 7",title:"The Treasury Deficit",href:"07_treasury_deficit.html",text:"treasury deficit"},
+  {chapter:"Ch 8",title:"Circular Control",href:"08_wash_trades.html",text:"Tiven circular"},
+  {chapter:"Ch 9",title:"Bleicher",href:"09_bleicher_profile.html",text:"Bleicher BOSYNC"},
+  {chapter:"Ch 10",title:"Pictet Investment",href:"10_pictet_investment.html",text:"Pictet valuation"},
+  {chapter:"Ch 11",title:"LVS Convertible Loan",href:"11_lvs_loan.html",text:"LVS loan"},
+  {chapter:"Ch 12",title:"Goldfinger Connection",href:"12_goldfinger.html",text:"Goldfinger Hunstein Goerg"}
+];
+(function(){
+  var currentLang='en',menuOpen=false,searchOpen=false;
+  document.addEventListener('DOMContentLoaded',function(){
+    var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');
+    if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;hb.classList.toggle('active',menuOpen);sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
+    var lb=document.querySelector('.lang-toggle');
+    if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'});
+    var sb=document.querySelector('.search-btn'),so=document.querySelector('.search-overlay'),si=document.querySelector('.search-input'),sr=document.querySelector('.search-results');
+    if(sb&&so){sb.addEventListener('click',function(){searchOpen=!searchOpen;so.classList.toggle('open',searchOpen);if(searchOpen&&si)setTimeout(function(){si.focus()},100)});so.addEventListener('click',function(e){if(e.target===so){searchOpen=false;so.classList.remove('open')}})}
+    if(si&&sr){var t;si.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){var q=si.value;sr.innerHTML='';if(!q||q.length<2)return;var idx=window.searchIndex||[],terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>=2}),res=[];idx.forEach(function(e){var h=(e.title+' '+e.text).toLowerCase(),s=0;terms.forEach(function(t){if(h.indexOf(t)!==-1)s+=10;if(e.title.toLowerCase().indexOf(t)!==-1)s+=20});if(s>0)res.push({e:e,s:s})});res.sort(function(a,b){return b.s-a.s});if(!res.length){sr.innerHTML='<div class="search-no-results">No results</div>';return}res.slice(0,10).forEach(function(r){var a=document.createElement('a');a.className='search-result-item';a.href=r.e.href;a.innerHTML='<div class="result-chapter">'+r.e.chapter+'</div><div class="result-text">'+r.e.title+'</div>';sr.appendChild(a)})},200)})}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(searchOpen){searchOpen=false;if(so)so.classList.remove('open')}if(menuOpen){menuOpen=false;if(hb)hb.classList.remove('active');if(sm)sm.classList.remove('open');if(ov)ov.classList.remove('visible')}}});
+  });
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  Chart.defaults.font.family = "'Source Sans 3', 'Helvetica Neue', sans-serif";
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = "#262A33";
+
+  var ppsDates = ["2021-12-03", "2021-12-13", "2022-12-09", "2023-03-14", "2023-05-11", "2024-05-17"];
+  var ppsValues = [13.0, 13.0, 18.96, 1.0, 20.56, 23.64];
+  var ppsColors = ["#0D7680", "#0D7680", "#0D7680", "#990F3D", "#0D7680", "#0D7680"];
+  var ppsEntities = ["Christiane Saupe", "Marc F. Kimmich", "H.G. Perseus GmbH StBG", "H.G. Perseus GmbH StBG", "Tiven GmbH", "5th Dimension Investment"];
+  var ppsUBOs = ["\u2192 Saupe", "\u2192 Kimmich", "\u2192 Hunstein / Goerg", "\u2192 Hunstein / Goerg", "\u2192 Purkert", "External investor"];
+  var ppsShares = [38462, 76923, 158208, 127885, 48632, 55550];
+  var ppsLabels = ppsDates.map(function(d, i) { return [d, ppsUBOs[i]]; });
+
+  var ppsChartInstance = new Chart(document.getElementById('ppsChart').getContext('2d'), {
+    plugins: [{
+      id: 'barLabels',
+      afterDatasetsDraw: function(chart) {
+        var ctx = chart.ctx;
+        chart.data.datasets.forEach(function(dataset, di) {
+          var meta = chart.getDatasetMeta(di);
+          meta.data.forEach(function(bar, i) {
+            var val = dataset.data[i];
+            ctx.save();
+            ctx.font = "bold 13px 'Source Sans 3', sans-serif";
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            var barHeight = Math.abs(bar.base - bar.y);
+            if (barHeight > 28) {
+              ctx.fillStyle = '#fff';
+              ctx.fillText('\u20ac' + val.toFixed(2), bar.x, bar.y + barHeight / 2);
+            } else {
+              ctx.fillStyle = 'rgba(38,42,51,0.8)';
+              ctx.textBaseline = 'bottom';
+              ctx.fillText('\u20ac' + val.toFixed(2), bar.x, bar.y - 4);
+            }
+            ctx.restore();
+          });
+        });
+      }
+    }],
+    type: 'bar',
+    data: {
+      labels: ppsLabels,
+      datasets: [{
+        label: 'Price per Share (\u20ac)',
+        data: ppsValues,
+        backgroundColor: ppsColors,
+        borderRadius: 3,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#262A33',
+          cornerRadius: 4,
+          padding: 12,
+          callbacks: {
+            title: function(items) {
+              var i = items[0].dataIndex;
+              return ppsDates[i] + ' \u2014 ' + ppsEntities[i];
+            },
+            label: function(item) {
+              var i = item.dataIndex;
+              return [
+                '\u20ac' + ppsValues[i].toFixed(2) + ' per share',
+                ppsShares[i].toLocaleString() + ' shares',
+                'UBO: ' + ppsUBOs[i]
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Price per Share (\u20ac)', font: { size: 13, weight: '700' }, color: 'rgba(38,42,51,0.6)' },
+          grid: { color: 'rgba(242,223,206,0.6)' },
+          ticks: { callback: function(v) { return '\u20ac' + v; }, font: { size: 13, weight: '600' } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { maxRotation: 45, font: { size: 13, weight: '600' } }
+        }
+      }
+    }
+  });
+
+  var allDates = ["2020-09-23", "2020-12-07", "2021-09-09", "2021-12-03", "2021-12-13", "2021-12-31", "2022-12-09", "2023-03-14", "2023-05-11", "2023-06-05", "2023-06-30", "2023-12-31", "2024-05-17", "2024-05-18", "2025-08-05"];
+  var allShares = [120000, 4880000, 0, 38462, 76923, 1699988, 158208, 127885, 48632, 16211, 32421, 6645726, 55550, 1967996, 1450515];
+  var allTypes = ["issuance", "issuance", "restructuring", "issuance", "issuance", "transfer", "issuance", "issuance", "issuance", "issuance", "issuance", "transfer", "issuance", "transfer", "transfer"];
+  var allPps = [null, null, null, 13.0, 13.0, null, 18.96, 1.0, 20.56, null, null, null, 23.64, null, null];
+  var allEntities = ["Augusta Software GmbH; BOSYNC Beteiligungs UG; Bruchteilsgemeinschaft; DSI Digital Solutions Invest GmbH", "Augusta Software GmbH; BOSYNC Beteiligungs UG; DSI Digital Solutions Invest GmbH", "", "Christiane Saupe", "Marc F. Kimmich", "AURIGA Capital AG; DSI Digital Solutions Invest GmbH", "H.G. Perseus GmbH StbG", "H.G. Perseus GmbH StbG", "Tiven GmbH", "H.G. Perseus GmbH StbG", "bgh Verm\u00f6gensverwaltung GmbH", "AURIGA Capital AG; Attegia Holding Ltd.; Augusta Software GmbH; BOSYNC Beteiligungs UG; Christiane Saupe", "5th. Dimension Investment GmbH", "H.G. Perseus GmbH StbG; Lapis Ltd.; Marc F. Kimmich; Perseus Innovations and Services Holding Ltd.; Tiven GmbH", "ATLASI GROUP GmbH; AURIGA Capital AG; Attegia Holding Ltd.; Augusta Software GmbH; BOSYNC Beteiligungs UG"];
+  var allEvents = ["Acquisition of shares ; Name change to SYNCPILOT SE; Seat moved to Augsburg.", "Capital Increase (Contribution in Kind of SyncPilot GmbH) . | Capital Increase (Contribution in Kind of SyncPilot GmbH) ", "Creation Auth. Cap. I (\u20ac1M), Auth. Cap. II (\u20ac0.5M), Cond. Cap. 2021 (\u20ac0.5M). Registered.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,115,385.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,076,923.", "Die 403.550 Anteile der AURIGA in Anlage 1 Hauptversammlung v. 17.5.2024 k\u00f6nnen nur durch \u00dcbertragung aus der DSI enstan", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,273,593.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,401,478.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,450,110.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,498,742.", "Capital Increase (Utilizing Auth. Cap. II).", "\u00dcbertragung 2022/23 gem. Anl. 2 Niederschrift Hauptversammlung v. 17.5.2024", "Capital Increase. Total Capital: 5,554,292.", "\u00dcbertragung 2024 gem. Anl. 3 Niederschrift Hauptversammlung v. 17.5.2024; nach der HV, da sonst Teilnehmerliste und Ante", "Anlage 3 Niederschrift HV 5.8.25; genehmigte Aktien\u00fcbertragung, Aktienkaufvertrag 31.7.25; erst nach HV da sonst Teilneh"];
+
+  var volColors = allTypes.map(function(t) {
+    if (t === 'issuance') return '#0D7680';
+    if (t === 'transfer') return '#66605C';
+    return '#990F3D';  // restructuring
+  });
+
+  new Chart(document.getElementById('volumeChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: allDates,
+      datasets: [{
+        label: 'Shares',
+        data: allShares,
+        backgroundColor: volColors,
+        borderRadius: 3,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#262A33',
+          cornerRadius: 4,
+          padding: 12,
+          callbacks: {
+            title: function(items) { return allDates[items[0].dataIndex]; },
+            label: function(item) {
+              var i = item.dataIndex;
+              var lines = [
+                item.formattedValue + ' shares',
+                'Type: ' + allTypes[i]
+              ];
+              if (allPps[i]) lines.push('€' + allPps[i] + '/share');
+              if (allEntities[i]) lines.push(allEntities[i].substring(0, 60));
+              return lines;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Shares Involved', font: { size: 11, weight: '600' }, color: 'rgba(38,42,51,0.5)' },
+          grid: { color: 'rgba(242,223,206,0.6)' },
+          ticks: { callback: function(v) { return (v/1000000).toFixed(1) + 'M'; } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { maxRotation: 45, font: { size: 13, weight: '600' } }
+        }
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
