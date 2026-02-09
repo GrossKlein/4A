@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ch 3 — Corporate Valuation | SyncPilotDossier</title>
+<title>Ch 3 — Corporate Valuation | SyncPilot Dossier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
@@ -52,7 +52,7 @@ a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
 .chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
 .chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
 .chart-canvas-wrap{position:relative}
-.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.chart-source{display:none;font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
 .chart-toggle{font-family:var(--font-ui);font-size:.78rem;display:flex;align-items:center;gap:8px;margin:var(--sp-3) 0;color:rgba(38,42,51,.6)}
 .chart-toggle input{cursor:pointer}
 .chart-toggle label{cursor:pointer}
@@ -100,7 +100,7 @@ body.lang-de span[data-lang-de]{display:inline}
 <nav class="site-nav" role="navigation">
   <div class="nav-left">
     <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
-    <a href="index.html" class="nav-title">SyncPilotDossier</a>
+    <a href="index.html" class="nav-title">SyncPilot Dossier</a>
   </div>
   <div class="nav-right">
     <button class="search-btn" aria-label="Search">&#x1F50D;</button>
@@ -137,7 +137,7 @@ body.lang-de span[data-lang-de]{display:inline}
     </div>
   </header>
 
-  <p data-lang-en>SyncPilothas never been independently valued by an external, arms-length party. Every implied valuation derives from the price paid in a specific capital event — and those prices were set by the insiders themselves. The resulting valuation trajectory is not a curve; it is a series of disconnected points, each reflecting a different transaction's internal logic rather than any coherent assessment of the company's worth.</p>
+  <p data-lang-en>SyncPilot has never been independently valued by an external, arms-length party. Every implied valuation derives from the price paid in a specific capital event — and those prices were set by the insiders themselves. The resulting valuation trajectory is not a curve; it is a series of disconnected points, each reflecting a different transaction's internal logic rather than any coherent assessment of the company's worth.</p>
   <p data-lang-de>Die SyncPilot wurde nie unabhängig von einer externen, unabhängigen Partei bewertet. Jede implizite Bewertung ergibt sich aus dem in einer bestimmten Kapitalmaßnahme gezahlten Preis — und diese Preise wurden von den Insidern selbst festgelegt. Die resultierende Bewertungskurve ist keine Kurve; es ist eine Reihe unverbundener Punkte, von denen jeder die interne Logik einer anderen Transaktion widerspiegelt statt einer kohärenten Einschätzung des Unternehmenswerts.</p>
 
   <p data-lang-en>The company launched at €23.5M in December 2020 when SyncPilot GmbH was contributed in kind by <strong><a href="01_ubo_directory.html#ubo-0">BOSYNC</a></strong>, <strong><a href="01_ubo_directory.html#ubo-2">DSI</a></strong>, and <strong><a href="01_ubo_directory.html#ubo-3">Augusta Software</a></strong>. Within a year, <strong><a href="01_ubo_directory.html#ubo-22">Saupe</a></strong> and <strong><a href="01_ubo_directory.html#ubo-12">Kimmich</a></strong> entered at €13/share, implying €66.5M — a 2.8× increase with no documented revenue milestone to justify it. By December 2022, <strong><a href="01_ubo_directory.html#ubo-13">H.G. Perseus</a></strong> (→ <strong><a href="01_ubo_directory.html#ubo-13">Hunstein</a></strong>, <strong><a href="01_ubo_directory.html#ubo-14">Goerg</a></strong>) paid €18.96/share, pushing the implied valuation to €100M. Then, on 14 March 2023, <strong><a href="01_ubo_directory.html#ubo-13">Perseus</a></strong> received shares at €1.00, crashing the implied valuation to €5.4M — a 95% drop in 94 days. Eight weeks later, <strong><a href="01_ubo_directory.html#ubo-6">Tiven GmbH</a></strong> (→ <strong><a href="01_ubo_directory.html#ubo-6">Purkert</a></strong>) paid €20.56, restoring it to €112M. By May 2024, an external investor paid €23.64 — the all-time high of €131M.</p>
@@ -156,7 +156,6 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:360px">
       <canvas id="valChart"></canvas>
     </div>
-    <div class="chart-source">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History" (Bewertung / Laufende Gesamtzahl Anteile × Ausgabebetrag)</div>
   </div>
 
   <h2><span data-lang-en>What Each Insider Paid Per Share</span><span data-lang-de>Was jeder Insider pro Aktie zahlte</span></h2>
@@ -166,7 +165,6 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:340px">
       <canvas id="ppsChart"></canvas>
     </div>
-    <div class="chart-source">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History" (Ausgabebetrag / Kaufpreis)</div>
   </div>
 
   <h2><span data-lang-en>Why This Matters — The Valuation Gap Nobody Explains</span><span data-lang-de>Warum das wichtig ist — Die Bewertungslücke, die niemand erklärt</span></h2>

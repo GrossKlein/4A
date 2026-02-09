@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ch 4 — Revenue Analysis | SyncPilot SE Dossier</title>
+<title>Ch 4 — Revenue Analysis | SyncPilot Dossier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
@@ -38,7 +38,7 @@ a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
 .chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
 .chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
 .chart-canvas-wrap{position:relative}
-.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.chart-source{display:none;font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
 .kpi-row{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0}
 .kpi{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);flex:1;min-width:160px;text-align:center}
 .kpi-val{font-family:var(--font-ui);font-size:2rem;font-weight:700;color:var(--slate);line-height:1.1}
@@ -67,7 +67,7 @@ body.lang-de span[data-lang-de]{display:inline}
 <nav class="site-nav" role="navigation">
   <div class="nav-left">
     <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
-    <a href="index.html" class="nav-title">SyncPilot SE Dossier</a>
+    <a href="index.html" class="nav-title">SyncPilot Dossier</a>
   </div>
   <div class="nav-right">
     <button class="search-btn" aria-label="Search">&#x1F50D;</button>
@@ -153,7 +153,6 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:340px">
       <canvas id="arrChart"></canvas>
     </div>
-    <div class="chart-source">Source: 20240315_Umsatzerlöse_2024_ff__1_2.xlsx → "2024 & 2025" (Row 4: ARR per month)</div>
   </div>
 
   <h2><span data-lang-en>Who Actually Pays? The Concentration Problem</span><span data-lang-de>Wer zahlt tatsächlich? Das Konzentrationsrisiko</span></h2>
@@ -164,7 +163,6 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:460px">
       <canvas id="clientChart"></canvas>
     </div>
-    <div class="chart-source">Source: SyncPilot_SE_Project.xlsx → "SyncPilot Client List"</div>
   </div>
 
   <div style="display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0">
