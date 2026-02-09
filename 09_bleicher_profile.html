@@ -11,18 +11,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
 a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
-.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
-.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
-.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
-.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
-.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
-.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
-.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
-.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
-.side-menu.open{left:0}
-.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
-.side-menu-overlay.visible{opacity:1;pointer-events:auto}
-.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
 .hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
 .hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
 .hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
@@ -110,10 +98,6 @@ h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
 .address-entities{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);margin-top:var(--sp-2)}
 
 /* Chapter nav */
-.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
-.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
-.chapter-nav a:hover{color:var(--claret)}
-
 /* Canvas tree styles */
 #corpTree{width:100%;min-height:620px;display:block}
 
@@ -142,32 +126,8 @@ body.lang-en [data-lang-en]{display:block!important}
 }
 </style>
 </head>
-<body class="lang-en">
+<body>
 <!-- NAV -->
-<nav class="site-nav">
-  <div class="nav-left">
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
-    <a class="nav-title" href="index.html">SyncPilot&nbsp;Dossier</a>
-  </div>
-  <div class="nav-right">
-    <button class="lang-toggle" onclick="toggleLang()">DE</button>
-  </div>
-</nav>
-
-<div class="side-menu" id="sideMenu">
-  <a href="index.html">Index</a><br><br>
-  <a href="01_ubo_directory.html">Ch 1 — UBO Directory</a><br>
-  <a href="02_capital_events.html">Ch 2 — Capital Events</a><br>
-  <a href="03_valuation.html">Ch 3 — Valuation</a><br>
-  <a href="04_revenue.html">Ch 4 — Revenue</a><br>
-  <a href="05_risk_ratings.html">Ch 5 — Risk Ratings</a><br>
-  <a href="06_perseus_breach.html">Ch 6 — Perseus Breach</a><br>
-  <a href="07_treasury_deficit.html">Ch 7 — Treasury Deficit</a><br>
-  <a href="08_wash_trades.html">Ch 8 — Wash Trades</a><br>
-  <a href="09_bleicher_profile.html"><strong>Ch 9 — Bleicher Profile</strong></a><br>
-</div>
-<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-
 <div class="content-area">
 
 <div class="hero">
@@ -554,14 +514,6 @@ Die Nutzung von fünf verschiedenen Rechtsformen (SE, GmbH, GmbH & Co. KG, UG, S
 </div>
 
 <!-- Chapter Navigation -->
-<div class="chapter-nav">
-  <a href="08_wash_trades.html">&larr; Ch 8 — Wash Trades</a>
-  <a href="10_pictet_investment.html">Ch 10 · Pictet Investment</a><br>
-  <a href="11_lvs_loan.html">Ch 11 · LVS Convertible Loan</a><br>
-
-  <a href="index.html">Index &rarr;</a>
-</div>
-
 </div><!-- end content-area -->
 
 <!-- ============================================================
@@ -569,39 +521,8 @@ Die Nutzung von fünf verschiedenen Rechtsformen (SE, GmbH, GmbH & Co. KG, UG, S
      ============================================================ -->
 <script>
 /* -- Nav toggles -- */
-function toggleMenu(){
-  var m=document.getElementById('sideMenu'),o=document.getElementById('menuOverlay');
-  m.classList.toggle('open');o.classList.toggle('visible');
-}
 var lang='en';
-function toggleLang(){
-  lang=lang==='en'?'de':'en';
-  document.body.classList.toggle('lang-de',lang==='de');
-  document.body.classList.toggle('lang-en',lang==='en');
-  document.querySelector('.lang-toggle').textContent=lang==='en'?'DE':'EN';
-}
-
-/* ============================================================
-   CORPORATE TREE — Canvas Visualization
-   ============================================================ */
-(function(){
-  var canvas=document.getElementById('corpTree');
-  if(!canvas)return;
-  var dpr=window.devicePixelRatio||1;
-  var W=canvas.parentElement.clientWidth-48;
-  var H=680;
-  canvas.width=W*dpr;canvas.height=H*dpr;
-  canvas.style.width=W+'px';canvas.style.height=H+'px';
-  var ctx=canvas.getContext('2d');
-  ctx.scale(dpr,dpr);
-
-  var claret='#990F3D',oxford='#0D7680',slate='#262A33',wheat='#F2DFCE',purple='#593380';
-  var uiFont='Source Sans 3, Helvetica Neue, Arial, sans-serif';
-
-  // Node data
-  var nodes=[
-    {id:'fxb',label:'Franz Xaver Bleicher',sub:'The Architect',x:W/2,y:40,w:220,h:52,color:claret,type:'person'},
-    {id:'bosync',label:'BOSYNC UG',sub:'70% | GF',x:W*0.22,y:160,w:160,h:48,color:claret,type:'holding'},
+,
     {id:'quintus',label:'Quintus GmbH',sub:'90% | GF',x:W*0.78,y:160,w:160,h:48,color:oxford,type:'holding'},
     {id:'se',label:'SYNCPILOT SE',sub:'GF | via BOSYNC 23.5%',x:W*0.22,y:290,w:180,h:48,color:claret,type:'primary'},
     {id:'nob',label:'NOB GmbH i.L.',sub:'Liquidator',x:W*0.78,y:290,w:160,h:48,color:'#999',type:'dormant'},

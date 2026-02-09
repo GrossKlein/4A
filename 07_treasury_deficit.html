@@ -14,18 +14,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
 a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
-.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
-.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
-.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
-.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
-.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
-.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
-.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
-.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
-.side-menu.open{left:0}
-.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
-.side-menu-overlay.visible{opacity:1;pointer-events:auto}
-.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
 .hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
 .hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
 .hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
@@ -65,33 +53,10 @@ p{margin-bottom:var(--sp-4)}
 .legal-box dt{font-family:var(--font-ui);font-weight:700;font-size:.82rem;margin-top:var(--sp-3);color:var(--slate)}
 .legal-box dd{font-size:.88rem;margin-left:0;padding-left:var(--sp-4);border-left:2px solid var(--wheat);margin-top:2px;margin-bottom:var(--sp-3);color:rgba(38,42,51,.75)}
 .site-footer{max-width:var(--max-width);margin:var(--sp-16) auto var(--sp-8);padding:var(--sp-6);border-top:1px solid var(--wheat);font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);line-height:1.5}
-.chapter-nav{display:flex;justify-content:space-between;max-width:var(--max-width);margin:var(--sp-8) auto;padding:0 var(--sp-6)}
-.chapter-nav a{font-family:var(--font-ui);font-size:.82rem;font-weight:600}
 @media(max-width:767px){.kpi-strip{grid-template-columns:1fr 1fr}.flow-table{font-size:.72rem}.flow-table td,.flow-table th{padding:var(--sp-2) var(--sp-3)}}
 </style>
 </head>
 <body>
-
-<nav class="site-nav">
-  <div class="nav-left">
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
-    <a class="nav-title" href="index.html">SyncPilot Dossier</a>
-  </div>
-  <div class="nav-right"><button class="lang-toggle" onclick="toggleLang()">DE / EN</button></div>
-</nav>
-<div class="side-menu" id="sideMenu">
-  <a href="index.html">&#8599; Index</a><br><br>
-  <a href="01_ubo_directory.html">Ch 1 &middot; UBO Directory</a><br>
-  <a href="02_capital_events.html">Ch 2 &middot; Capital Events</a><br>
-  <a href="03_valuation.html">Ch 3 &middot; Valuation</a><br>
-  <a href="04_revenue.html">Ch 4 &middot; Revenue</a><br>
-  <a href="05_risk_ratings.html">Ch 5 &middot; Risk Ratings</a><br>
-  <a href="06_perseus_breach.html">Ch 6 &middot; Perseus Breach</a><br>
-  <strong>Ch 7 &middot; Treasury Deficit</strong><br>
-  <a href="08_wash_trades.html">Ch 8 &middot; Wash Trades</a><br>
-  <a href="09_bleicher_profile.html">Ch 9 — Bleicher Profile</a><br>
-</div>
-<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
 <main class="content-area">
 
@@ -231,24 +196,13 @@ p{margin-bottom:var(--sp-4)}
 
 </main>
 
-<div class="chapter-nav">
-  <a href="06_perseus_breach.html">&larr; Ch 6 &middot; Perseus Breach</a>
-  <a href="08_wash_trades.html">Wash Trades &middot; Ch 8 &rarr;</a>
-  <a href="10_pictet_investment.html">Ch 10 · Pictet Investment</a><br>
-  <a href="11_lvs_loan.html">Ch 11 · LVS Convertible Loan</a><br>
-
-</div>
-
 <footer class="site-footer">
   <p><span data-lang-en>This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.</span><span data-lang-de style="display:none">Diese Analyse stellt investigative Fragen und Mustererkennung dar, keine rechtlichen Feststellungen. F&uuml;r alle Personen gilt die Unschuldsvermutung.</span></p>
   <p style="margin-top:var(--sp-3)">Last updated: February 2026</p>
 </footer>
 
 <script>
-function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');document.getElementById('menuOverlay').classList.toggle('visible')}
 let currentLang='en';
-function toggleLang(){currentLang=currentLang==='en'?'de':'en';document.querySelectorAll('[data-lang-en]').forEach(el=>el.style.display=currentLang==='en'?'':'none');document.querySelectorAll('[data-lang-de]').forEach(el=>el.style.display=currentLang==='de'?'':'none')}
-
 /* CHART 1: WATERFALL */
 (function(){
   const ctx=document.getElementById('waterfallChart').getContext('2d');
@@ -282,5 +236,6 @@ function toggleLang(){currentLang=currentLang==='en'?'de':'en';document.querySel
   new Chart(ctx,{type:'bar',data:{labels:['Cash Raised\n(Capital Issuances)','LVS Loan\nDisbursed','Perseus FMV\nGap','LVS Loan\nUnreturned','Net Cash\nRetained'],datasets:[{data:[8441192,6150000,-2297122,-6150000,6144070],backgroundColor:['#0D7680','#0D7680','#990F3D','#990F3D','rgba(13,118,128,.4)'],borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;return(v<0?'-€':'€')+Math.abs(v).toLocaleString('de-DE')}}}},scales:{x:{ticks:{callback:v=>{const a=Math.abs(v);return(v<0?'-':'')+'€'+(a>=1e6?(a/1e6).toFixed(1)+'M':(a/1e3).toFixed(0)+'K')},font:{family:"'Source Sans 3'",size:11}},grid:{color:'rgba(0,0,0,.06)'}},y:{ticks:{font:{family:"'Source Sans 3'",size:10}}}}}});
 })();
 </script>
+<script src="nav.js"></script>
 </body>
 </html>

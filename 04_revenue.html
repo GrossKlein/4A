@@ -13,18 +13,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
 a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
-.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
-.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
-.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
-.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
-.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
-.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
-.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px;transition:transform .2s}
-.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s ease;z-index:999;padding:var(--sp-6)}
-.side-menu.open{left:0}
-.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
-.side-menu-overlay.visible{opacity:1;pointer-events:auto}
-.search-overlay{display:none;position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.5);z-index:1001;justify-content:center;padding-top:var(--sp-12)}
 .search-overlay.open{display:flex}
 .search-box{background:var(--white);border-radius:8px;padding:var(--sp-6);width:90%;max-width:500px;height:fit-content}
 .search-input{width:100%;font-family:var(--font-ui);font-size:1rem;padding:var(--sp-3);border:2px solid var(--wheat);border-radius:4px;outline:none}
@@ -48,11 +36,6 @@ a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
 .footer-inner{max-width:var(--max-width);margin:0 auto}
 .footer-disclaimer{max-width:700px;margin-bottom:var(--sp-4)}
 .footer-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(255,241,229,.15);font-size:.72rem;color:rgba(255,241,229,.45)}
-.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
-.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
-.chapter-nav a:hover{color:var(--claret)}
-.chapter-nav .prev::before{content:"\2190 "}
-.chapter-nav .next::after{content:" \2192"}
 [data-lang-de]{display:none}[data-lang-en]{display:inline}
 div[data-lang-de],p[data-lang-de]{display:none}div[data-lang-en],p[data-lang-en]{display:block}
 span[data-lang-en]{display:inline}span[data-lang-de]{display:none}
@@ -60,33 +43,11 @@ body.lang-de [data-lang-de]{display:inline}body.lang-de [data-lang-en]{display:n
 body.lang-de div[data-lang-de],body.lang-de p[data-lang-de]{display:block}
 body.lang-de span[data-lang-de]{display:inline}
 @media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.kpi-row{flex-direction:column}.footer-meta{flex-direction:column}}
-@media print{body{padding-top:0;background:#fff;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay,.search-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+@media print{body{padding-top:0;background:#fff;font-size:11pt}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
 </style>
 </head>
 <body>
-<nav class="site-nav" role="navigation">
-  <div class="nav-left">
-    <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
-    <a href="index.html" class="nav-title">SyncPilot Dossier</a>
-  </div>
-  <div class="nav-right">
-    <button class="search-btn" aria-label="Search">&#x1F50D;</button>
-    <button class="lang-toggle" aria-label="Toggle language">DE</button>
-  </div>
-</nav>
-<aside class="side-menu" role="navigation" aria-label="Chapter navigation">
-  <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--oxford);margin-bottom:var(--sp-3);padding-bottom:var(--sp-2);border-bottom:2px solid var(--oxford)">Chapters</div>
-  <ul style="list-style:none">
-    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="01_ubo_directory.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">1. Who Controls This Company?</a></li>
-    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="02_capital_events.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">2. 14 Capital Events, Zero Oversight</a></li>
-    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="03_valuation.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">3. What Is It Actually Worth?</a></li>
-    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="04_revenue.html" style="text-decoration:none;font-size:.95rem;font-weight:700;color:var(--claret)">4. Where Is the Revenue?</a></li>
-      <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="10_pictet_investment.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">10. The Pictet Investment</a></li>
-    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="11_lvs_loan.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">11. The LVS Convertible Loan</a></li>
-</ul>
-</aside>
-<div class="side-menu-overlay"></div>
-<div class="search-overlay"><div class="search-box"><input type="text" class="search-input" placeholder="Search chapters..."><div class="search-results"></div></div></div>
+</div>
 
 <main class="content-area">
   <header class="hero">
@@ -181,11 +142,7 @@ body.lang-de span[data-lang-de]{display:inline}
 </main>
 
 <section class="content-area">
-  <nav class="chapter-nav">
-    <a href="03_valuation.html" class="prev"><span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
-    <a href="05_risk_ratings.html" class="next"><span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a>
-  </nav>
-</section>
+  </section>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -210,10 +167,8 @@ window.searchIndex=[
 (function(){
   var currentLang='en',menuOpen=false,searchOpen=false;
   document.addEventListener('DOMContentLoaded',function(){
-    var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');
-    if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;hb.classList.toggle('active',menuOpen);sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
-    var lb=document.querySelector('.lang-toggle');
-    if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'});
+    var hb=document.querySelector(');if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
+    var lb=document.querySelector(');
     var sb=document.querySelector('.search-btn'),so=document.querySelector('.search-overlay'),si=document.querySelector('.search-input'),sr=document.querySelector('.search-results');
     if(sb&&so){sb.addEventListener('click',function(){searchOpen=!searchOpen;so.classList.toggle('open',searchOpen);if(searchOpen&&si)setTimeout(function(){si.focus()},100)});so.addEventListener('click',function(e){if(e.target===so){searchOpen=false;so.classList.remove('open')}})}
     if(si&&sr){var t;si.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){var q=si.value;sr.innerHTML='';if(!q||q.length<2)return;var idx=window.searchIndex||[],terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>=2}),res=[];idx.forEach(function(e){var h=(e.title+' '+e.text).toLowerCase(),s=0;terms.forEach(function(t){if(h.indexOf(t)!==-1)s+=10;if(e.title.toLowerCase().indexOf(t)!==-1)s+=20});if(s>0)res.push({e:e,s:s})});res.sort(function(a,b){return b.s-a.s});if(!res.length){sr.innerHTML='<div>No results</div>';return}res.slice(0,10).forEach(function(r){var a=document.createElement('a');a.className='search-result-item';a.href=r.e.href;a.innerHTML='<div>'+r.e.chapter+'</div><div>'+r.e.title+'</div>';sr.appendChild(a)});},200)})}
@@ -458,5 +413,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+<script src="nav.js"></script>
 </body>
 </html>

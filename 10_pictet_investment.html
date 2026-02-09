@@ -13,22 +13,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
 a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
-.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
-.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
-.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
-.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
-.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
-.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
-.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
-.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
-.side-menu.open{left:0}
-.menu-link{display:block;font-family:var(--font-ui);font-size:.88rem;color:var(--slate);text-decoration:none;padding:var(--sp-2) var(--sp-6);transition:background .12s;line-height:1.4}
-.menu-link:hover{background:rgba(242,223,206,.5);text-decoration:none}
-.menu-link.active{border-left:3px solid var(--claret);padding-left:calc(var(--sp-6) - 3px);background:rgba(242,223,206,.3);font-weight:600}
-.menu-link .ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(38,42,51,.4);font-size:.78rem}
-.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
-.side-menu-overlay.visible{opacity:1;pointer-events:auto}
-.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
 .hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
 .hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
 .hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
@@ -112,10 +96,6 @@ h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
 .press-chip:hover{background:rgba(38,42,51,.1);text-decoration:none}
 .press-chip::before{content:"\1F4F0";font-size:.7rem}
 
-.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
-.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
-.chapter-nav a:hover{color:var(--claret)}
-
 /* Lang toggle */
 body.lang-en [data-lang-de]{display:none!important}
 body.lang-de [data-lang-en]{display:none!important}
@@ -141,32 +121,7 @@ body.lang-en [data-lang-en]{display:block!important}
 }
 </style>
 </head>
-<body class="lang-en">
-<nav class="site-nav">
-  <div class="nav-left">
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
-    <a class="nav-title" href="index.html">SyncPilot&nbsp;Dossier</a>
-  </div>
-  <div class="nav-right">
-    <button class="lang-toggle" onclick="toggleLang()">DE</button>
-  </div>
-</nav>
-
-<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-<aside class="side-menu" id="sideMenu">
-  <a href="index.html" class="menu-link" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
-  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span> <span data-lang-en>Who Controls This Company?</span><span data-lang-de>Wer kontrolliert das Unternehmen?</span></a>
-  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span> <span data-lang-en>14 Capital Events, Zero Oversight</span><span data-lang-de>14 Kapitalmaßnahmen, null Aufsicht</span></a>
-  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
-  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Where Is the Revenue?</span><span data-lang-de>Wo bleibt der Umsatz?</span></a>
-  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a>
-  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The 95% Discount</span><span data-lang-de>Der 95%-Rabatt</span></a>
-  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
-  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
-  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
-  <a href="10_pictet_investment.html" class="menu-link active"><span class="ch-num">10</span> <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
-</aside>
-
+<body>
 <div class="content-area">
 
 <div class="hero">
@@ -559,75 +514,14 @@ Die kritischen Nicht-Offenlegungen wären:
 </div>
 
 <!-- Chapter Navigation -->
-<div class="chapter-nav">
-  <a href="09_bleicher_profile.html">&larr; Ch 9 — Bleicher Profile</a>
-  <a href="index.html">Index &rarr;</a>
-</div>
-
 </div><!-- end content-area -->
 
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
 <script>
-function toggleMenu(){
-  var m=document.getElementById('sideMenu'),o=document.getElementById('menuOverlay');
-  m.classList.toggle('open');o.classList.toggle('visible');
-}
 var lang='en';
-function toggleLang(){
-  lang=lang==='en'?'de':'en';
-  document.body.classList.toggle('lang-de',lang==='de');
-  document.body.classList.toggle('lang-en',lang==='en');
-  document.querySelector('.lang-toggle').textContent=lang==='en'?'DE':'EN';
-}
-
-/* ============================================================
-   VALUATION COMPARISON CHART
-   ============================================================ */
-(function(){
-  var ctx=document.getElementById('valChart');
-  if(!ctx)return;
-
-  new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels:[
-        'Sacheinlage\nDec 2020',
-        'LVS Agreement\nMay 2021',
-        'Auth. Cap. II\nDec 2021',
-        'Perseus €1\nMar 2023',
-        'Perseus €20.56\nMay 2023',
-        'SaaS 5× Rev\n(Reference)',
-        'SaaS 10× Rev\n(Reference)',
-        'Claimed\nNov 2023',
-        'Cap. Raise\nNov 2023'
-      ],
-      datasets:[{
-        label:'Implied Market Cap (€M)',
-        data:[23.5, 125, 65, 5.6, 115, 60, 120, 250, 450],
-        backgroundColor:[
-          'rgba(13,118,128,0.7)',
-          'rgba(13,118,128,0.7)',
-          'rgba(13,118,128,0.7)',
-          'rgba(153,15,61,0.85)',
-          'rgba(13,118,128,0.7)',
-          'rgba(38,42,51,0.2)',
-          'rgba(38,42,51,0.2)',
-          'rgba(153,15,61,0.85)',
-          'rgba(153,15,61,0.85)'
-        ],
-        borderColor:[
-          '#0D7680','#0D7680','#0D7680',
-          '#990F3D',
-          '#0D7680',
-          '#999','#999',
-          '#990F3D','#990F3D'
-        ],
-        borderWidth:2,
-        borderRadius:4
-      }]
-    },
+,
     options:{
       responsive:true,
       maintainAspectRatio:true,

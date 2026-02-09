@@ -12,18 +12,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
 a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
-.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
-.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
-.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
-.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
-.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
-.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
-.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
-.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
-.side-menu.open{left:0}
-.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
-.side-menu-overlay.visible{opacity:1;pointer-events:auto}
-.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
 .hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
 .hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
 .hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
@@ -55,9 +43,6 @@ p{margin-bottom:var(--sp-4)}
 .flow-table .red{color:var(--claret)}
 .flow-table .note{font-size:.72rem;color:rgba(38,42,51,.5);font-weight:400}
 .site-footer{max-width:var(--max-width);margin:var(--sp-16) auto var(--sp-8);padding:var(--sp-6);border-top:1px solid var(--wheat);font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);line-height:1.5}
-.chapter-nav{display:flex;justify-content:space-between;max-width:var(--max-width);margin:var(--sp-8) auto;padding:0 var(--sp-6)}
-.chapter-nav a{font-family:var(--font-ui);font-size:.82rem;font-weight:600}
-
 /* Network Graph */
 .network-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4);margin:var(--sp-6) 0;overflow-x:auto}
 .network-svg{width:100%;min-height:520px}
@@ -106,27 +91,6 @@ p{margin-bottom:var(--sp-4)}
 </style>
 </head>
 <body>
-
-<nav class="site-nav">
-  <div class="nav-left">
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
-    <a class="nav-title" href="index.html">SyncPilot Dossier</a>
-  </div>
-  <div class="nav-right"><button class="lang-toggle" onclick="toggleLang()">DE / EN</button></div>
-</nav>
-<div class="side-menu" id="sideMenu">
-  <a href="index.html">Index</a><br><br>
-  <a href="01_ubo_directory.html">Ch 1 — UBO Directory</a><br>
-  <a href="02_capital_events.html">Ch 2 — Capital Events</a><br>
-  <a href="03_valuation.html">Ch 3 — Valuation</a><br>
-  <a href="04_revenue.html">Ch 4 — Revenue</a><br>
-  <a href="05_risk_ratings.html">Ch 5 — Risk Ratings</a><br>
-  <a href="06_perseus_breach.html">Ch 6 — Perseus Breach</a><br>
-  <a href="07_treasury_deficit.html">Ch 7 — Treasury Deficit</a><br>
-  <a href="08_wash_trades.html"><strong>Ch 8 — Wash Trades</strong></a><br>
-  <a href="09_bleicher_profile.html">Ch 9 — Bleicher Profile</a><br>
-</div>
-<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
 <div class="content-area">
 
@@ -412,24 +376,13 @@ p{margin-bottom:var(--sp-4)}
 
 </div><!-- content-area -->
 
-<div class="chapter-nav">
-  <a href="07_treasury_deficit.html">← Ch 7 — Treasury Deficit</a>
-  <a href="10_pictet_investment.html">Ch 10 · Pictet Investment</a><br>
-  <a href="11_lvs_loan.html">Ch 11 · LVS Convertible Loan</a><br>
-
-  <span></span>
-</div>
-
 <footer class="site-footer">
   This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.
 </footer>
 
 <script>
 /* Nav */
-function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');document.getElementById('menuOverlay').classList.toggle('visible')}
-let lang='en';function toggleLang(){lang=lang==='en'?'de':'en';document.querySelectorAll('[data-lang-en]').forEach(el=>el.style.display=lang==='en'?'':'none');document.querySelectorAll('[data-lang-de]').forEach(el=>el.style.display=lang==='de'?'':'none')}
-
-/* BOSYNC erosion chart */
+let lang='en';/* BOSYNC erosion chart */
 (function(){
 const ctx=document.getElementById('bosyncChart').getContext('2d');
 const labels=['Sep 2020','Dec 2020','Dec 2021','Dec 2022','Mar 2023','May 2023','Dec 2023','May 2024','Aug 2025'];
@@ -724,5 +677,6 @@ drawNodes(midNodes);
 drawNodes(dstNodes);
 })();
 </script>
+<script src="nav.js"></script>
 </body>
 </html>

@@ -37,32 +37,11 @@ hr{border:none;border-top:1px solid var(--wheat);margin:var(--sp-8) 0}
 .content-area{max-width:780px;margin:0 auto;padding:var(--sp-8) var(--sp-6)}
 
 /* Nav Bar */
-.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
-.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
-.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:6px}
-.hamburger span{display:block;width:22px;height:2px;background:var(--paper);transition:transform .2s,opacity .2s}
-.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.nav-title{font-family:var(--font-ui);font-size:.95rem;font-weight:600;color:var(--paper);text-decoration:none;letter-spacing:.02em}
-.nav-title:hover{color:var(--wheat)}
-.lang-toggle{font-family:var(--font-ui);font-size:.8rem;font-weight:600;background:transparent;color:var(--paper);border:1px solid rgba(255,241,229,.4);border-radius:3px;padding:4px 10px;cursor:pointer;letter-spacing:.04em;transition:background .15s,border-color .15s}
-.lang-toggle:hover{background:rgba(255,241,229,.15);border-color:var(--paper)}
 .search-btn{background:none;border:none;color:var(--paper);cursor:pointer;font-size:1.1rem;padding:6px;line-height:1}
 .search-btn:hover{color:var(--wheat)}
 
 /* Side Menu */
-.side-menu{position:fixed;top:var(--nav-height);left:0;bottom:0;width:var(--sidebar-width);background:var(--slate);color:var(--paper);transform:translateX(-100%);transition:transform .25s ease;z-index:999;overflow-y:auto;padding:var(--sp-6) 0}
-.side-menu.open{transform:translateX(0)}
-.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.45);z-index:998;opacity:0;pointer-events:none;transition:opacity .25s}
-.side-menu-overlay.visible{opacity:1;pointer-events:auto}
 .menu-group-label{font-family:var(--font-ui);font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,241,229,.5);padding:var(--sp-4) var(--sp-6) var(--sp-2)}
-.menu-link{display:block;font-family:var(--font-ui);font-size:.88rem;color:var(--paper);text-decoration:none;padding:var(--sp-2) var(--sp-6);transition:background .12s;line-height:1.4}
-.menu-link:hover{background:rgba(255,241,229,.08);color:var(--paper)}
-.menu-link.active{border-left:3px solid var(--claret);padding-left:calc(var(--sp-6) - 3px);background:rgba(255,241,229,.05)}
-.menu-link .ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(255,241,229,.5);font-size:.78rem}
-
 /* Search Overlay */
 .search-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(38,42,51,.92);z-index:1001;display:none;justify-content:center;padding:var(--sp-8) var(--sp-6)}
 .search-overlay.open{display:flex}
@@ -116,7 +95,7 @@ body.lang-de span[data-lang-de]{display:inline}
 
 /* Responsive */
 @media(max-width:768px){:root{--nav-height:50px}.content-area{padding-left:var(--sp-4);padding-right:var(--sp-4)}.hero{padding:var(--sp-8) var(--sp-4) var(--sp-6)}.footer-meta{flex-direction:column}}
-@media print{body{padding-top:0;background:#fff;color:#000;font-size:11pt}.site-nav,.side-menu,.side-menu-overlay,.search-overlay{display:none!important}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
+@media print{body{padding-top:0;background:#fff;color:#000;font-size:11pt}.site-footer{background:#fff;color:#333;border-top:2px solid #000}}
 
 .timeline-legend {display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-4) 0;font-family:var(--font-ui);font-size:.78rem}
 .timeline-legend-item {display:flex;align-items:center;gap:6px}
@@ -124,39 +103,6 @@ body.lang-de span[data-lang-de]{display:inline}
 </style>
 </head>
 <body>
-<nav class="site-nav" role="navigation">
-  <div class="nav-left">
-    <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
-    <a href="index.html" class="nav-title">SyncPilot Dossier</a>
-  </div>
-  <div class="nav-right">
-    <button class="lang-toggle" aria-label="Switch to German">DE</button>
-    <button class="search-btn" aria-label="Search">&#x1F50D;</button>
-  </div>
-</nav>
-<div class="side-menu-overlay"></div>
-<aside class="side-menu">
-  <a href="index.html" class="menu-link" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
-  <div class="menu-group-label"><span data-lang-en>Corporate Profile</span><span data-lang-de>Unternehmensprofil</span></div>
-  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span> <span data-lang-en>Who Controls This Company?</span><span data-lang-de>Wer kontrolliert das Unternehmen?</span></a>
-  <a href="02_capital_events.html" class="menu-link active"><span class="ch-num">02</span> <span data-lang-en>14 Capital Events, Zero Oversight</span><span data-lang-de>14 Kapitalmaßnahmen, null Aufsicht</span></a>
-  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
-  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Where Is the Revenue?</span><span data-lang-de>Wo bleibt der Umsatz?</span></a>
-  <div class="menu-group-label"><span data-lang-en>Evidence &amp; Analysis</span><span data-lang-de>Beweise &amp; Analyse</span></div>
-  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a>
-  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The 95% Discount</span><span data-lang-de>Der 95%-Rabatt</span></a>
-  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
-  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
-  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
-  <a href="10_pictet_investment.html" class="menu-link"><span class="ch-num">10</span> <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
-  <a href="11_lvs_loan.html" class="menu-link"><span class="ch-num">11</span> <span data-lang-en>The LVS Convertible Loan</span><span data-lang-de>Das LVS-Wandeldarlehen</span></a>
-  <a href="12_goldfinger.html" class="menu-link"><span class="ch-num">12</span> <span data-lang-en>The Goldfinger Connection</span><span data-lang-de>Die Goldfinger-Verbindung</span></a>
-</aside>
-<div class="search-overlay" role="search">
-  <div class="search-box">
-    <input type="text" class="search-input" placeholder="Search across all chapters…" aria-label="Search query">
-    <div class="search-results"></div>
-  </div>
 </div>
 
 <main class="content-area">
@@ -375,13 +321,8 @@ body.lang-de span[data-lang-de]{display:inline}
 </div>
 
 
-
 <section class="content-area">
-  <nav class="chapter-nav">
-    <a href="01_ubo_directory.html" class="prev"><span data-lang-en>Who Controls This Company?</span><span data-lang-de>Wer kontrolliert das Unternehmen?</span></a>
-    <a href="03_valuation.html" class="next"><span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
-  </nav>
-</section>
+  </section>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -413,10 +354,8 @@ window.searchIndex=[
 (function(){
   var currentLang='en',menuOpen=false,searchOpen=false;
   document.addEventListener('DOMContentLoaded',function(){
-    var hb=document.querySelector('.hamburger'),sm=document.querySelector('.side-menu'),ov=document.querySelector('.side-menu-overlay');
-    if(hb&&sm){hb.addEventListener('click',function(){menuOpen=!menuOpen;hb.classList.toggle('active',menuOpen);sm.classList.toggle('open',menuOpen);if(ov)ov.classList.toggle('visible',menuOpen)});if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
-    var lb=document.querySelector('.lang-toggle');
-    if(lb)lb.addEventListener('click',function(){currentLang=currentLang==='en'?'de':'en';document.body.classList.toggle('lang-de',currentLang==='de');lb.textContent=currentLang==='en'?'DE':'EN'});
+    var hb=document.querySelector(');if(ov)ov.addEventListener('click',function(){menuOpen=false;hb.classList.remove('active');sm.classList.remove('open');ov.classList.remove('visible')})}
+    var lb=document.querySelector(');
     var sb=document.querySelector('.search-btn'),so=document.querySelector('.search-overlay'),si=document.querySelector('.search-input'),sr=document.querySelector('.search-results');
     if(sb&&so){sb.addEventListener('click',function(){searchOpen=!searchOpen;so.classList.toggle('open',searchOpen);if(searchOpen&&si)setTimeout(function(){si.focus()},100)});so.addEventListener('click',function(e){if(e.target===so){searchOpen=false;so.classList.remove('open')}})}
     if(si&&sr){var t;si.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){var q=si.value;sr.innerHTML='';if(!q||q.length<2)return;var idx=window.searchIndex||[],terms=q.toLowerCase().split(/\s+/).filter(function(t){return t.length>=2}),res=[];idx.forEach(function(e){var h=(e.title+' '+e.text).toLowerCase(),s=0;terms.forEach(function(t){if(h.indexOf(t)!==-1)s+=10;if(e.title.toLowerCase().indexOf(t)!==-1)s+=20});if(s>0)res.push({e:e,s:s})});res.sort(function(a,b){return b.s-a.s});if(!res.length){sr.innerHTML='<div class="search-no-results">No results</div>';return}res.slice(0,10).forEach(function(r){var a=document.createElement('a');a.className='search-result-item';a.href=r.e.href;a.innerHTML='<div class="result-chapter">'+r.e.chapter+'</div><div class="result-text">'+r.e.title+'</div>';sr.appendChild(a)})},200)})}
@@ -579,5 +518,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+<script src="nav.js"></script>
 </body>
 </html>
