@@ -52,7 +52,7 @@ a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
 .chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
 .chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
 .chart-canvas-wrap{position:relative}
-.chart-source{display:none;font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
 .chart-toggle{font-family:var(--font-ui);font-size:.78rem;display:flex;align-items:center;gap:8px;margin:var(--sp-3) 0;color:rgba(38,42,51,.6)}
 .chart-toggle input{cursor:pointer}
 .chart-toggle label{cursor:pointer}
@@ -156,6 +156,7 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:360px">
       <canvas id="valChart"></canvas>
     </div>
+    <div class="chart-source" style="display:none">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History" (Bewertung / Laufende Gesamtzahl Anteile × Ausgabebetrag)</div>
   </div>
 
   <h2><span data-lang-en>What Each Insider Paid Per Share</span><span data-lang-de>Was jeder Insider pro Aktie zahlte</span></h2>
@@ -165,6 +166,7 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:340px">
       <canvas id="ppsChart"></canvas>
     </div>
+    <div class="chart-source" style="display:none">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History" (Ausgabebetrag / Kaufpreis)</div>
   </div>
 
   <h2><span data-lang-en>Why This Matters — The Valuation Gap Nobody Explains</span><span data-lang-de>Warum das wichtig ist — Die Bewertungslücke, die niemand erklärt</span></h2>

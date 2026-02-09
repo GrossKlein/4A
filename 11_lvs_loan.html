@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 11 &mdash; The LVS Convertible Loan | SyncPilot Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6) 0}
+.side-menu.open{left:0}
+.menu-link{display:block;font-family:var(--font-ui);font-size:.88rem;color:var(--slate);text-decoration:none;padding:var(--sp-2) var(--sp-6);transition:background .12s;line-height:1.4}
+.menu-link:hover{background:rgba(242,223,206,.5);text-decoration:none}
+.menu-link.active{border-left:3px solid var(--claret);padding-left:calc(var(--sp-6) - 3px);background:rgba(242,223,206,.3);font-weight:600}
+.menu-link .ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(38,42,51,.4);font-size:.78rem}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
+h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
+
+.bluf-box{background:var(--white);border-left:4px solid var(--claret);border-radius:0 6px 6px 0;padding:var(--sp-6) var(--sp-8);margin:var(--sp-6) 0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bluf-label{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret);margin-bottom:var(--sp-2)}
+
+/* KPI Strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.kpi-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4) var(--sp-6);text-align:center}
+.kpi-card.alert{border-color:var(--claret);border-width:2px}
+.kpi-number{font-family:var(--font-ui);font-weight:700;font-size:1.6rem;line-height:1.1}
+.kpi-number.red{color:var(--claret)}
+.kpi-number.orange{color:#EA580C}
+.kpi-number.teal{color:var(--oxford)}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.5);margin-top:4px}
+
+/* Loan Status Dashboard */
+.loan-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--white);border:3px solid var(--claret);border-radius:12px;overflow:hidden;margin:var(--sp-6) 0;box-shadow:0 6px 30px rgba(153,15,61,.12)}
+.loan-dash-header{grid-column:1/-1;background:var(--claret);color:#fff;padding:var(--sp-4) var(--sp-6);font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
+.loan-dash-hero{grid-column:1/-1;text-align:center;padding:var(--sp-8) var(--sp-6) var(--sp-4);background:linear-gradient(180deg,rgba(153,15,61,.03),transparent)}
+.loan-dash-hero-num{font-family:var(--font-ui);font-weight:700;font-size:clamp(2.8rem,7vw,4rem);color:var(--claret);line-height:1;letter-spacing:-.03em}
+.loan-dash-hero-label{font-family:var(--font-ui);font-size:.82rem;font-weight:600;color:rgba(38,42,51,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.loan-dash-col{padding:var(--sp-6) var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-4)}
+.loan-dash-col:first-of-type{border-right:1px solid var(--wheat)}
+.loan-dash-col h4{font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(38,42,51,.35);margin:0}
+.ld-row{display:flex;justify-content:space-between;align-items:baseline}
+.ld-row-label{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.6)}
+.ld-row-val{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--slate)}
+.ld-row-val.red{color:var(--claret)}
+.ld-row-val.teal{color:var(--oxford)}
+.ld-row-val.orange{color:#EA580C}
+
+/* Progress bar */
+.progress-wrap{grid-column:1/-1;padding:0 var(--sp-8) var(--sp-6)}
+.progress-label{font-family:var(--font-ui);font-size:.72rem;font-weight:600;color:rgba(38,42,51,.5);margin-bottom:var(--sp-2)}
+.progress-track{height:28px;background:rgba(242,223,206,.5);border-radius:4px;overflow:hidden;position:relative;display:flex}
+.progress-fill{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:.75rem;border-radius:4px 0 0 4px}
+.progress-remaining{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:600;font-size:.72rem;color:rgba(38,42,51,.4)}
+
+/* Tranche table */
+.tranche-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:.85rem;margin:var(--sp-4) 0}
+.tranche-table th{text-align:left;padding:var(--sp-3) var(--sp-4);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(38,42,51,.4);border-bottom:2px solid var(--wheat);background:rgba(242,223,206,.3)}
+.tranche-table th.right,.tranche-table td.right{text-align:right}
+.tranche-table td{padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--wheat)}
+.tranche-table tr:hover{background:rgba(242,223,206,.2)}
+.tranche-table .num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.tranche-table .red{color:var(--claret)}
+.tranche-table .teal{color:var(--oxford)}
+.tranche-table .dim{color:rgba(38,42,51,.35)}
+.tranche-table .total-row{border-top:3px solid var(--slate);font-weight:700;background:rgba(242,223,206,.2)}
+.tranche-table .unpaid-row{background:rgba(153,15,61,.04)}
+.status-badge{display:inline-block;font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:3px}
+.status-paid{background:rgba(13,118,128,.12);color:var(--oxford)}
+.status-unpaid{background:rgba(153,15,61,.12);color:var(--claret)}
+.status-partial{background:rgba(234,88,12,.12);color:#EA580C}
+
+/* Chart */
+.chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+
+/* Timeline compact */
+.loan-timeline{position:relative;padding-left:28px;margin:var(--sp-6) 0}
+.loan-timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--wheat)}
+.lt-event{position:relative;padding:var(--sp-3) 0 var(--sp-4);font-family:var(--font-ui);font-size:.82rem}
+.lt-event::before{content:'';position:absolute;left:-22px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--oxford);border:2px solid var(--paper)}
+.lt-event.alert::before{background:var(--claret)}
+.lt-event.money::before{background:#EA580C}
+.lt-date{font-weight:700;color:var(--slate);margin-bottom:2px}
+.lt-amount{font-weight:700;color:#EA580C;font-size:1.1rem}
+.lt-desc{color:rgba(38,42,51,.6);line-height:1.4}
+
+/* Trap box */
+.trap-box{background:var(--white);border:2px solid var(--claret);border-radius:8px;overflow:hidden;margin:var(--sp-8) 0}
+.trap-header{background:var(--claret);color:#fff;padding:var(--sp-4) var(--sp-6);font-family:var(--font-ui);font-weight:700;font-size:.88rem;display:flex;align-items:center;gap:8px}
+.trap-content{padding:var(--sp-6) var(--sp-8)}
+.trap-step{display:flex;gap:var(--sp-4);margin-bottom:var(--sp-4);padding-bottom:var(--sp-4);border-bottom:1px solid var(--wheat)}
+.trap-step:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.trap-num{font-family:var(--font-ui);font-weight:700;font-size:1.4rem;color:var(--claret);min-width:32px;text-align:center}
+.trap-text{font-size:.92rem;line-height:1.55}
+
+/* Question box */
+.question-box{background:linear-gradient(135deg,rgba(153,15,61,.06),rgba(153,15,61,.02));border:2px solid var(--claret);border-radius:8px;padding:var(--sp-6) var(--sp-8);margin:var(--sp-8) 0}
+.question-box h3{color:var(--claret);margin-top:0;font-size:1.05rem}
+.question-box p{font-size:.95rem;margin-bottom:var(--sp-3);line-height:1.6}
+.question-box p:last-child{margin-bottom:0}
+
+/* Legal grid */
+.legal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.legal-item{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--claret);border-radius:6px;padding:var(--sp-4) var(--sp-6)}
+.legal-ref{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--claret);margin-bottom:4px}
+.legal-term{font-family:var(--font-ui);font-weight:700;font-size:.95rem;margin-bottom:4px}
+.legal-desc{font-size:.85rem;color:rgba(38,42,51,.65);line-height:1.45}
+
+/* Doc refs */
+.doc-grid{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin:var(--sp-4) 0}
+.doc-chip{font-family:var(--font-ui);font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:3px;background:rgba(38,42,51,.05);border:1px solid rgba(38,42,51,.12);color:var(--slate);display:inline-flex;align-items:center;gap:4px}
+.doc-chip::before{content:"📄";font-size:.7rem}
+
+.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
+.chapter-nav a:hover{color:var(--claret)}
+
+body.lang-en [data-lang-de]{display:none!important}
+body.lang-de [data-lang-en]{display:none!important}
+body.lang-de [data-lang-de]{display:block!important}
+body.lang-en [data-lang-en]{display:block!important}
+
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:1fr 1fr}
+  .loan-dashboard{grid-template-columns:1fr}
+  .loan-dash-col:first-of-type{border-right:none;border-bottom:1px solid var(--wheat)}
+  .legal-grid{grid-template-columns:1fr}
+  .tranche-table{font-size:.75rem}
+  .tranche-table td,.tranche-table th{padding:var(--sp-2) var(--sp-3)}
+}
+</style>
+</head>
+<body class="lang-en">
+<nav class="site-nav">
+  <div class="nav-left">
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="nav-title" href="index.html">SyncPilot&nbsp;Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang()">DE</button>
+  </div>
+</nav>
+
+<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<aside class="side-menu" id="sideMenu">
+  <a href="index.html" class="menu-link" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
+  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span> <span data-lang-en>Who Controls This Company?</span><span data-lang-de>Wer kontrolliert das Unternehmen?</span></a>
+  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span> <span data-lang-en>14 Capital Events, Zero Oversight</span><span data-lang-de>14 Kapitalmaßnahmen, null Aufsicht</span></a>
+  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
+  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Where Is the Revenue?</span><span data-lang-de>Wo bleibt der Umsatz?</span></a>
+  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a>
+  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The 95% Discount</span><span data-lang-de>Der 95%-Rabatt</span></a>
+  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
+  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
+  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
+  <a href="10_pictet_investment.html" class="menu-link"><span class="ch-num">10</span> <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
+  <a href="11_lvs_loan.html" class="menu-link active"><span class="ch-num">11</span> <span data-lang-en>The LVS Convertible Loan</span><span data-lang-de>Das LVS-Wandeldarlehen</span></a>
+</aside>
+
+<div class="content-area">
+
+<div class="hero">
+  <h1 data-lang-en>The LVS Convertible Loan</h1>
+  <h1 data-lang-de style="display:none">Das LVS-Wandeldarlehen</h1>
+  <hr class="hero-rule">
+  <div class="hero-subtitle" data-lang-en>Chapter 11 — €6.15 Million Disbursed. Zero Shares Received. Zero Cash Returned.</div>
+  <div class="hero-subtitle" data-lang-de style="display:none">Kapitel 11 — 6,15 Millionen Euro ausgezahlt. Null Aktien erhalten. Null Euro zurückgezahlt.</div>
+</div>
+
+<!-- BLUF -->
+<div class="bluf-box">
+  <div class="bluf-label">Bottom Line</div>
+  <p data-lang-en>LVS SA disbursed four tranches totalling €6.15 million to SyncPilot SE under a Cooperation and Call Option Agreement dated 21 May 2021. The total contractual commitment was €18.75 million for 750,000 shares. Neither repayment of the disbursed funds nor conversion into shares has occurred. The contract — drafted by Martin Hunstein of GHR Rechtsanwälte — was never notarized despite repeated promises to do so, and is now claimed to be legally void by the very parties who drafted and benefited from it. This constitutes prima facie evidence of <em>Untreue</em> (§266 StGB — breach of trust) by the recipients.</p>
+  <p data-lang-de style="display:none">Die LVS SA zahlte in vier Tranchen insgesamt 6,15 Millionen Euro an die SyncPilot SE im Rahmen einer Kooperations- und Call-Option-Vereinbarung vom 21. Mai 2021. Die vertragliche Gesamtverpflichtung betrug 18,75 Millionen Euro für 750.000 Aktien. Weder eine Rückzahlung der ausgezahlten Mittel noch eine Umwandlung in Aktien ist erfolgt. Der Vertrag — verfasst von Martin Hunstein von GHR Rechtsanwälte — wurde trotz wiederholter Zusagen nie notariell beurkundet und wird nun von genau den Parteien, die ihn verfasst haben und davon profitierten, als rechtlich unwirksam bezeichnet. Dies begründet den Anfangsverdacht der <em>Untreue</em> (§266 StGB) gegen die Empfänger.</p>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi-card alert">
+    <div class="kpi-number red">€6.15M</div>
+    <div class="kpi-label" data-lang-en>Total disbursed (4 tranches)</div>
+    <div class="kpi-label" data-lang-de style="display:none">Gesamt ausgezahlt (4 Tranchen)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number teal">€18.75M</div>
+    <div class="kpi-label" data-lang-en>Total contractual commitment</div>
+    <div class="kpi-label" data-lang-de style="display:none">Vertragliche Gesamtverpflichtung</div>
+  </div>
+  <div class="kpi-card alert">
+    <div class="kpi-number red">0</div>
+    <div class="kpi-label" data-lang-en>Shares received by LVS</div>
+    <div class="kpi-label" data-lang-de style="display:none">Von LVS erhaltene Aktien</div>
+  </div>
+  <div class="kpi-card alert">
+    <div class="kpi-number red">€0</div>
+    <div class="kpi-label" data-lang-en>Cash returned to LVS</div>
+    <div class="kpi-label" data-lang-de style="display:none">An LVS zurückgezahltes Bargeld</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number orange">750K</div>
+    <div class="kpi-label" data-lang-en>Shares due (contractual)</div>
+    <div class="kpi-label" data-lang-de style="display:none">Geschuldete Aktien (vertraglich)</div>
+  </div>
+</div>
+
+<!-- LOAN STATUS DASHBOARD -->
+<div class="loan-dashboard">
+  <div class="loan-dash-header">⚠ <span data-lang-en>Loan Status Dashboard — As of February 2026</span><span data-lang-de>Darlehensstatus-Dashboard — Stand Februar 2026</span></div>
+  <div class="loan-dash-hero">
+    <div class="loan-dash-hero-num">€6,150,000</div>
+    <div class="loan-dash-hero-label" data-lang-en>Outstanding &amp; unresolved since August 2021</div>
+    <div class="loan-dash-hero-label" data-lang-de style="display:none">Ausstehend &amp; ungeklärt seit August 2021</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" data-lang-en>Disbursement vs. Commitment (€18.75M total)</div>
+    <div class="progress-label" data-lang-de style="display:none">Auszahlung vs. Verpflichtung (18,75 Mio. € gesamt)</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:32.8%;background:var(--claret)">€6.15M paid</div>
+      <div class="progress-remaining" style="flex:1">€12.6M never disbursed</div>
+    </div>
+  </div>
+  <div class="loan-dash-col">
+    <h4 data-lang-en>Money In (LVS → SyncPilot)</h4>
+    <h4 data-lang-de style="display:none">Geld rein (LVS → SyncPilot)</h4>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Tranche 1 (7 Apr 2021)</div>
+      <div class="ld-row-val teal">€650,000</div>
+    </div>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Tranche 2 (29 Apr 2021)</div>
+      <div class="ld-row-val teal">€1,500,000</div>
+    </div>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Tranche 3 (7 Jun 2021)</div>
+      <div class="ld-row-val teal">€1,000,000</div>
+    </div>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Tranche 4 (31 Aug 2021)</div>
+      <div class="ld-row-val teal">€3,000,000</div>
+    </div>
+  </div>
+  <div class="loan-dash-col">
+    <h4 data-lang-en>Money Out (SyncPilot → LVS)</h4>
+    <h4 data-lang-de style="display:none">Geld raus (SyncPilot → LVS)</h4>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Cash repaid</div>
+      <div class="ld-row-val red">€0</div>
+    </div>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Shares converted</div>
+      <div class="ld-row-val red">0 of 750,000</div>
+    </div>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Interest paid</div>
+      <div class="ld-row-val red">€0</div>
+    </div>
+    <div class="ld-row">
+      <div class="ld-row-label" data-lang-en>Net loss to LVS</div>
+      <div class="ld-row-val red" style="font-size:1.2rem">€6,150,000</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANCHE TABLE -->
+<h2 data-lang-en>Disbursement Schedule — Contractual vs. Actual</h2>
+<h2 data-lang-de style="display:none">Auszahlungsplan — Vertraglich vs. Tatsächlich</h2>
+
+<table class="tranche-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th data-lang-en>Due Date</th><th data-lang-de style="display:none">Fälligkeitsdatum</th>
+      <th class="right" data-lang-en>Amount Due</th><th class="right" data-lang-de style="display:none">Fälliger Betrag</th>
+      <th data-lang-en>Paid Date</th><th data-lang-de style="display:none">Zahlungsdatum</th>
+      <th class="right" data-lang-en>Amount Paid</th><th class="right" data-lang-de style="display:none">Gezahlter Betrag</th>
+      <th data-lang-en>Status</th><th data-lang-de style="display:none">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>7 Apr 2021</td>
+      <td class="num">€650,000</td>
+      <td>7 Apr 2021</td>
+      <td class="num teal">€650,000</td>
+      <td><span class="status-badge status-paid">Paid</span></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>21 May 2021</td>
+      <td class="num">€1,500,000</td>
+      <td>29 Apr 2021</td>
+      <td class="num teal">€1,500,000</td>
+      <td><span class="status-badge status-paid">Paid early</span></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>31 May 2021</td>
+      <td class="num">€1,000,000</td>
+      <td>7 Jun 2021</td>
+      <td class="num teal">€1,000,000</td>
+      <td><span class="status-badge status-paid">Paid +7d</span></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>30 Jun 2021</td>
+      <td class="num">€3,500,000</td>
+      <td>31 Aug 2021</td>
+      <td class="num orange">€3,000,000</td>
+      <td><span class="status-badge status-partial">Partial (−€500K)</span></td>
+    </tr>
+    <tr class="unpaid-row">
+      <td>5</td>
+      <td>30 Jan 2022</td>
+      <td class="num">€850,000</td>
+      <td class="dim">—</td>
+      <td class="num red">€0</td>
+      <td><span class="status-badge status-unpaid">Not paid</span></td>
+    </tr>
+    <tr class="unpaid-row">
+      <td>6</td>
+      <td>30 Jan 2022</td>
+      <td class="num">€11,250,000</td>
+      <td class="dim">—</td>
+      <td class="num red">€0</td>
+      <td><span class="status-badge status-unpaid">Not paid</span></td>
+    </tr>
+    <tr class="total-row">
+      <td></td>
+      <td data-lang-en><strong>Total</strong></td><td data-lang-de style="display:none"><strong>Gesamt</strong></td>
+      <td class="num">€18,750,000</td>
+      <td></td>
+      <td class="num">€6,150,000</td>
+      <td data-lang-en><strong>32.8% disbursed</strong></td><td data-lang-de style="display:none"><strong>32,8 % ausgezahlt</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p data-lang-en style="font-size:.88rem;color:rgba(38,42,51,.55);margin-top:var(--sp-3)">
+<strong>Note:</strong> Tranche 2 was paid 22 days early (29 Apr vs. 21 May due date). Tranche 4 was paid two months late and €500,000 short. Tranches 5–6 were never disbursed — Damerau (LVS/EuroAtlantic) informed Bleicher on 27 Dec 2021 that he would not transfer the remaining €11.25M. The €850,000 (Tranche 5) appears to have been the next scheduled payment that was also withheld.
+</p>
+<p data-lang-de style="display:none;font-size:.88rem;color:rgba(38,42,51,.55);margin-top:var(--sp-3)">
+<strong>Hinweis:</strong> Tranche 2 wurde 22 Tage früher gezahlt (29. Apr. statt Fälligkeit 21. Mai). Tranche 4 wurde zwei Monate verspätet und um 500.000 € gekürzt gezahlt. Tranchen 5–6 wurden nie ausgezahlt — Damerau (LVS/EuroAtlantic) teilte Bleicher am 27. Dez. 2021 mit, dass er die verbleibenden 11,25 Mio. € nicht überweisen werde.
+</p>
+
+<!-- CHART: Tranche Timeline -->
+<div class="chart-container">
+  <div class="chart-title" data-lang-en>Loan Disbursement Timeline — Cumulative Flow (€)</div>
+  <div class="chart-title" data-lang-de style="display:none">Zeitverlauf der Darlehensauszahlung — Kumulierter Fluss (€)</div>
+  <canvas id="trancheChart" style="width:100%;max-height:380px"></canvas>
+  <div class="chart-source" data-lang-en>Source: SyncPilot_SE_Project.xlsx → Payments sheet | Bank transfer confirmations linked per row</div>
+</div>
+
+<!-- SECTION: The Notarization Trap -->
+<h2 data-lang-en>The Notarization Trap</h2>
+<h2 data-lang-de style="display:none">Die Beurkundungsfalle</h2>
+
+<p data-lang-en>
+The most remarkable aspect of this case is not the non-repayment itself, but the mechanism by which the recipients now claim the entire agreement is void. The email chain — preserved in the Involvement Timeline — reveals a pattern that can only be described as a deliberate trap.
+</p>
+<p data-lang-de style="display:none">
+Der bemerkenswerteste Aspekt dieses Falls ist nicht die Nichtrückzahlung selbst, sondern der Mechanismus, mit dem die Empfänger nun behaupten, die gesamte Vereinbarung sei unwirksam. Die E-Mail-Kette — dokumentiert im Involvement Timeline — offenbart ein Muster, das nur als bewusste Falle beschrieben werden kann.
+</p>
+
+<div class="trap-box">
+  <div class="trap-header">🪤 <span data-lang-en>The Five-Step Pattern</span><span data-lang-de>Das Fünf-Schritte-Muster</span></div>
+  <div class="trap-content">
+
+    <div class="trap-step">
+      <div class="trap-num">1</div>
+      <div class="trap-text">
+        <strong data-lang-en>Draft the contract (Feb–May 2021)</strong><strong data-lang-de style="display:none">Vertrag entwerfen (Feb–Mai 2021)</strong><br>
+        <span data-lang-en>Martin Hunstein of GHR Rechtsanwälte drafts the Cooperation & Call Option Agreement. Hunstein sends term sheets, negotiates terms with Bleicher, and circulates the final agreement. The contract requires notarization to be legally binding under German law (§15 GmbHG / §§128 ff. BGB for share transactions).</span>
+        <span data-lang-de style="display:none">Martin Hunstein von GHR Rechtsanwälte entwirft die Kooperations- & Call-Option-Vereinbarung. Hunstein versendet Term Sheets, verhandelt Konditionen mit Bleicher und verteilt den finalen Vertrag. Der Vertrag erfordert notarielle Beurkundung nach deutschem Recht (§15 GmbHG / §§128 ff. BGB).</span>
+      </div>
+    </div>
+
+    <div class="trap-step">
+      <div class="trap-num">2</div>
+      <div class="trap-text">
+        <strong data-lang-en>Collect the money (Apr–Aug 2021)</strong><strong data-lang-de style="display:none">Das Geld einsammeln (Apr–Aug 2021)</strong><br>
+        <span data-lang-en>LVS/Damerau disburses four tranches totalling €6.15M to SyncPilot. The money flows before the contract is notarized. On 24 Aug 2021, Hunstein proposes doing "a simple signature first" to "have a certain contractual basis" — notarization to follow "later." The urgency is one-directional: the money must flow now, the formalities can wait.</span>
+        <span data-lang-de style="display:none">LVS/Damerau zahlt vier Tranchen über insgesamt 6,15 Mio. € an SyncPilot. Das Geld fließt vor der notariellen Beurkundung. Am 24. Aug. 2021 schlägt Hunstein vor, „zunächst eine einfache Unterschrift" vorzunehmen, um „eine gewisse vertragliche Grundlage zu haben" — die Beurkundung folge „später".</span>
+      </div>
+    </div>
+
+    <div class="trap-step">
+      <div class="trap-num">3</div>
+      <div class="trap-text">
+        <strong data-lang-en>Delay the notarization (Aug 2021–2025)</strong><strong data-lang-de style="display:none">Die Beurkundung verzögern (Aug 2021–2025)</strong><br>
+        <span data-lang-en>The contract is never notarized. Per Damerau's 2025 email to his lawyer: <em>"The contracts are from Hunstein who was supposed to sign them with notary authorization and have them notarized. He kept postponing this time and again and in the end it was never notarized."</em></span>
+        <span data-lang-de style="display:none">Der Vertrag wird nie beurkundet. Laut Dameraus E-Mail von 2025 an seinen Anwalt: <em>„Die Verträge sind von Hunstein, der sie mit notarieller Bevollmächtigung unterzeichnen und beurkunden lassen sollte. Er hat dies immer wieder hinausgezögert und am Ende wurde nie beurkundet."</em></span>
+      </div>
+    </div>
+
+    <div class="trap-step">
+      <div class="trap-num">4</div>
+      <div class="trap-text">
+        <strong data-lang-en>Claim the contract is void (2023–2025)</strong><strong data-lang-de style="display:none">Vertrag für unwirksam erklären (2023–2025)</strong><br>
+        <span data-lang-en>When LVS seeks enforcement — either repayment or share conversion — SyncPilot/GHR now claim the agreement is "legally void as it was NOT notarized." The very party responsible for the notarization uses its own failure to notarize as the defense. Meanwhile, Goerg emails Damerau in April 2024 attempting to revive the investment relationship, acknowledging "6.15M were paid in, approx. 12M still open" but arguing "that much money is not needed."</span>
+        <span data-lang-de style="display:none">Als LVS Erfüllung verlangt — entweder Rückzahlung oder Aktienumwandlung — behaupten SyncPilot/GHR nun, die Vereinbarung sei „rechtlich unwirksam, da NICHT notariell beurkundet". Genau die Partei, die für die Beurkundung verantwortlich war, nutzt ihr eigenes Versäumnis als Verteidigung. Goerg schreibt Damerau im April 2024, um die Investitionsbeziehung wiederzubeleben: „6,15 Mio. wurden eingezahlt, ca. 12 Mio. noch offen", aber „so viel Geld wird nicht benötigt".</span>
+      </div>
+    </div>
+
+    <div class="trap-step">
+      <div class="trap-num">5</div>
+      <div class="trap-text">
+        <strong data-lang-en>Keep the money (ongoing)</strong><strong data-lang-de style="display:none">Das Geld behalten (fortlaufend)</strong><br>
+        <span data-lang-en>As of February 2026, SyncPilot has returned neither the €6.15M in cash nor any shares. The contractual position creates a Kafkaesque trap: if the contract is valid, SyncPilot owes 750,000 shares; if the contract is void (as they now claim), SyncPilot owes €6.15M in unjust enrichment (§812 BGB). Either way, €6.15M has been received and nothing has been given in return.</span>
+        <span data-lang-de style="display:none">Stand Februar 2026 hat SyncPilot weder die 6,15 Mio. € in bar noch irgendwelche Aktien zurückgegeben. Die Vertragslage schafft eine kafkaeske Falle: Ist der Vertrag gültig, schuldet SyncPilot 750.000 Aktien; ist er ungültig (wie behauptet), schuldet SyncPilot 6,15 Mio. € aus ungerechtfertigter Bereicherung (§812 BGB). In jedem Fall wurden 6,15 Mio. € erhalten und nichts zurückgegeben.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION: Email Evidence Timeline -->
+<h2 data-lang-en>Documentary Evidence — Email Timeline</h2>
+<h2 data-lang-de style="display:none">Dokumentarische Beweise — E-Mail-Zeitverlauf</h2>
+
+<div class="loan-timeline">
+  <div class="lt-event">
+    <div class="lt-date">16 Feb 2021</div>
+    <div class="lt-desc" data-lang-en>Hunstein sends NDA and company presentation to Damerau/EuroAtlantic. Introduction to Bleicher and SyncPilot. Investment opportunity presented.</div>
+    <div class="lt-desc" data-lang-de style="display:none">Hunstein sendet NDA und Unternehmenspräsentation an Damerau/EuroAtlantic. Vorstellung von Bleicher und SyncPilot. Investitionsmöglichkeit präsentiert.</div>
+  </div>
+  <div class="lt-event">
+    <div class="lt-date">25–27 Mar 2021</div>
+    <div class="lt-desc" data-lang-en>Hunstein sends term sheet. <em>"He (FXB) would almost prefer this variant, as he wouldn't have to confer with anyone."</em> Bleicher has discussed with legacy shareholders — deal accepted.</div>
+    <div class="lt-desc" data-lang-de style="display:none">Hunstein sendet Term Sheet. <em>„Er (FXB) würde fast diese Variante bevorzugen, da er sich mit niemandem abstimmen müsste."</em> Bleicher hat mit Altaktionären gesprochen — Deal akzeptiert.</div>
+  </div>
+  <div class="lt-event money">
+    <div class="lt-date">7 Apr 2021</div>
+    <div class="lt-amount">€650,000 → Tranche 1</div>
+    <div class="lt-desc" data-lang-en>First disbursement. Contract not yet signed. No notarization.</div>
+  </div>
+  <div class="lt-event money">
+    <div class="lt-date">29 Apr 2021</div>
+    <div class="lt-amount">€1,500,000 → Tranche 2</div>
+    <div class="lt-desc" data-lang-en>Paid 22 days early (due 21 May). LOI & TS signed 31 May 2021.</div>
+  </div>
+  <div class="lt-event">
+    <div class="lt-date">21 May 2021</div>
+    <div class="lt-desc" data-lang-en><strong>Cooperation and Call Option Agreement dated.</strong> The formal agreement under which all tranches are governed.</div>
+  </div>
+  <div class="lt-event money">
+    <div class="lt-date">7 Jun 2021</div>
+    <div class="lt-amount">€1,000,000 → Tranche 3</div>
+    <div class="lt-desc" data-lang-en>One week late (due 31 May).</div>
+  </div>
+  <div class="lt-event">
+    <div class="lt-date">21 Aug 2021</div>
+    <div class="lt-desc" data-lang-en>Hunstein sends Änderungsvereinbarung (variation agreement) to Damerau. <em>"Attached is the variation agreement as agreed with FXB."</em></div>
+  </div>
+  <div class="lt-event alert">
+    <div class="lt-date">24 Aug 2021</div>
+    <div class="lt-desc" data-lang-en>Hunstein proposes doing <strong>"a simple signature"</strong> first to <em>"have a certain contractual basis."</em> Notarization to follow later — <em>"pending availability of notary and the necessary POAs."</em></div>
+    <div class="lt-desc" data-lang-de style="display:none">Hunstein schlägt vor, zunächst eine <strong>„einfache Unterschrift"</strong> vorzunehmen, um <em>„eine gewisse vertragliche Grundlage zu haben."</em> Beurkundung folge später — <em>„vorbehaltlich der Verfügbarkeit des Notars und der erforderlichen Vollmachten."</em></div>
+  </div>
+  <div class="lt-event">
+    <div class="lt-date">30 Aug 2021</div>
+    <div class="lt-desc" data-lang-en>Hunstein sends variation agreement with payment due date of 31 Mar 2022 — <em>"as discussed between you and Franz."</em></div>
+  </div>
+  <div class="lt-event money">
+    <div class="lt-date">31 Aug 2021</div>
+    <div class="lt-amount">€3,000,000 → Tranche 4 (partial)</div>
+    <div class="lt-desc" data-lang-en>€500K short of the €3.5M due. Two months late. <strong>Last money to flow.</strong></div>
+    <div class="lt-desc" data-lang-de style="display:none">500.000 € weniger als die fälligen 3,5 Mio. €. Zwei Monate verspätet. <strong>Letzte Zahlung.</strong></div>
+  </div>
+  <div class="lt-event alert">
+    <div class="lt-date">27 Dec 2021</div>
+    <div class="lt-desc" data-lang-en>Damerau emails Bleicher: <em>"Please confirm that you agree to cancel the second part of the variation agreement. I hereby declare that I will not transfer the amount of 11,250,000 by 31 Mar 2022."</em></div>
+    <div class="lt-desc" data-lang-de style="display:none">Damerau schreibt Bleicher: <em>„Bitte bestätigen Sie, dass Sie der Aufhebung des zweiten Teils der Änderungsvereinbarung zustimmen. Ich erkläre hiermit, dass ich den Betrag von 11.250.000 nicht bis zum 31. März 2022 überweisen werde."</em></div>
+  </div>
+  <div class="lt-event alert">
+    <div class="lt-date">25 Mar 2022</div>
+    <div class="lt-desc" data-lang-en>Bleicher to Damerau: Demands remaining €1.35M. Reminds AD that variation agreement is invalid as <em>not notarized</em>. Promises to notarize "all rights and duties after receipt of payment." Personnel costs too high; CPA ill, annual statement delayed.</div>
+    <div class="lt-desc" data-lang-de style="display:none">Bleicher an Damerau: Fordert verbleibende 1,35 Mio. €. Erinnert AD, dass Änderungsvereinbarung <em>nicht beurkundet</em> und somit unwirksam. Verspricht Beurkundung „aller Rechte und Pflichten nach Zahlungseingang". Personalkosten zu hoch; Steuerberater krank.</div>
+  </div>
+  <div class="lt-event">
+    <div class="lt-date">Nov 2023</div>
+    <div class="lt-desc" data-lang-en>Damerau forwards Bleicher's earlier communications to associates, noting SyncPilot is "now valued at €250M" with planned capital increase at €450M. Asks about possible conversion rights for the €6.15M.</div>
+  </div>
+  <div class="lt-event alert">
+    <div class="lt-date">22 Apr 2024</div>
+    <div class="lt-desc" data-lang-en>Goerg emails Damerau with Q1 reporting and revenue plan. Acknowledges <em>"6.15M were paid in, approx. 12M still open"</em> but argues <em>"that much money is not needed"</em> to revive the original agreement. Attempts to re-engage Damerau.</div>
+    <div class="lt-desc" data-lang-de style="display:none">Goerg schreibt Damerau mit Q1-Bericht und Umsatzplan. Bestätigt <em>„6,15 Mio. wurden eingezahlt, ca. 12 Mio. noch offen"</em>, argumentiert aber, <em>„so viel Geld wird nicht benötigt"</em>, um die ursprüngliche Vereinbarung wiederzubeleben.</div>
+  </div>
+  <div class="lt-event alert">
+    <div class="lt-date">3 May 2025</div>
+    <div class="lt-desc" data-lang-en>Damerau to lawyer Fritsche: <em>"The contracts are from Hunstein who was supposed to sign them with notary authorization and have them notarized. He kept postponing this time and again and in the end it was never notarized. Now they are telling me that all of this is legally void as it was NOT notarized."</em></div>
+    <div class="lt-desc" data-lang-de style="display:none">Damerau an Anwalt Fritsche: <em>„Die Verträge sind von Hunstein, der sie mit notarieller Bevollmächtigung unterzeichnen und beurkunden lassen sollte. Er hat dies immer wieder hinausgezögert und am Ende wurde nie beurkundet. Jetzt sagt man mir, dass das alles rechtlich unwirksam sei, da NICHT beurkundet."</em></div>
+  </div>
+</div>
+
+<!-- Source Documents -->
+<h3 data-lang-en>Source Documents</h3>
+<h3 data-lang-de style="display:none">Quelldokumente</h3>
+<div class="doc-grid">
+  <span class="doc-chip">210428_Vertrag_SyncpilotLVS_009_1875m.pdf</span>
+  <span class="doc-chip">210830_Änderungsvereinbarung_SyncpilotAD31mrz22__SIGNED1.pdf</span>
+  <span class="doc-chip">Änderungsvereinbarung.pdf</span>
+  <span class="doc-chip">SP_Wandeldarlehensvertrag_wie_erbeten_in_Word.pdf</span>
+  <span class="doc-chip">HUNSTEIN_Syncpilot_LVS_20210429.pdf</span>
+  <span class="doc-chip">HUNSTEIN_Mail_AW_offene_Stunden_AFR_20230714.pdf</span>
+</div>
+
+<!-- Question Box -->
+<div class="question-box">
+  <h3 data-lang-en>🔍 Investigative Questions</h3>
+  <h3 data-lang-de style="display:none">🔍 Ermittlungsfragen</h3>
+  <p data-lang-en><strong>1.</strong> Why did Hunstein — the lawyer who drafted the agreement and was responsible for its notarization — repeatedly delay the notarization? Was this deliberate to create a future exit from the contractual obligations?</p>
+  <p data-lang-de style="display:none"><strong>1.</strong> Warum hat Hunstein — der Anwalt, der den Vertrag verfasste und für die Beurkundung verantwortlich war — die Beurkundung wiederholt verzögert? Geschah dies absichtlich, um eine künftige Möglichkeit zu schaffen, sich den vertraglichen Pflichten zu entziehen?</p>
+  <p data-lang-en><strong>2.</strong> Where did the €6.15M go? SyncPilot's financials (Ch 4) show ~€12M annual revenue. Did the loan proceeds fund operations, or were they channelled elsewhere within the corporate structure?</p>
+  <p data-lang-de style="display:none"><strong>2.</strong> Wo sind die 6,15 Mio. € geblieben? SyncPilots Finanzkennzahlen (Kap. 4) zeigen ~12 Mio. € Jahresumsatz. Haben die Darlehensmittel den Geschäftsbetrieb finanziert oder wurden sie innerhalb der Konzernstruktur umgeleitet?</p>
+  <p data-lang-en><strong>3.</strong> Hunstein and Goerg acquired SyncPilot shares through Perseus at a 95% discount (<a href="06_perseus_breach.html">Ch 6</a>) in March–May 2023 — while the LVS loan remained outstanding. Did they use their knowledge of the unresolved loan to negotiate a lower share price?</p>
+  <p data-lang-de style="display:none"><strong>3.</strong> Hunstein und Goerg erwarben SyncPilot-Aktien über Perseus mit 95 % Rabatt (<a href="06_perseus_breach.html">Kap. 6</a>) im März–Mai 2023 — während das LVS-Darlehen ausstehend blieb. Nutzten sie ihr Wissen über das ungelöste Darlehen, um einen niedrigeren Aktienpreis auszuhandeln?</p>
+  <p data-lang-en><strong>4.</strong> Was the LVS loan disclosed to Pictet (<a href="10_pictet_investment.html">Ch 10</a>) as a contingent liability during its November 2024 due diligence?</p>
+  <p data-lang-de style="display:none"><strong>4.</strong> Wurde das LVS-Darlehen als Eventualverbindlichkeit im Rahmen der Due Diligence von Pictet (<a href="10_pictet_investment.html">Kap. 10</a>) im November 2024 offengelegt?</p>
+  <p data-lang-en><strong>5.</strong> Under the "void contract" theory: what legal basis does SyncPilot claim for retaining €6.15M? Has any unjust enrichment (§812 BGB) counterclaim been filed?</p>
+  <p data-lang-de style="display:none"><strong>5.</strong> Unter der Theorie „unwirksamer Vertrag": Auf welcher Rechtsgrundlage beansprucht SyncPilot, die 6,15 Mio. € zu behalten? Wurde eine Gegenforderung aus ungerechtfertigter Bereicherung (§812 BGB) erhoben?</p>
+</div>
+
+<!-- Legal Framework -->
+<h2 data-lang-en>Legal Framework</h2>
+<h2 data-lang-de style="display:none">Rechtlicher Rahmen</h2>
+
+<div class="legal-grid">
+  <div class="legal-item">
+    <div class="legal-ref">§266 StGB</div>
+    <div class="legal-term">Untreue</div>
+    <div class="legal-desc" data-lang-en>Breach of trust. Receiving €6.15M under a contractual obligation to either convert to shares or repay, and failing to do either, constitutes misuse of a position of trust (Treubruchtatbestand) causing financial damage (Vermögensschaden) to LVS SA.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Untreue. Empfang von 6,15 Mio. € unter vertraglicher Verpflichtung zur Umwandlung in Aktien oder Rückzahlung, ohne beides zu tun, stellt einen Treubruchtatbestand dar, der LVS SA einen Vermögensschaden zufügt.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref">§263 StGB</div>
+    <div class="legal-term">Betrug</div>
+    <div class="legal-desc" data-lang-en>Fraud. If the non-notarization was deliberate — i.e. if Hunstein intentionally delayed notarization knowing this would void the contract while funds had already been collected — this meets the elements of deception (Täuschung), error (Irrtum), and financial loss (Vermögensverfügung).</div>
+    <div class="legal-desc" data-lang-de style="display:none">Betrug. War die Nicht-Beurkundung absichtlich — d.h. hat Hunstein die Beurkundung bewusst verzögert, wissend, dass dies den Vertrag unwirksam machen würde, während Gelder bereits geflossen waren — erfüllt dies die Tatbestandsmerkmale Täuschung, Irrtum und Vermögensverfügung.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref">§812 BGB</div>
+    <div class="legal-term">Ungerechtfertigte Bereicherung</div>
+    <div class="legal-desc" data-lang-en>Unjust enrichment. If the contract is void (as SyncPilot/GHR now claim), the €6.15M was received without legal cause (ohne Rechtsgrund). SyncPilot has a restitution obligation regardless of the contract's validity.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Ungerechtfertigte Bereicherung. Ist der Vertrag unwirksam (wie SyncPilot/GHR nun behaupten), wurden die 6,15 Mio. € ohne Rechtsgrund empfangen. SyncPilot hat unabhängig von der Vertragsgültigkeit eine Rückerstattungspflicht.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref">BGB §488 ff.</div>
+    <div class="legal-term">Darlehensvertrag</div>
+    <div class="legal-desc" data-lang-en>Loan agreement obligations. Under BGB loan provisions, the borrower is obligated to repay the loan amount plus agreed interest at maturity. Non-performance triggers default interest (Verzugszinsen) per §288 BGB.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Darlehensvertragliche Pflichten. Gemäß den BGB-Darlehensbestimmungen ist der Darlehensnehmer verpflichtet, den Darlehensbetrag zuzüglich vereinbarter Zinsen bei Fälligkeit zurückzuzahlen. Nichterfüllung löst Verzugszinsen nach §288 BGB aus.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref">AktG §221</div>
+    <div class="legal-term">Wandelschuldverschreibungen</div>
+    <div class="legal-desc" data-lang-en>Convertible bonds under Aktiengesetz. Issuance of conversion rights requires shareholder approval and proper registration. If conversion was promised but not executed per AktG, the company's officers face liability.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Wandelschuldverschreibungen nach Aktiengesetz. Die Ausgabe von Wandlungsrechten erfordert Aktionärszustimmung und ordnungsgemäße Eintragung. Wurde eine Wandlung versprochen aber nicht gemäß AktG durchgeführt, haften die Organe der Gesellschaft.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref" data-lang-en>STATUTE OF LIMITATIONS</div>
+    <div class="legal-ref" data-lang-de style="display:none">VERJÄHRUNG</div>
+    <div class="legal-term">Verjährungsfrist</div>
+    <div class="legal-desc" data-lang-en>Standard civil claims: 3 years from end of year of knowledge (§195, §199 BGB). Last disbursement: Aug 2021 → civil limitation potentially Dec 2024. Criminal limitation for Untreue (§266 StGB): 5 years (§78 StGB) → Aug 2026. <strong style="color:var(--claret)">Time-critical.</strong></div>
+    <div class="legal-desc" data-lang-de style="display:none">Reguläre zivilrechtliche Verjährung: 3 Jahre ab Ende des Jahres der Kenntnis (§195, §199 BGB). Letzte Auszahlung: Aug 2021 → zivilrechtliche Verjährung möglicherweise Dez 2024. Strafrechtliche Verjährung für Untreue (§266 StGB): 5 Jahre (§78 StGB) → Aug 2026. <strong style="color:var(--claret)">Zeitkritisch.</strong></div>
+  </div>
+</div>
+
+<!-- Chapter Navigation -->
+<div class="chapter-nav">
+  <a href="10_pictet_investment.html">&larr; Ch 10 — Pictet Investment</a>
+  <a href="index.html">Index &rarr;</a>
+</div>
+
+</div><!-- end content-area -->
+
+<script>
+function toggleMenu(){
+  var m=document.getElementById('sideMenu'),o=document.getElementById('menuOverlay');
+  m.classList.toggle('open');o.classList.toggle('visible');
+}
+var lang='en';
+function toggleLang(){
+  lang=lang==='en'?'de':'en';
+  document.body.classList.toggle('lang-de',lang==='de');
+  document.body.classList.toggle('lang-en',lang==='en');
+  document.querySelector('.lang-toggle').textContent=lang==='en'?'DE':'EN';
+}
+
+/* ============================================================
+   TRANCHE TIMELINE CHART
+   ============================================================ */
+(function(){
+  var ctx=document.getElementById('trancheChart');
+  if(!ctx)return;
+
+  // Dates and cumulative amounts
+  var labels=['Feb 2021','Mar','7 Apr','29 Apr','21 May','7 Jun','Jul','21 Aug','31 Aug','Sep–Dec','27 Dec','Jan 2022','Mar 2022','2023','2024','Feb 2026'];
+  var cumulative=[0,0,650000,2150000,2150000,3150000,3150000,3150000,6150000,6150000,6150000,6150000,6150000,6150000,6150000,6150000];
+  var committed=[0,0,650000,2150000,3150000,3150000,6650000,6650000,6650000,6650000,6650000,7500000,18750000,18750000,18750000,18750000];
+
+  new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:labels,
+      datasets:[
+        {
+          label:'Contractual Commitment (cumulative due)',
+          data:committed,
+          borderColor:'rgba(38,42,51,0.3)',
+          backgroundColor:'rgba(38,42,51,0.05)',
+          borderWidth:2,
+          borderDash:[8,4],
+          fill:true,
+          pointRadius:0,
+          tension:0.1
+        },
+        {
+          label:'Actual Disbursements (cumulative)',
+          data:cumulative,
+          borderColor:'#990F3D',
+          backgroundColor:'rgba(153,15,61,0.08)',
+          borderWidth:3,
+          fill:true,
+          pointRadius:function(ctx){
+            var v=ctx.raw;
+            var idx=ctx.dataIndex;
+            if(idx===2||idx===3||idx===5||idx===8)return 8;
+            return 0;
+          },
+          pointBackgroundColor:'#990F3D',
+          pointBorderColor:'#fff',
+          pointBorderWidth:2,
+          tension:0.1
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      aspectRatio:2.2,
+      plugins:{
+        legend:{
+          position:'bottom',
+          labels:{font:{family:'Source Sans 3',size:11}}
+        },
+        tooltip:{
+          callbacks:{
+            label:function(c){return c.dataset.label+': €'+c.raw.toLocaleString();}
+          }
+        },
+        annotation:{
+          annotations:{
+            gapLabel:{
+              type:'label',
+              xValue:12,
+              yValue:12000000,
+              content:['Gap: €12.6M','never disbursed'],
+              font:{family:'Source Sans 3',size:11,weight:'600'},
+              color:'rgba(38,42,51,0.4)',
+              backgroundColor:'rgba(255,241,229,0.8)',
+              padding:6
+            },
+            outstandingBox:{
+              type:'box',
+              xMin:8,xMax:15,
+              yMin:5800000,yMax:6500000,
+              backgroundColor:'rgba(153,15,61,0.06)',
+              borderColor:'rgba(153,15,61,0.2)',
+              borderWidth:1,
+              label:{
+                display:true,
+                content:'€6.15M OUTSTANDING — no shares, no repayment',
+                position:{x:'center',y:'center'},
+                font:{family:'Source Sans 3',size:10,weight:'700'},
+                color:'#990F3D',
+                backgroundColor:'transparent'
+              }
+            }
+          }
+        }
+      },
+      scales:{
+        y:{
+          beginAtZero:true,
+          max:20000000,
+          ticks:{
+            callback:function(v){return '€'+( v>=1000000? (v/1000000).toFixed(1)+'M' : (v/1000).toFixed(0)+'K' );},
+            font:{family:'Source Sans 3',size:11}
+          },
+          grid:{color:'rgba(242,223,206,0.5)'}
+        },
+        x:{
+          ticks:{
+            font:{family:'Source Sans 3',size:10},
+            maxRotation:45
+          },
+          grid:{display:false}
+        }
+      }
+    }
+  });
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 10 &mdash; The Pictet Investment | SyncPilot Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
+.side-menu.open{left:0}
+.menu-link{display:block;font-family:var(--font-ui);font-size:.88rem;color:var(--slate);text-decoration:none;padding:var(--sp-2) var(--sp-6);transition:background .12s;line-height:1.4}
+.menu-link:hover{background:rgba(242,223,206,.5);text-decoration:none}
+.menu-link.active{border-left:3px solid var(--claret);padding-left:calc(var(--sp-6) - 3px);background:rgba(242,223,206,.3);font-weight:600}
+.menu-link .ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(38,42,51,.4);font-size:.78rem}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
+h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
+
+.bluf-box{background:var(--white);border-left:4px solid var(--claret);border-radius:0 6px 6px 0;padding:var(--sp-6) var(--sp-8);margin:var(--sp-6) 0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bluf-label{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret);margin-bottom:var(--sp-2)}
+
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.kpi-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4) var(--sp-6);text-align:center}
+.kpi-card.alert{border-color:var(--claret);border-width:2px}
+.kpi-number{font-family:var(--font-ui);font-weight:700;font-size:1.8rem;line-height:1.1}
+.kpi-number.red{color:var(--claret)}
+.kpi-number.orange{color:#EA580C}
+.kpi-number.teal{color:var(--oxford)}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.5);margin-top:4px}
+
+.chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+
+/* Investor Card */
+.investor-card{display:flex;gap:var(--sp-6);background:var(--white);border:1px solid var(--wheat);border-radius:8px;padding:var(--sp-6);margin:var(--sp-6) 0;align-items:flex-start}
+.investor-logo{width:80px;height:80px;background:var(--slate);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:var(--font-ui);font-weight:700;font-size:1rem;flex-shrink:0;letter-spacing:.04em}
+.investor-info{flex:1}
+.investor-name{font-family:var(--font-ui);font-weight:700;font-size:1.2rem;margin-bottom:4px}
+.investor-sub{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.55);margin-bottom:var(--sp-3)}
+.investor-detail{font-family:var(--font-ui);font-size:.82rem;margin-bottom:2px;color:rgba(38,42,51,.65)}
+.investor-detail strong{color:var(--slate)}
+
+/* Anomaly box v3 */
+.anomaly-box{background:var(--white);border:3px solid var(--claret);border-radius:12px;overflow:hidden;margin:var(--sp-8) 0;box-shadow:0 6px 30px rgba(153,15,61,.12)}
+.anomaly-header{background:var(--claret);color:#fff;padding:var(--sp-4) var(--sp-6);font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
+.anomaly-hero{text-align:center;padding:var(--sp-8) var(--sp-6) var(--sp-4);background:linear-gradient(180deg,rgba(153,15,61,.03) 0%,transparent 100%)}
+.anomaly-hero-num{font-family:var(--font-ui);font-weight:700;font-size:clamp(3rem,8vw,4.5rem);color:var(--claret);line-height:1;letter-spacing:-.03em}
+.anomaly-hero-label{font-family:var(--font-ui);font-size:.82rem;font-weight:600;color:rgba(38,42,51,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.anomaly-bar-wrap{padding:0 var(--sp-8) var(--sp-6)}
+.anomaly-bar-row{display:flex;align-items:center;gap:var(--sp-4);margin-bottom:var(--sp-3)}
+.anomaly-bar-label{font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:rgba(38,42,51,.55);width:100px;text-align:right;flex-shrink:0}
+.anomaly-bar-track{flex:1;height:36px;background:rgba(242,223,206,.4);border-radius:4px;overflow:hidden;position:relative}
+.anomaly-bar-fill{height:100%;display:flex;align-items:center;padding:0 12px;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:.82rem;border-radius:4px;transition:width 1s}
+.anomaly-metrics{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--wheat)}
+.anomaly-metric-col{padding:var(--sp-6) var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-4)}
+.anomaly-metric-col:first-child{border-right:1px solid var(--wheat)}
+.anomaly-metric-col h4{font-family:var(--font-ui);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(38,42,51,.35);margin:0}
+.anomaly-row{display:flex;justify-content:space-between;align-items:baseline}
+.anomaly-row-label{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.6)}
+.anomaly-row-val{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--slate)}
+.anomaly-row-val.red{color:var(--claret)}
+.anomaly-row-val.teal{color:var(--oxford)}
+
+/* Timeline compact */
+.val-timeline{position:relative;padding-left:28px;margin:var(--sp-6) 0}
+.val-timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--wheat)}
+.vt-event{position:relative;padding:var(--sp-3) 0 var(--sp-4);font-family:var(--font-ui);font-size:.82rem}
+.vt-event::before{content:'';position:absolute;left:-22px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--oxford);border:2px solid var(--paper)}
+.vt-event.alert::before{background:var(--claret)}
+.vt-event .vt-date{font-weight:700;color:var(--slate);margin-bottom:2px}
+.vt-event .vt-val{font-weight:700;color:var(--oxford);margin-bottom:2px}
+.vt-event.alert .vt-val{color:var(--claret)}
+.vt-event .vt-desc{color:rgba(38,42,51,.6);line-height:1.4}
+
+/* Question Box */
+.question-box{background:linear-gradient(135deg,rgba(153,15,61,.06),rgba(153,15,61,.02));border:2px solid var(--claret);border-radius:8px;padding:var(--sp-6) var(--sp-8);margin:var(--sp-8) 0}
+.question-box h3{color:var(--claret);margin-top:0;font-size:1.05rem}
+.question-box p{font-size:.95rem;margin-bottom:var(--sp-3);line-height:1.6}
+.question-box p:last-child{margin-bottom:0}
+
+/* Legal grid */
+.legal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.legal-item{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--claret);border-radius:6px;padding:var(--sp-4) var(--sp-6)}
+.legal-ref{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--claret);margin-bottom:4px}
+.legal-term{font-family:var(--font-ui);font-weight:700;font-size:.95rem;margin-bottom:4px}
+.legal-desc{font-size:.85rem;color:rgba(38,42,51,.65);line-height:1.45}
+
+/* Press refs */
+.press-grid{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin:var(--sp-4) 0}
+.press-chip{font-family:var(--font-ui);font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:3px;background:rgba(38,42,51,.05);border:1px solid rgba(38,42,51,.12);color:var(--slate);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.press-chip:hover{background:rgba(38,42,51,.1);text-decoration:none}
+.press-chip::before{content:"\1F4F0";font-size:.7rem}
+
+.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
+.chapter-nav a:hover{color:var(--claret)}
+
+/* Lang toggle */
+body.lang-en [data-lang-de]{display:none!important}
+body.lang-de [data-lang-en]{display:none!important}
+body.lang-de [data-lang-de]{display:block!important}
+body.lang-en [data-lang-en]{display:block!important}
+
+/* Comparison table */
+.val-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:.85rem;margin:var(--sp-4) 0}
+.val-table th{text-align:left;padding:var(--sp-3) var(--sp-4);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(38,42,51,.4);border-bottom:2px solid var(--wheat);background:rgba(242,223,206,.3)}
+.val-table td{padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--wheat)}
+.val-table tr:hover{background:rgba(242,223,206,.2)}
+.val-table .num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.val-table .red{color:var(--claret)}
+.val-table .teal{color:var(--oxford)}
+.val-table .alert-row{background:rgba(153,15,61,.04)}
+
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:1fr 1fr}
+  .investor-card{flex-direction:column}
+  .anomaly-metrics{grid-template-columns:1fr}
+  .anomaly-metric-col:first-child{border-right:none;border-bottom:1px solid var(--wheat)}
+  .legal-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body class="lang-en">
+<nav class="site-nav">
+  <div class="nav-left">
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="nav-title" href="index.html">SyncPilot&nbsp;Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang()">DE</button>
+  </div>
+</nav>
+
+<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<aside class="side-menu" id="sideMenu">
+  <a href="index.html" class="menu-link" style="font-weight:700;margin-bottom:8px"><span data-lang-en>Index</span><span data-lang-de>Übersicht</span></a>
+  <a href="01_ubo_directory.html" class="menu-link"><span class="ch-num">01</span> <span data-lang-en>Who Controls This Company?</span><span data-lang-de>Wer kontrolliert das Unternehmen?</span></a>
+  <a href="02_capital_events.html" class="menu-link"><span class="ch-num">02</span> <span data-lang-en>14 Capital Events, Zero Oversight</span><span data-lang-de>14 Kapitalmaßnahmen, null Aufsicht</span></a>
+  <a href="03_valuation.html" class="menu-link"><span class="ch-num">03</span> <span data-lang-en>What Is It Actually Worth?</span><span data-lang-de>Was ist es wirklich wert?</span></a>
+  <a href="04_revenue.html" class="menu-link"><span class="ch-num">04</span> <span data-lang-en>Where Is the Revenue?</span><span data-lang-de>Wo bleibt der Umsatz?</span></a>
+  <a href="05_risk_ratings.html" class="menu-link"><span class="ch-num">05</span> <span data-lang-en>Five Red Flags</span><span data-lang-de>Fünf Warnsignale</span></a>
+  <a href="06_perseus_breach.html" class="menu-link"><span class="ch-num">06</span> <span data-lang-en>The 95% Discount</span><span data-lang-de>Der 95%-Rabatt</span></a>
+  <a href="07_treasury_deficit.html" class="menu-link"><span class="ch-num">07</span> <span data-lang-en>Treasury Deficit</span><span data-lang-de>Bilanzdefizit</span></a>
+  <a href="08_wash_trades.html" class="menu-link"><span class="ch-num">08</span> <span data-lang-en>Circular Control &amp; Wash Trades</span><span data-lang-de>Zirkuläre Kontrolle</span></a>
+  <a href="09_bleicher_profile.html" class="menu-link"><span class="ch-num">09</span> <span data-lang-en>Bleicher — The Architect</span><span data-lang-de>Bleicher — Der Architekt</span></a>
+  <a href="10_pictet_investment.html" class="menu-link active"><span class="ch-num">10</span> <span data-lang-en>The Pictet Investment</span><span data-lang-de>Die Pictet-Investition</span></a>
+</aside>
+
+<div class="content-area">
+
+<div class="hero">
+  <h1 data-lang-en>The Pictet Investment</h1>
+  <h1 data-lang-de style="display:none">Die Pictet-Investition</h1>
+  <hr class="hero-rule">
+  <div class="hero-subtitle" data-lang-en>Chapter 10 — When a CHF 724 Billion Swiss Bank Finances a Company Whose Shares Traded at €1 the Year Before</div>
+  <div class="hero-subtitle" data-lang-de style="display:none">Kapitel 10 — Wenn eine Schweizer Privatbank mit CHF 724 Mrd. AUM eine Firma finanziert, deren Aktien ein Jahr zuvor für 1 € gehandelt wurden</div>
+</div>
+
+<!-- BLUF -->
+<div class="bluf-box">
+  <div class="bluf-label">Bottom Line</div>
+  <p data-lang-en>In November 2024, Pictet Asset Management's European Direct Lending strategy provided debt financing to the SYNCPILOT Group — a company whose shares had been sold at €1.00 per share to insiders just 20 months earlier, then repriced to €20.56 eight weeks later. The valuation materials presented to Pictet may have significantly overstated the company's financial position, given that internal documents show a company with ~€12M in annual revenue claiming valuations of €250–450 million. This raises questions of <em>Kapitalanlagebetrug</em> (§264a StGB — investment fraud) if material information about the Perseus pricing anomaly, the €6.15M unresolved LVS loan, and structural control concerns was withheld from Pictet's due diligence.</p>
+  <p data-lang-de style="display:none">Im November 2024 stellte die European-Direct-Lending-Strategie von Pictet Asset Management der SYNCPILOT-Gruppe Fremdfinanzierung zur Verfügung — einem Unternehmen, dessen Aktien nur 20 Monate zuvor für 1,00 € pro Aktie an Insider verkauft und acht Wochen später auf 20,56 € umbewertet worden waren. Die Pictet vorgelegten Bewertungsunterlagen könnten die wirtschaftliche Lage des Unternehmens erheblich überzeichnet haben, da interne Dokumente ein Unternehmen mit ~12 Mio. € Jahresumsatz zeigen, das Bewertungen von 250–450 Millionen Euro beansprucht. Dies wirft Fragen des <em>Kapitalanlagebetrugs</em> (§264a StGB) auf, sollten wesentliche Informationen über die Perseus-Preisanomalie, das ungelöste LVS-Darlehen über 6,15 Mio. € und strukturelle Kontrollbedenken Pictets Due Diligence vorenthalten worden sein.</p>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi-card alert">
+    <div class="kpi-number red">80×</div>
+    <div class="kpi-label" data-lang-en>Valuation gap: €250M claimed vs €5.6M Perseus-implied</div>
+    <div class="kpi-label" data-lang-de style="display:none">Bewertungslücke: 250 Mio. € beansprucht vs. 5,6 Mio. € Perseus-Implikation</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number orange">€12M</div>
+    <div class="kpi-label" data-lang-en>Approx. annual revenue (2024)</div>
+    <div class="kpi-label" data-lang-de style="display:none">Ca. Jahresumsatz (2024)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number teal">€250M</div>
+    <div class="kpi-label" data-lang-en>Valuation claimed (Nov 2023)</div>
+    <div class="kpi-label" data-lang-de style="display:none">Beanspruchte Bewertung (Nov 2023)</div>
+  </div>
+  <div class="kpi-card alert">
+    <div class="kpi-number red">€6.15M</div>
+    <div class="kpi-label" data-lang-en>Unreturned LVS loan on books</div>
+    <div class="kpi-label" data-lang-de style="display:none">Nicht zurückgezahltes LVS-Darlehen</div>
+  </div>
+</div>
+
+<!-- Investor Card -->
+<h2 data-lang-en>The Investor: Pictet Asset Management</h2>
+<h2 data-lang-de style="display:none">Der Investor: Pictet Asset Management</h2>
+
+<div class="investor-card">
+  <div class="investor-logo">PICTET</div>
+  <div class="investor-info">
+    <div class="investor-name">Pictet European Direct Lending I</div>
+    <div class="investor-sub" data-lang-en>Article 8 fund | Lower mid-market focus (EBITDA €3–12M)</div>
+    <div class="investor-sub" data-lang-de style="display:none">Artikel-8-Fonds | Fokus unteres Mittelstandssegment (EBITDA 3–12 Mio. €)</div>
+    <div class="investor-detail"><strong data-lang-en>Parent:</strong><strong data-lang-de style="display:none">Muttergesellschaft:</strong> Pictet Group (Geneva) — CHF 724 bn AUM (2024)</div>
+    <div class="investor-detail"><strong data-lang-en>Fund target:</strong><strong data-lang-de style="display:none">Fondsziel:</strong> €200M (first close Oct 2023)</div>
+    <div class="investor-detail"><strong data-lang-en>Strategy:</strong><strong data-lang-de style="display:none">Strategie:</strong> Debt financing to privately-owned European lower mid-market companies</div>
+    <div class="investor-detail"><strong data-lang-en>Legal counsel:</strong><strong data-lang-de style="display:none">Rechtliche Beratung:</strong> Hogan Lovells (Munich — Dr. Thomas Freund)</div>
+    <div class="investor-detail"><strong data-lang-en>Financing date:</strong><strong data-lang-de style="display:none">Finanzierungsdatum:</strong> November 2024 (per Hogan Lovells press release, 13 Nov 2024)</div>
+    <div class="investor-detail"><strong data-lang-en>Amount:</strong><strong data-lang-de style="display:none">Betrag:</strong> Not publicly disclosed</div>
+  </div>
+</div>
+
+<div class="press-grid">
+  <a class="press-chip" href="https://www.hoganlovells.com/de/news/hogan-lovells-beraet-pictet-bei-einer-unternehmensfinanzierung-der-syncpilot-gruppe" target="_blank">Hogan Lovells — Pictet / SYNCPILOT (13 Nov 2024)</a>
+  <a class="press-chip" href="https://funds-europe.com/pictet-am-closes-european-direct-lending-fund/" target="_blank">Funds Europe — Pictet DL Fund Close (Jan 2024)</a>
+  <a class="press-chip" href="https://am.pictet.com/ch/en/strategies/european-direct-lending" target="_blank">Pictet — European Direct Lending Strategy</a>
+</div>
+
+<!-- SECTION: The Valuation Contradiction -->
+<h2 data-lang-en>The Valuation Contradiction</h2>
+<h2 data-lang-de style="display:none">Der Bewertungswiderspruch</h2>
+
+<p data-lang-en>
+The central question surrounding Pictet's investment is not whether SYNCPILOT has revenue or customers — it does. The question is what valuation was presented to Pictet, and whether that valuation was consistent with the company's own transaction history. The internal record reveals a company that has been simultaneously valued at wildly different levels depending on who was buying, when, and for what purpose.
+</p>
+<p data-lang-de style="display:none">
+Die zentrale Frage rund um Pictets Investition ist nicht, ob SYNCPILOT Umsätze oder Kunden hat — das hat es. Die Frage ist, welche Bewertung Pictet präsentiert wurde und ob diese Bewertung mit der eigenen Transaktionshistorie des Unternehmens vereinbar war. Die internen Aufzeichnungen zeigen ein Unternehmen, das gleichzeitig auf völlig unterschiedlichen Niveaus bewertet wurde — abhängig davon, wer kaufte, wann und zu welchem Zweck.
+</p>
+
+<!-- Valuation Timeline -->
+<div class="val-timeline">
+  <div class="vt-event">
+    <div class="vt-date">Dec 2020</div>
+    <div class="vt-val">€23.5M</div>
+    <div class="vt-desc" data-lang-en>Contribution in kind: SyncPilot GmbH valued at €23.5M when contributed to the SE. BOSYNC receives 2.49M shares at €4.70/share implied.</div>
+    <div class="vt-desc" data-lang-de style="display:none">Sacheinlage: SyncPilot GmbH mit 23,5 Mio. € bewertet bei Einbringung in die SE. BOSYNC erhält 2,49 Mio. Aktien zu implizit 4,70 €/Aktie.</div>
+  </div>
+  <div class="vt-event">
+    <div class="vt-date">May 2021</div>
+    <div class="vt-val">€125M</div>
+    <div class="vt-desc" data-lang-en>Cooperation & Call Option Agreement with LVS SA. Total commitment €18.75M for 750,000 shares → €25/share → 5M shares × €25 = €125M implied market cap.</div>
+    <div class="vt-desc" data-lang-de style="display:none">Kooperations- & Call-Option-Vereinbarung mit LVS SA. Gesamtzusage 18,75 Mio. € für 750.000 Aktien → 25 €/Aktie → 5 Mio. Aktien × 25 € = 125 Mio. € implizite Marktkapitalisierung.</div>
+  </div>
+  <div class="vt-event">
+    <div class="vt-date">Dec 2021</div>
+    <div class="vt-val">€65M</div>
+    <div class="vt-desc" data-lang-en>Capital increase: Saupe & Kimmich subscribe at €13/share using Authorized Capital II. 5M shares × €13 = €65M implied market cap.</div>
+    <div class="vt-desc" data-lang-de style="display:none">Kapitalerhöhung: Saupe & Kimmich zeichnen zu 13 €/Aktie aus Genehmigtem Kapital II. 5 Mio. Aktien × 13 € = 65 Mio. € implizite Marktkapitalisierung.</div>
+  </div>
+  <div class="vt-event alert">
+    <div class="vt-date">Mar 2023</div>
+    <div class="vt-val" style="font-size:1.2rem">€5.6M ⚠</div>
+    <div class="vt-desc" data-lang-en>Perseus share transfer: 127,885 shares sold to H.G. Perseus (Hunstein & Goerg) at €1.00/share → 5.6M shares × €1 = €5.6M implied market cap. A <strong style="color:var(--claret)">95% discount</strong> to any prior valuation.</div>
+    <div class="vt-desc" data-lang-de style="display:none">Perseus-Aktienübertragung: 127.885 Aktien an H.G. Perseus (Hunstein & Goerg) für 1,00 €/Aktie → 5,6 Mio. Aktien × 1 € = 5,6 Mio. € implizite Marktkapitalisierung. Ein <strong style="color:var(--claret)">95 %-Abschlag</strong> zu jeder vorherigen Bewertung.</div>
+  </div>
+  <div class="vt-event">
+    <div class="vt-date">May 2023</div>
+    <div class="vt-val">€115M</div>
+    <div class="vt-desc" data-lang-en>Perseus second tranche: 57,762 shares at €20.56/share → 5.6M shares × €20.56 = €115M implied. Same buyer, same entity, eight weeks later — a 20× price increase.</div>
+    <div class="vt-desc" data-lang-de style="display:none">Perseus zweite Tranche: 57.762 Aktien zu 20,56 €/Aktie → 5,6 Mio. Aktien × 20,56 € = 115 Mio. € impliziert. Gleicher Käufer, gleiche Gesellschaft, acht Wochen später — 20-facher Preisanstieg.</div>
+  </div>
+  <div class="vt-event alert">
+    <div class="vt-date">Nov 2023</div>
+    <div class="vt-val">€250–450M (claimed)</div>
+    <div class="vt-desc" data-lang-en>Internal email (Damerau/EuroAtlantic): Bleicher claims company "now valued at €250M" with a planned capital increase at €450M valuation. No supporting documentation available.</div>
+    <div class="vt-desc" data-lang-de style="display:none">Interne E-Mail (Damerau/EuroAtlantic): Bleicher behauptet, Unternehmen sei „jetzt mit 250 Mio. € bewertet" mit geplanter Kapitalerhöhung bei 450 Mio. € Bewertung. Keine Belege verfügbar.</div>
+  </div>
+  <div class="vt-event">
+    <div class="vt-date">Nov 2024</div>
+    <div class="vt-val">? (undisclosed)</div>
+    <div class="vt-desc" data-lang-en><strong>Pictet European Direct Lending provides financing.</strong> Hogan Lovells advises. Valuation basis unknown — but the financing was for "targeted investment in further company growth."</div>
+    <div class="vt-desc" data-lang-de style="display:none"><strong>Pictet European Direct Lending stellt Finanzierung bereit.</strong> Hogan Lovells berät. Bewertungsbasis unbekannt — die Finanzierung diente der „gezielten Investition in das weitere Unternehmenswachstum".</div>
+  </div>
+</div>
+
+<!-- ANOMALY BOX: Valuation Gap -->
+<div class="anomaly-box">
+  <div class="anomaly-header">⚠ Valuation Anomaly — Which Number Did Pictet See?</div>
+  <div class="anomaly-hero">
+    <div class="anomaly-hero-num">80×</div>
+    <div class="anomaly-hero-label" data-lang-en>Gap between claimed €250M and Perseus-implied €5.6M</div>
+    <div class="anomaly-hero-label" data-lang-de style="display:none">Lücke zwischen beanspruchten 250 Mio. € und Perseus-implizierter 5,6 Mio. €</div>
+  </div>
+  <div class="anomaly-bar-wrap">
+    <div class="anomaly-bar-row">
+      <div class="anomaly-bar-label">Perseus €1</div>
+      <div class="anomaly-bar-track">
+        <div class="anomaly-bar-fill" style="background:var(--claret);width:1.2%">€5.6M</div>
+      </div>
+    </div>
+    <div class="anomaly-bar-row">
+      <div class="anomaly-bar-label">Sacheinlage</div>
+      <div class="anomaly-bar-track">
+        <div class="anomaly-bar-fill" style="background:rgba(38,42,51,.3);width:5.2%">€23.5M</div>
+      </div>
+    </div>
+    <div class="anomaly-bar-row">
+      <div class="anomaly-bar-label">Auth. Cap. II</div>
+      <div class="anomaly-bar-track">
+        <div class="anomaly-bar-fill" style="background:var(--oxford);width:14.4%">€65M</div>
+      </div>
+    </div>
+    <div class="anomaly-bar-row">
+      <div class="anomaly-bar-label">SaaS 10× Rev</div>
+      <div class="anomaly-bar-track">
+        <div class="anomaly-bar-fill" style="background:rgba(13,118,128,.5);width:26.7%">€120M</div>
+      </div>
+    </div>
+    <div class="anomaly-bar-row">
+      <div class="anomaly-bar-label">Claimed '23</div>
+      <div class="anomaly-bar-track">
+        <div class="anomaly-bar-fill" style="background:var(--claret);width:55.6%">€250M</div>
+      </div>
+    </div>
+    <div class="anomaly-bar-row">
+      <div class="anomaly-bar-label">Cap. Raise '23</div>
+      <div class="anomaly-bar-track">
+        <div class="anomaly-bar-fill" style="background:var(--claret);width:100%">€450M</div>
+      </div>
+    </div>
+  </div>
+  <div class="anomaly-metrics">
+    <div class="anomaly-metric-col">
+      <h4 data-lang-en>Revenue-Based Valuation</h4>
+      <h4 data-lang-de style="display:none">Umsatzbasierte Bewertung</h4>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label" data-lang-en>Annual revenue</div>
+        <div class="anomaly-row-label" data-lang-de style="display:none">Jahresumsatz</div>
+        <div class="anomaly-row-val teal">~€12M</div>
+      </div>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label">5× revenue</div>
+        <div class="anomaly-row-val">€60M</div>
+      </div>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label">10× revenue</div>
+        <div class="anomaly-row-val">€120M</div>
+      </div>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label" data-lang-en>20× revenue (aggressive)</div>
+        <div class="anomaly-row-label" data-lang-de style="display:none">20× Umsatz (aggressiv)</div>
+        <div class="anomaly-row-val">€240M</div>
+      </div>
+    </div>
+    <div class="anomaly-metric-col">
+      <h4 data-lang-en>Claimed vs. Transaction-Implied</h4>
+      <h4 data-lang-de style="display:none">Beansprucht vs. Transaktions-impliziert</h4>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label" data-lang-en>Claimed (Nov 2023)</div>
+        <div class="anomaly-row-val red">€250M</div>
+      </div>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label" data-lang-en>Perseus €1 implied</div>
+        <div class="anomaly-row-val red">€5.6M</div>
+      </div>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label" data-lang-en>Cap. raise target</div>
+        <div class="anomaly-row-val red">€450M</div>
+      </div>
+      <div class="anomaly-row">
+        <div class="anomaly-row-label" data-lang-en>Revenue/valuation ratio</div>
+        <div class="anomaly-row-label" data-lang-de style="display:none">Umsatz/Bewertungs-Verhältnis</div>
+        <div class="anomaly-row-val red">37.5×</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHART: Valuation Comparison -->
+<div class="chart-container">
+  <div class="chart-title" data-lang-en>Implied Market Cap by Transaction Event (€M)</div>
+  <div class="chart-title" data-lang-de style="display:none">Implizite Marktkapitalisierung nach Transaktionsereignis (Mio. €)</div>
+  <canvas id="valChart" style="width:100%;max-height:400px"></canvas>
+  <div class="chart-source" data-lang-en>Source: SyncPilot SE History, internal emails, Hogan Lovells press release | SaaS multiples: industry standard 5–10× ARR</div>
+</div>
+
+
+<!-- SECTION: What Should Pictet Have Seen? -->
+<h2 data-lang-en>What Should Pictet's Due Diligence Have Revealed?</h2>
+<h2 data-lang-de style="display:none">Was hätte Pictets Due Diligence offenbaren müssen?</h2>
+
+<p data-lang-en>
+Pictet's European Direct Lending strategy targets "mature businesses that have reached a crucial stage in their evolution," with EBITDA of €3–12 million. Their published approach emphasises "thorough due diligence," "precise credit selection," and notes that "many of these firms are not rated by credit agencies, so all the research is the responsibility of the investor." Hogan Lovells assembled a multi-disciplinary advisory team spanning finance, tax, IP, corporate, and debt capital markets — at least 10 named professionals across Munich, Frankfurt, Hamburg, and Düsseldorf. This was not a casual lending decision.
+</p>
+<p data-lang-de style="display:none">
+Pictets European-Direct-Lending-Strategie zielt auf „reife Unternehmen, die eine entscheidende Phase ihrer Entwicklung erreicht haben", mit EBITDA von 3–12 Millionen Euro. Ihr veröffentlichter Ansatz betont „gründliche Due Diligence", „präzise Kreditauswahl" und weist darauf hin, dass „viele dieser Firmen nicht von Ratingagenturen bewertet werden, sodass die gesamte Research-Arbeit in der Verantwortung des Investors liegt." Hogan Lovells stellte ein multidisziplinäres Beraterteam zusammen — mindestens 10 namentlich genannte Fachleute aus München, Frankfurt, Hamburg und Düsseldorf.
+</p>
+
+<p data-lang-en>
+A comprehensive due diligence review should have flagged the following anomalies in SyncPilot's corporate record:
+</p>
+<p data-lang-de style="display:none">
+Eine umfassende Due-Diligence-Prüfung hätte die folgenden Anomalien in SyncPilots Unternehmensregister aufdecken müssen:
+</p>
+
+<table class="val-table">
+  <thead>
+    <tr>
+      <th data-lang-en>Red Flag</th>
+      <th data-lang-de style="display:none">Warnsignal</th>
+      <th data-lang-en>Detail</th>
+      <th data-lang-de style="display:none">Detail</th>
+      <th data-lang-en>Ch.</th>
+      <th data-lang-de style="display:none">Kap.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="alert-row">
+      <td data-lang-en><strong>Perseus pricing anomaly</strong></td>
+      <td data-lang-de style="display:none"><strong>Perseus-Preisanomalie</strong></td>
+      <td data-lang-en>127,885 shares sold at €1.00 to insiders, then €20.56 eight weeks later. 95% discount to market.</td>
+      <td data-lang-de style="display:none">127.885 Aktien an Insider für 1,00 € verkauft, dann 20,56 € acht Wochen später. 95 % Rabatt.</td>
+      <td><a href="06_perseus_breach.html">6</a></td>
+    </tr>
+    <tr class="alert-row">
+      <td data-lang-en><strong>Unreturned LVS loan</strong></td>
+      <td data-lang-de style="display:none"><strong>Nicht zurückgezahltes LVS-Darlehen</strong></td>
+      <td data-lang-en>€6.15M disbursed under convertible loan (Apr–Aug 2021). Neither repaid nor converted. Contract may be void (never notarized).</td>
+      <td data-lang-de style="display:none">6,15 Mio. € ausgezahlt als Wandeldarlehen (Apr–Aug 2021). Weder zurückgezahlt noch umgewandelt. Vertrag möglicherweise unwirksam (nie notariell beurkundet).</td>
+      <td><a href="11_lvs_loan.html">11</a></td>
+    </tr>
+    <tr>
+      <td data-lang-en><strong>Valuation whiplash</strong></td>
+      <td data-lang-de style="display:none"><strong>Bewertungs-Schleuderkurs</strong></td>
+      <td data-lang-en>Implied market cap swings from €5.6M to €125M to €250M+ within 30 months. No public disclosure of methodology.</td>
+      <td data-lang-de style="display:none">Implizite Marktkapitalisierung schwankt von 5,6 Mio. € auf 125 Mio. € auf 250+ Mio. € innerhalb von 30 Monaten. Keine öffentliche Methodik-Offenlegung.</td>
+      <td><a href="03_valuation.html">3</a></td>
+    </tr>
+    <tr>
+      <td data-lang-en><strong>Concentrated single-person control</strong></td>
+      <td data-lang-de style="display:none"><strong>Konzentrierte Einzelpersonenkontrolle</strong></td>
+      <td data-lang-en>Bleicher serves as GF of 6 entities + Président of SAS + 70% of largest shareholder. <em>Faktische Organschaft</em> without formal domination agreement.</td>
+      <td data-lang-de style="display:none">Bleicher ist GF von 6 Gesellschaften + Président der SAS + 70 % des größten Aktionärs. <em>Faktische Organschaft</em> ohne formalen Beherrschungsvertrag.</td>
+      <td><a href="09_bleicher_profile.html">9</a></td>
+    </tr>
+    <tr>
+      <td data-lang-en><strong>Ghost entity on share register</strong></td>
+      <td data-lang-de style="display:none"><strong>Geistergesellschaft im Aktienregister</strong></td>
+      <td data-lang-en>244,445 shares (4.4%) held by Tiven S.A. — an entity that "does not exist" per internal records.</td>
+      <td data-lang-de style="display:none">244.445 Aktien (4,4 %) bei Tiven S.A. — einer Gesellschaft, die laut internen Unterlagen „nicht existiert".</td>
+      <td><a href="08_wash_trades.html">8</a></td>
+    </tr>
+    <tr>
+      <td data-lang-en><strong>Goldfinger connection</strong></td>
+      <td data-lang-de style="display:none"><strong>Goldfinger-Verbindung</strong></td>
+      <td data-lang-en>Perseus principals Hunstein & Goerg are defendants in Germany's largest tax fraud prosecution (€1 bn+ alleged damage). Shares acquired during pretrial period.</td>
+      <td data-lang-de style="display:none">Perseus-Hauptpersonen Hunstein & Goerg sind Angeklagte in Deutschlands größtem Steuerbetrugsprozess (1+ Mrd. € Schadensumme). Aktien während Vorverfahren erworben.</td>
+      <td><a href="06_perseus_breach.html">6</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- SECTION: Analysis -->
+<h2 data-lang-en>Analysis — The Information Asymmetry</h2>
+<h2 data-lang-de style="display:none">Analyse — Die Informationsasymmetrie</h2>
+
+<p data-lang-en>
+The issue is not necessarily that Pictet made a poor investment. Professional lenders accept risk; that is their business. The issue is whether the materials Pictet relied upon in its credit assessment presented an accurate picture of the company — or a carefully curated one.
+</p>
+<p data-lang-de style="display:none">
+Das Problem ist nicht unbedingt, dass Pictet eine schlechte Investition getätigt hat. Professionelle Kreditgeber akzeptieren Risiken; das ist ihr Geschäft. Das Problem ist, ob die Unterlagen, auf die Pictet bei seiner Kreditprüfung vertraute, ein zutreffendes Bild des Unternehmens zeichneten — oder ein sorgfältig kuratiertes.
+</p>
+
+<p data-lang-en>
+Consider the information flow. Pictet's fund targets EBITDA of €3–12M. To qualify, SyncPilot would need to present financials showing approximately this range. With ~€12M in revenue (per Chapter 4 client analysis), the company would need margins of 25–100% to reach this threshold — plausible for a SaaS business, but only if personnel costs (which Bleicher's own investor described as "too high compared to revenue") are excluded from the EBITDA calculation. A November 2023 email from an existing investor (Damerau/EuroAtlantic) refers to Bleicher claiming the company was "valued at €250M" with a planned capital increase at "€450M." If these figures were also presented to Pictet, they imply a revenue multiple of 20–37×, far above the 5–10× typically applied to European mid-market SaaS companies.
+</p>
+<p data-lang-de style="display:none">
+Betrachten wir den Informationsfluss. Pictets Fonds zielt auf EBITDA von 3–12 Mio. €. Um zu qualifizieren, müsste SyncPilot Finanzdaten in dieser Größenordnung vorlegen. Bei ~12 Mio. € Umsatz (laut Kapitel-4-Kundenanalyse) bräuchte das Unternehmen Margen von 25–100 % — plausibel für ein SaaS-Geschäft, aber nur wenn Personalkosten (die Bleichers eigener Investor als „zu hoch im Vergleich zum Umsatz" bezeichnete) aus der EBITDA-Berechnung ausgenommen werden. Eine E-Mail vom November 2023 eines bestehenden Investors (Damerau/EuroAtlantic) bezieht sich auf Bleichers Behauptung, das Unternehmen sei „mit 250 Mio. € bewertet" mit geplanter Kapitalerhöhung bei „450 Mio. €". Wurden diese Zahlen auch Pictet präsentiert, implizieren sie einen Umsatzmultiplikator von 20–37×, weit über den 5–10× für europäische Mittelstands-SaaS-Unternehmen.
+</p>
+
+<p data-lang-en>
+The critical non-disclosures would be:
+</p>
+<p data-lang-de style="display:none">
+Die kritischen Nicht-Offenlegungen wären:
+</p>
+
+<p data-lang-en>
+<strong>First,</strong> the Perseus transaction history. Any lender seeing that the same company sold shares at €1 and €20.56 within eight weeks to the same buyer would demand an explanation. If this transaction was not disclosed to Pictet, it represents a material omission. If it was disclosed but explained away, the explanation itself would be investigatively relevant.
+</p>
+<p data-lang-de style="display:none">
+<strong>Erstens,</strong> die Perseus-Transaktionshistorie. Jeder Kreditgeber, der sieht, dass dasselbe Unternehmen Aktien innerhalb von acht Wochen an denselben Käufer für 1 € und 20,56 € verkaufte, würde eine Erklärung verlangen. Wurde diese Transaktion Pictet nicht offengelegt, stellt dies eine wesentliche Auslassung dar.
+</p>
+
+<p data-lang-en>
+<strong>Second,</strong> the LVS convertible loan. €6.15 million disbursed and neither returned nor converted into equity. This is a contingent liability that directly affects the company's credit profile. Any lender assessing SyncPilot's debt capacity should have been informed of this outstanding obligation.
+</p>
+<p data-lang-de style="display:none">
+<strong>Zweitens,</strong> das LVS-Wandeldarlehen. 6,15 Mio. € ausgezahlt und weder zurückgezahlt noch in Eigenkapital umgewandelt. Dies ist eine Eventualverbindlichkeit, die direkt das Kreditprofil des Unternehmens beeinflusst.
+</p>
+
+<p data-lang-en>
+<strong>Third,</strong> the structural control risk. Pictet's stated approach includes providing "strategic and operational guidance" as a lending partner. But with Bleicher serving as sole managing director of six entities and controlling 70% of the largest shareholder, any attempt at lender governance would be mediated through a single individual who has already demonstrated willingness to approve insider-discounted transactions.
+</p>
+<p data-lang-de style="display:none">
+<strong>Drittens,</strong> das strukturelle Kontrollrisiko. Pictets erklärter Ansatz umfasst „strategische und operative Beratung" als Kreditpartner. Aber mit Bleicher als alleinigem Geschäftsführer von sechs Gesellschaften und 70 %-Kontrolle des größten Aktionärs würde jeder Versuch einer Kreditgeber-Governance über eine Einzelperson vermittelt, die bereits Bereitschaft gezeigt hat, insiderrabattierte Transaktionen zu genehmigen.
+</p>
+
+<!-- Question Box -->
+<div class="question-box">
+  <h3 data-lang-en>🔍 Questions for Pictet's Investment Committee</h3>
+  <h3 data-lang-de style="display:none">🔍 Fragen an Pictets Investmentkomitee</h3>
+  <p data-lang-en><strong>1.</strong> What valuation was presented to Pictet's credit committee? Was the €250M figure used, and if so, on what revenue and EBITDA basis?</p>
+  <p data-lang-de style="display:none"><strong>1.</strong> Welche Bewertung wurde Pictets Kreditkomitee vorgelegt? Wurde die 250-Mio.-€-Zahl verwendet, und wenn ja, auf welcher Umsatz- und EBITDA-Basis?</p>
+  <p data-lang-en><strong>2.</strong> Was the Perseus share transfer (€1.00 → €20.56 in eight weeks) disclosed during due diligence? If so, how was the 95% discount explained?</p>
+  <p data-lang-de style="display:none"><strong>2.</strong> Wurde die Perseus-Aktienübertragung (1,00 € → 20,56 € in acht Wochen) während der Due Diligence offengelegt? Wenn ja, wie wurde der 95 %-Rabatt erklärt?</p>
+  <p data-lang-en><strong>3.</strong> Was the LVS SA convertible loan of €6.15M identified as an outstanding contingent liability? How was it treated in the credit assessment?</p>
+  <p data-lang-de style="display:none"><strong>3.</strong> Wurde das LVS-SA-Wandeldarlehen über 6,15 Mio. € als Eventualverbindlichkeit identifiziert? Wie wurde es in der Kreditprüfung behandelt?</p>
+  <p data-lang-en><strong>4.</strong> Was Pictet informed that two of the company's shareholders (Hunstein & Goerg, via Perseus) were defendants in Germany's largest tax fraud prosecution?</p>
+  <p data-lang-de style="display:none"><strong>4.</strong> Wurde Pictet informiert, dass zwei Aktionäre (Hunstein & Goerg, via Perseus) Angeklagte in Deutschlands größtem Steuerbetrugsprozess sind?</p>
+  <p data-lang-en><strong>5.</strong> What covenants or governance mechanisms were attached to the financing? Given Bleicher's <em>faktische Organschaft</em> (see <a href="09_bleicher_profile.html">Ch 9</a>), how is lender governance exercised?</p>
+  <p data-lang-de style="display:none"><strong>5.</strong> Welche Covenants oder Governance-Mechanismen wurden an die Finanzierung geknüpft? Wie wird angesichts Bleichers <em>faktischer Organschaft</em> (s. <a href="09_bleicher_profile.html">Kap. 9</a>) die Kreditgeber-Governance ausgeübt?</p>
+  <p data-lang-en><strong>6.</strong> Has Pictet's Article 8 ESG screening flagged any of the governance anomalies documented in this dossier?</p>
+  <p data-lang-de style="display:none"><strong>6.</strong> Hat Pictets Artikel-8-ESG-Screening eine der in diesem Dossier dokumentierten Governance-Anomalien erkannt?</p>
+</div>
+
+<!-- Legal Framework -->
+<h2 data-lang-en>Legal Framework</h2>
+<h2 data-lang-de style="display:none">Rechtlicher Rahmen</h2>
+
+<div class="legal-grid">
+  <div class="legal-item">
+    <div class="legal-ref">§264a StGB</div>
+    <div class="legal-term">Kapitalanlagebetrug</div>
+    <div class="legal-desc" data-lang-en>Making false or misleading statements of material fact in prospectuses, offering documents, or presentations used to solicit investment. Applies where advantageous facts are presented or disadvantageous facts concealed in connection with the sale of securities or investment products.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Unwahre oder irreführende Angaben über erhebliche Tatsachen in Prospekten, Angebotsunterlagen oder Präsentationen zur Einwerbung von Investitionen. Gilt, wenn vorteilhafte Umstände dargestellt oder nachteilige Umstände verschwiegen werden im Zusammenhang mit dem Vertrieb von Wertpapieren oder Anlageprodukten.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref" data-lang-en>CIVIL LIABILITY</div>
+    <div class="legal-ref" data-lang-de style="display:none">ZIVILRECHTLICHE HAFTUNG</div>
+    <div class="legal-term">Prospektpflicht / Prospekthaftung</div>
+    <div class="legal-desc" data-lang-en>Liability for misleading investment materials. Where investment decisions are based on inaccurate representations of a company's financial condition, issuers and their officers may be jointly liable for resulting damages.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Haftung für irreführende Anlageunterlagen. Wenn Investitionsentscheidungen auf unzutreffenden Darstellungen der Finanzlage eines Unternehmens beruhen, können Emittenten und ihre Organe gesamtschuldnerisch für resultierende Schäden haften.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref" data-lang-en>DUTY OF CARE</div>
+    <div class="legal-ref" data-lang-de style="display:none">SORGFALTSPFLICHT</div>
+    <div class="legal-term">Täuschung über bewertungserhebliche Umstände</div>
+    <div class="legal-desc" data-lang-en>Deception regarding material valuation circumstances. Omitting information about insider-discounted transactions, outstanding liabilities, or structural governance failures constitutes material non-disclosure if such information would have affected the investment decision.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Täuschung über bewertungserhebliche Umstände. Das Verschweigen von Informationen über insiderrabattierte Transaktionen, ausstehende Verbindlichkeiten oder strukturelle Governance-Mängel stellt eine wesentliche Nichtoffenlegung dar, wenn solche Informationen die Investitionsentscheidung beeinflusst hätten.</div>
+  </div>
+</div>
+
+<!-- Chapter Navigation -->
+<div class="chapter-nav">
+  <a href="09_bleicher_profile.html">&larr; Ch 9 — Bleicher Profile</a>
+  <a href="index.html">Index &rarr;</a>
+</div>
+
+</div><!-- end content-area -->
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+function toggleMenu(){
+  var m=document.getElementById('sideMenu'),o=document.getElementById('menuOverlay');
+  m.classList.toggle('open');o.classList.toggle('visible');
+}
+var lang='en';
+function toggleLang(){
+  lang=lang==='en'?'de':'en';
+  document.body.classList.toggle('lang-de',lang==='de');
+  document.body.classList.toggle('lang-en',lang==='en');
+  document.querySelector('.lang-toggle').textContent=lang==='en'?'DE':'EN';
+}
+
+/* ============================================================
+   VALUATION COMPARISON CHART
+   ============================================================ */
+(function(){
+  var ctx=document.getElementById('valChart');
+  if(!ctx)return;
+
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:[
+        'Sacheinlage\nDec 2020',
+        'LVS Agreement\nMay 2021',
+        'Auth. Cap. II\nDec 2021',
+        'Perseus €1\nMar 2023',
+        'Perseus €20.56\nMay 2023',
+        'SaaS 5× Rev\n(Reference)',
+        'SaaS 10× Rev\n(Reference)',
+        'Claimed\nNov 2023',
+        'Cap. Raise\nNov 2023'
+      ],
+      datasets:[{
+        label:'Implied Market Cap (€M)',
+        data:[23.5, 125, 65, 5.6, 115, 60, 120, 250, 450],
+        backgroundColor:[
+          'rgba(13,118,128,0.7)',
+          'rgba(13,118,128,0.7)',
+          'rgba(13,118,128,0.7)',
+          'rgba(153,15,61,0.85)',
+          'rgba(13,118,128,0.7)',
+          'rgba(38,42,51,0.2)',
+          'rgba(38,42,51,0.2)',
+          'rgba(153,15,61,0.85)',
+          'rgba(153,15,61,0.85)'
+        ],
+        borderColor:[
+          '#0D7680','#0D7680','#0D7680',
+          '#990F3D',
+          '#0D7680',
+          '#999','#999',
+          '#990F3D','#990F3D'
+        ],
+        borderWidth:2,
+        borderRadius:4
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      aspectRatio:2,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:function(c){return '€'+c.raw+'M';}
+          }
+        },
+        annotation:{
+          annotations:{
+            pictetLine:{
+              type:'line',
+              yMin:250,yMax:250,
+              borderColor:'rgba(153,15,61,0.4)',
+              borderWidth:2,
+              borderDash:[8,4],
+              label:{
+                display:true,
+                content:'Claimed Valuation Presented to Market',
+                position:'start',
+                font:{family:'Source Sans 3',size:11,weight:'600'},
+                color:'#990F3D',
+                backgroundColor:'rgba(255,241,229,0.9)',
+                padding:4
+              }
+            },
+            revenueZone:{
+              type:'box',
+              yMin:60,yMax:120,
+              backgroundColor:'rgba(13,118,128,0.05)',
+              borderColor:'rgba(13,118,128,0.15)',
+              borderWidth:1,
+              label:{
+                display:true,
+                content:'SaaS 5-10× Revenue Range',
+                position:{x:'end',y:'start'},
+                font:{family:'Source Sans 3',size:10},
+                color:'rgba(13,118,128,0.6)',
+                backgroundColor:'transparent'
+              }
+            }
+          }
+        }
+      },
+      scales:{
+        y:{
+          beginAtZero:true,
+          max:500,
+          ticks:{
+            callback:function(v){return '€'+v+'M';},
+            font:{family:'Source Sans 3',size:11}
+          },
+          grid:{color:'rgba(242,223,206,0.5)'}
+        },
+        x:{
+          ticks:{
+            font:{family:'Source Sans 3',size:10},
+            maxRotation:45,
+            autoSkip:false
+          },
+          grid:{display:false}
+        }
+      }
+    }
+  });
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

@@ -192,6 +192,7 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:320px">
       <canvas id="ppsChart"></canvas>
     </div>
+    <div class="chart-source" style="display:none">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History"</div>
   </div>
 
   <div class="timeline-legend">
@@ -207,6 +208,7 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:380px">
       <canvas id="volumeChart"></canvas>
     </div>
+    <div class="chart-source" style="display:none">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History"</div>
   </div>
 
   <h2><span data-lang-en>The Pattern — What the Timeline Reveals</span><span data-lang-de>Das Muster — Was die Chronologie offenbart</span></h2>
@@ -518,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var allTypes = ["issuance", "issuance", "restructuring", "issuance", "issuance", "transfer", "issuance", "issuance", "issuance", "issuance", "issuance", "transfer", "issuance", "transfer", "transfer"];
   var allPps = [null, null, null, 13.0, 13.0, null, 18.96, 1.0, 20.56, null, null, null, 23.64, null, null];
   var allEntities = ["Augusta Software GmbH; BOSYNC Beteiligungs UG; Bruchteilsgemeinschaft; DSI Digital Solutions Invest GmbH", "Augusta Software GmbH; BOSYNC Beteiligungs UG; DSI Digital Solutions Invest GmbH", "", "Christiane Saupe", "Marc F. Kimmich", "AURIGA Capital AG; DSI Digital Solutions Invest GmbH", "H.G. Perseus GmbH StbG", "H.G. Perseus GmbH StbG", "Tiven GmbH", "H.G. Perseus GmbH StbG", "bgh Verm\u00f6gensverwaltung GmbH", "AURIGA Capital AG; Attegia Holding Ltd.; Augusta Software GmbH; BOSYNC Beteiligungs UG; Christiane Saupe", "5th. Dimension Investment GmbH", "H.G. Perseus GmbH StbG; Lapis Ltd.; Marc F. Kimmich; Perseus Innovations and Services Holding Ltd.; Tiven GmbH", "ATLASI GROUP GmbH; AURIGA Capital AG; Attegia Holding Ltd.; Augusta Software GmbH; BOSYNC Beteiligungs UG"];
-  var allEvents = ["Acquisition of shares ; Name change to SYNCPILOT; Seat moved to Augsburg.", "Capital Increase (Contribution in Kind of SyncPilot GmbH) . | Capital Increase (Contribution in Kind of SyncPilot GmbH) ", "Creation Auth. Cap. I (\u20ac1M), Auth. Cap. II (\u20ac0.5M), Cond. Cap. 2021 (\u20ac0.5M). Registered.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,115,385.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,076,923.", "Die 403.550 Anteile der AURIGA in Anlage 1 Hauptversammlung v. 17.5.2024 k\u00f6nnen nur durch \u00dcbertragung aus der DSI enstan", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,273,593.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,401,478.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,450,110.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,498,742.", "Capital Increase (Utilizing Auth. Cap. II).", "\u00dcbertragung 2022/23 gem. Anl. 2 Niederschrift Hauptversammlung v. 17.5.2024", "Capital Increase. Total Capital: 5,554,292.", "\u00dcbertragung 2024 gem. Anl. 3 Niederschrift Hauptversammlung v. 17.5.2024; nach der HV, da sonst Teilnehmerliste und Ante", "Anlage 3 Niederschrift HV 5.8.25; genehmigte Aktien\u00fcbertragung, Aktienkaufvertrag 31.7.25; erst nach HV da sonst Teilneh"];
+  var allEvents = ["Acquisition of shares ; Name change to SYNCPILOT SE; Seat moved to Augsburg.", "Capital Increase (Contribution in Kind of SyncPilot GmbH) . | Capital Increase (Contribution in Kind of SyncPilot GmbH) ", "Creation Auth. Cap. I (\u20ac1M), Auth. Cap. II (\u20ac0.5M), Cond. Cap. 2021 (\u20ac0.5M). Registered.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,115,385.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,076,923.", "Die 403.550 Anteile der AURIGA in Anlage 1 Hauptversammlung v. 17.5.2024 k\u00f6nnen nur durch \u00dcbertragung aus der DSI enstan", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,273,593.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,401,478.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,450,110.", "Capital Increase (Utilizing Auth. Cap. II). Total Capital: 5,498,742.", "Capital Increase (Utilizing Auth. Cap. II).", "\u00dcbertragung 2022/23 gem. Anl. 2 Niederschrift Hauptversammlung v. 17.5.2024", "Capital Increase. Total Capital: 5,554,292.", "\u00dcbertragung 2024 gem. Anl. 3 Niederschrift Hauptversammlung v. 17.5.2024; nach der HV, da sonst Teilnehmerliste und Ante", "Anlage 3 Niederschrift HV 5.8.25; genehmigte Aktien\u00fcbertragung, Aktienkaufvertrag 31.7.25; erst nach HV da sonst Teilneh"];
 
   var volColors = allTypes.map(function(t) {
     if (t === 'issuance') return '#0D7680';

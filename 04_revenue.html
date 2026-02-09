@@ -38,7 +38,7 @@ a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
 .chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
 .chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
 .chart-canvas-wrap{position:relative}
-.chart-source{display:none;font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.chart-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
 .kpi-row{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0}
 .kpi{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);flex:1;min-width:160px;text-align:center}
 .kpi-val{font-family:var(--font-ui);font-size:2rem;font-weight:700;color:var(--slate);line-height:1.1}
@@ -81,7 +81,9 @@ body.lang-de span[data-lang-de]{display:inline}
     <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="02_capital_events.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">2. 14 Capital Events, Zero Oversight</a></li>
     <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="03_valuation.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">3. What Is It Actually Worth?</a></li>
     <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="04_revenue.html" style="text-decoration:none;font-size:.95rem;font-weight:700;color:var(--claret)">4. Where Is the Revenue?</a></li>
-  </ul>
+      <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="10_pictet_investment.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">10. The Pictet Investment</a></li>
+    <li style="padding:var(--sp-3) 0;border-bottom:1px solid rgba(242,223,206,.5)"><a href="11_lvs_loan.html" style="text-decoration:none;font-size:.95rem;color:var(--slate)">11. The LVS Convertible Loan</a></li>
+</ul>
 </aside>
 <div class="side-menu-overlay"></div>
 <div class="search-overlay"><div class="search-box"><input type="text" class="search-input" placeholder="Search chapters..."><div class="search-results"></div></div></div>
@@ -153,6 +155,7 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:340px">
       <canvas id="arrChart"></canvas>
     </div>
+    <div class="chart-source" style="display:none">Source: 20240315_Umsatzerlöse_2024_ff__1_2.xlsx → "2024 & 2025" (Row 4: ARR per month)</div>
   </div>
 
   <h2><span data-lang-en>Who Actually Pays? The Concentration Problem</span><span data-lang-de>Wer zahlt tatsächlich? Das Konzentrationsrisiko</span></h2>
@@ -163,6 +166,7 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-canvas-wrap" style="height:460px">
       <canvas id="clientChart"></canvas>
     </div>
+    <div class="chart-source" style="display:none">Source: SyncPilot_SE_Project.xlsx → "SyncPilot Client List"</div>
   </div>
 
   <div style="display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-6) 0">

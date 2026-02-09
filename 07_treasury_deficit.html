@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 7 — The Treasury Deficit | SyncPilot Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
+.side-menu.open{left:0}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
+.chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
+.chart-source{display:none;font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.bluf-box{background:var(--white);border-left:4px solid var(--claret);padding:var(--sp-6);margin:var(--sp-6) 0;border-radius:0 6px 6px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.bluf-label{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret);margin-bottom:var(--sp-2)}
+p{margin-bottom:var(--sp-4)}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.kpi-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);text-align:center}
+.kpi-card.alert{border-color:var(--claret);background:linear-gradient(180deg,rgba(153,15,61,.04) 0%,var(--white) 100%)}
+.kpi-number{font-family:var(--font-ui);font-weight:700;font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.1;margin-bottom:4px}
+.kpi-number.red{color:var(--claret)}
+.kpi-number.green{color:#28a745}
+.kpi-number.grey{color:rgba(38,42,51,.4)}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;font-weight:600;color:rgba(38,42,51,.55);text-transform:uppercase;letter-spacing:.08em}
+.anomaly-box{background:var(--white);border:3px solid var(--claret);border-radius:12px;overflow:hidden;margin:var(--sp-8) 0;box-shadow:0 6px 30px rgba(153,15,61,.12)}
+.anomaly-header{background:var(--claret);color:#fff;padding:var(--sp-4) var(--sp-6);font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
+.anomaly-hero{text-align:center;padding:var(--sp-8) var(--sp-6) var(--sp-4);background:linear-gradient(180deg,rgba(153,15,61,.03) 0%,transparent 100%)}
+.anomaly-hero-num{font-family:var(--font-ui);font-weight:700;font-size:clamp(3rem,8vw,4.5rem);color:var(--claret);line-height:1;letter-spacing:-.03em}
+.anomaly-hero-label{font-family:var(--font-ui);font-size:.82rem;font-weight:600;color:rgba(38,42,51,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.flow-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:.82rem;margin:var(--sp-4) 0}
+.flow-table th{background:var(--wheat);text-align:left;padding:var(--sp-3) var(--sp-4);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--slate)}
+.flow-table td{padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--wheat);vertical-align:top}
+.flow-table tr.highlight{background:rgba(153,15,61,.06);font-weight:600}
+.flow-table tr.highlight td{border-bottom-color:rgba(153,15,61,.2)}
+.flow-table tr.total{background:var(--wheat);font-weight:700}
+.flow-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.flow-table .red{color:var(--claret)}
+.flow-table .green{color:#28a745}
+.flow-table .note{font-size:.72rem;color:rgba(38,42,51,.5);font-weight:400}
+.legal-box{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--oxford);border-radius:0 6px 6px 0;padding:var(--sp-6);margin:var(--sp-6) 0}
+.legal-box h3{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--oxford);margin-bottom:var(--sp-3)}
+.legal-box dt{font-family:var(--font-ui);font-weight:700;font-size:.82rem;margin-top:var(--sp-3);color:var(--slate)}
+.legal-box dd{font-size:.88rem;margin-left:0;padding-left:var(--sp-4);border-left:2px solid var(--wheat);margin-top:2px;margin-bottom:var(--sp-3);color:rgba(38,42,51,.75)}
+.site-footer{max-width:var(--max-width);margin:var(--sp-16) auto var(--sp-8);padding:var(--sp-6);border-top:1px solid var(--wheat);font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);line-height:1.5}
+.chapter-nav{display:flex;justify-content:space-between;max-width:var(--max-width);margin:var(--sp-8) auto;padding:0 var(--sp-6)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.82rem;font-weight:600}
+@media(max-width:767px){.kpi-strip{grid-template-columns:1fr 1fr}.flow-table{font-size:.72rem}.flow-table td,.flow-table th{padding:var(--sp-2) var(--sp-3)}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="nav-title" href="index.html">SyncPilot Dossier</a>
+  </div>
+  <div class="nav-right"><button class="lang-toggle" onclick="toggleLang()">DE / EN</button></div>
+</nav>
+<div class="side-menu" id="sideMenu">
+  <a href="index.html">&#8599; Index</a><br><br>
+  <a href="01_ubo_directory.html">Ch 1 &middot; UBO Directory</a><br>
+  <a href="02_capital_events.html">Ch 2 &middot; Capital Events</a><br>
+  <a href="03_valuation.html">Ch 3 &middot; Valuation</a><br>
+  <a href="04_revenue.html">Ch 4 &middot; Revenue</a><br>
+  <a href="05_risk_ratings.html">Ch 5 &middot; Risk Ratings</a><br>
+  <a href="06_perseus_breach.html">Ch 6 &middot; Perseus Breach</a><br>
+  <strong>Ch 7 &middot; Treasury Deficit</strong><br>
+  <a href="08_wash_trades.html">Ch 8 &middot; Wash Trades</a><br>
+  <a href="09_bleicher_profile.html">Ch 9 — Bleicher Profile</a><br>
+</div>
+<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<main class="content-area">
+
+<div class="hero">
+  <h1>
+    <span data-lang-en>Where Did the Money Go?</span>
+    <span data-lang-de style="display:none">Wo ist das Geld geblieben?</span>
+  </h1>
+  <hr class="hero-rule">
+  <div class="hero-subtitle">
+    <span data-lang-en>Chapter 7 &mdash; The Treasury Deficit</span>
+    <span data-lang-de style="display:none">Kapitel 7 &mdash; Das Kassendefizit</span>
+  </div>
+</div>
+
+<div class="bluf-box">
+  <div class="bluf-label"><span data-lang-en>Bottom Line Up Front</span><span data-lang-de style="display:none">Kernaussage</span></div>
+  <p>
+    <span data-lang-en>SyncPilot raised &euro;31.4&thinsp;M in notional capital across 13 share issuances &mdash; but &euro;22.9&thinsp;M of that was a contribution in kind (the existing GmbH business), not cash. Only &euro;8.4&thinsp;M in external cash ever entered the company treasury. Meanwhile, the Perseus &euro;1-per-share anomaly destroyed &euro;2.3&thinsp;M in potential capital receipts, and &euro;6.15&thinsp;M from the LVS convertible loan has vanished &mdash; neither repaid nor converted to shares. The combined shortfall: <strong>&euro;8.45&thinsp;M in value extracted or unaccounted for.</strong></span>
+    <span data-lang-de style="display:none">SyncPilot nahm nominell &euro;31,4&thinsp;Mio. an Kapital &uuml;ber 13 Aktienausgaben auf &mdash; doch &euro;22,9&thinsp;Mio. davon waren eine Sacheinlage (das bestehende GmbH-Gesch&auml;ft), kein Bargeld. Nur &euro;8,4&thinsp;Mio. an externem Bargeld flossen tats&auml;chlich in die Gesellschaftskasse. Zugleich vernichtete die Perseus-Anomalie bei &euro;1 je Aktie &euro;2,3&thinsp;Mio. an potenziellen Kapitaleinnahmen, und &euro;6,15&thinsp;Mio. aus dem LVS-Wandeldarlehen sind verschwunden &mdash; weder zur&uuml;ckgezahlt noch in Aktien umgewandelt. Der kombinierte Fehlbetrag: <strong>&euro;8,45&thinsp;Mio. an extrahiertem oder nicht nachvollziehbarem Wert.</strong></span>
+  </p>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi-card"><div class="kpi-number grey">&euro;31.4M</div><div class="kpi-label"><span data-lang-en>Notional Capital Raised</span><span data-lang-de style="display:none">Nominalkapital aufgenommen</span></div></div>
+  <div class="kpi-card"><div class="kpi-number green">&euro;8.4M</div><div class="kpi-label"><span data-lang-en>Actual Cash Received</span><span data-lang-de style="display:none">Tats&auml;chliches Bargeld erhalten</span></div></div>
+  <div class="kpi-card alert"><div class="kpi-number red">&euro;2.3M</div><div class="kpi-label"><span data-lang-en>Perseus FMV Gap</span><span data-lang-de style="display:none">Perseus-Marktwertl&uuml;cke</span></div></div>
+  <div class="kpi-card alert"><div class="kpi-number red">&euro;6.15M</div><div class="kpi-label"><span data-lang-en>LVS Loan &mdash; Unreturned</span><span data-lang-de style="display:none">LVS-Darlehen &mdash; Nicht zur&uuml;ckgezahlt</span></div></div>
+</div>
+
+<h2><span data-lang-en>I. Capital In: Cash vs. Contribution in Kind</span><span data-lang-de style="display:none">I. Kapitalzufluss: Bargeld vs. Sacheinlage</span></h2>
+
+<p><span data-lang-en>Between December 2020 and August 2025, SyncPilot executed 13 capital issuance events, creating approximately 5.55 million shares. The first and largest event &mdash; December 2020 &mdash; contributed &euro;22.94&thinsp;M in notional value, but this was a <em>Sacheinlage</em> (contribution in kind) of the existing SyncPilot GmbH business, not new cash. No money changed hands. The remaining 10 cash-based issuances brought in &euro;8.44&thinsp;M &mdash; the actual external capital that entered the company treasury.</span><span data-lang-de style="display:none">Zwischen Dezember 2020 und August 2025 f&uuml;hrte SyncPilot 13 Kapitalerh&ouml;hungen durch und schuf rund 5,55 Millionen Aktien. Die erste und gr&ouml;&szlig;te Ma&szlig;nahme &mdash; Dezember 2020 &mdash; brachte nominell &euro;22,94&thinsp;Mio. ein, doch dies war eine Sacheinlage des bestehenden SyncPilot GmbH-Gesch&auml;fts, kein frisches Geld. Die restlichen 10 Barkapitalerh&ouml;hungen brachten &euro;8,44&thinsp;Mio.</span></p>
+
+<div class="chart-container">
+  <div class="chart-title"><span data-lang-en>Capital Issuance Waterfall &mdash; Cash Receipts vs. Contribution in Kind</span><span data-lang-de style="display:none">Kapitalerh&ouml;hungs-Wasserfall &mdash; Bareinlagen vs. Sacheinlagen</span></div>
+  <div style="height:360px"><canvas id="waterfallChart"></canvas></div>
+</div>
+
+<div class="chart-container" style="overflow-x:auto">
+  <div class="chart-title"><span data-lang-en>Complete Capital Issuance Register</span><span data-lang-de style="display:none">Vollst&auml;ndiges Kapitalerh&ouml;hungsregister</span></div>
+  <table class="flow-table">
+    <thead><tr><th><span data-lang-en>Date</span><span data-lang-de style="display:none">Datum</span></th><th><span data-lang-en>Subscriber</span><span data-lang-de style="display:none">Zeichner</span></th><th class="num"><span data-lang-en>Shares</span><span data-lang-de style="display:none">Anteile</span></th><th class="num">&euro;/Share</th><th class="num"><span data-lang-en>Total</span><span data-lang-de style="display:none">Gesamt</span></th><th><span data-lang-en>Type</span><span data-lang-de style="display:none">Art</span></th></tr></thead>
+    <tbody>
+      <tr><td>2020-12-07</td><td>BOSYNC Beteiligungs UG <span class="note">(Bleicher 50%)</span></td><td class="num">2,486,138</td><td class="num">&euro;4.70</td><td class="num">&euro;11,684,849</td><td><span style="color:rgba(38,42,51,.4)">&#9632;</span> Sacheinlage</td></tr>
+      <tr><td></td><td>DSI Digital Solutions <span class="note">(Steiner family)</span></td><td class="num">1,659,188</td><td class="num">&euro;4.70</td><td class="num">&euro;7,798,184</td><td><span style="color:rgba(38,42,51,.4)">&#9632;</span> Sacheinlage</td></tr>
+      <tr><td></td><td>Augusta Software GmbH <span class="note">(Jakisch/Funk)</span></td><td class="num">734,674</td><td class="num">&euro;4.70</td><td class="num">&euro;3,452,968</td><td><span style="color:rgba(38,42,51,.4)">&#9632;</span> Sacheinlage</td></tr>
+      <tr><td>2021-12-03</td><td>Christiane Saupe</td><td class="num">38,462</td><td class="num">&euro;13.00</td><td class="num green">&euro;500,006</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2021-12-13</td><td>Marc F. Kimmich</td><td class="num">76,923</td><td class="num">&euro;13.00</td><td class="num green">&euro;999,999</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2022-12-09</td><td>H.G. Perseus GmbH StBG <span class="note">(Hunstein/Goerg)</span></td><td class="num">158,208</td><td class="num">&euro;18.96</td><td class="num green">&euro;3,000,004</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr class="highlight"><td>2023-03-14</td><td>H.G. Perseus GmbH StBG <span class="note">&mdash; THE ANOMALY</span></td><td class="num">127,885</td><td class="num red"><strong>&euro;1.00</strong></td><td class="num red"><strong>&euro;127,885</strong></td><td><span style="color:var(--claret)">&#9632;</span> Cash <span class="note red">&mdash; 95% discount</span></td></tr>
+      <tr><td>2023-05-11</td><td>Tiven GmbH <span class="note">(Purkert 100%)</span></td><td class="num">48,632</td><td class="num">&euro;20.56</td><td class="num green">&euro;1,000,000</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2023-06-05</td><td>H.G. Perseus GmbH StBG</td><td class="num">16,211</td><td class="num">&euro;20.56</td><td class="num green">&euro;333,340</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2023-06-30</td><td>bgh Verm&ouml;gensverwaltung <span class="note">(Hansen family)</span></td><td class="num">32,421</td><td class="num">&euro;20.56</td><td class="num green">&euro;666,660</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2024-05-17</td><td>5th. Dimension Investment GmbH</td><td class="num">55,550</td><td class="num">&euro;23.64</td><td class="num green">&euro;1,313,300</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2025-08-05</td><td>ATLASI GROUP GmbH</td><td class="num">14,493</td><td class="num">&euro;23.00</td><td class="num green">&euro;333,339</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr><td>2025-08-05</td><td>Callidus Ventures GmbH</td><td class="num">7,246</td><td class="num">&euro;23.00</td><td class="num green">&euro;166,658</td><td><span style="color:#28a745">&#9632;</span> Cash</td></tr>
+      <tr class="total"><td colspan="2"><span data-lang-en>Total &mdash; Contribution in Kind</span><span data-lang-de style="display:none">Gesamt &mdash; Sacheinlage</span></td><td class="num">4,880,000</td><td class="num">&euro;4.70</td><td class="num">&euro;22,936,000</td><td></td></tr>
+      <tr class="total"><td colspan="2"><span data-lang-en>Total &mdash; Cash Issuances</span><span data-lang-de style="display:none">Gesamt &mdash; Barkapitalerh&ouml;hungen</span></td><td class="num">576,031</td><td></td><td class="num green"><strong>&euro;8,441,192</strong></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2><span data-lang-en>II. The Fair Market Value Gap</span><span data-lang-de style="display:none">II. Die Verkehrswertl&uuml;cke</span></h2>
+
+<p><span data-lang-en>One issuance stands out. On 14 March 2023, H.G. Perseus GmbH StBG acquired 127,885 shares at &euro;1.00 each. The previous issuance price was &euro;18.96 (December 2022); the next was &euro;20.56 (May 2023). If Perseus had paid the prevailing fair market value, the company would have received &euro;2,425,007 instead of &euro;127,885. The deficit: <strong>&euro;2,297,122</strong>. This is the single largest capital leakage event in the company&rsquo;s history, and it benefited two individuals &mdash; Martin Hunstein and Diethard Goerg &mdash; who controlled Perseus.</span><span data-lang-de style="display:none">Eine Ausgabe f&auml;llt auf. Am 14. M&auml;rz 2023 erwarb die H.G. Perseus GmbH StBG 127.885 Aktien zu &euro;1,00. Der vorherige Ausgabebetrag betrug &euro;18,96 (Dezember 2022); der n&auml;chste &euro;20,56 (Mai 2023). H&auml;tte Perseus den geltenden Verkehrswert gezahlt, h&auml;tte das Unternehmen &euro;2.425.007 statt &euro;127.885 erhalten. Das Defizit: <strong>&euro;2.297.122</strong>.</span></p>
+
+<div class="anomaly-box">
+  <div class="anomaly-header">&#9888; <span data-lang-en>Capital Leakage Event</span><span data-lang-de style="display:none">Kapitalabflussereignis</span></div>
+  <div class="anomaly-hero">
+    <div class="anomaly-hero-num">&euro;2,297,122</div>
+    <div class="anomaly-hero-label"><span data-lang-en>Value Extracted via Below-Market Issuance</span><span data-lang-de style="display:none">Entzogener Wert durch unter-Marktwert-Ausgabe</span></div>
+  </div>
+  <div style="padding:0 var(--sp-8) var(--sp-6)">
+    <table class="flow-table" style="margin:0">
+      <tr><td style="width:45%"><span data-lang-en>Should have received (at FMV &euro;18.96)</span><span data-lang-de style="display:none">H&auml;tte erhalten sollen (Verkehrswert &euro;18,96)</span></td><td class="num green">&euro;2,425,007</td></tr>
+      <tr><td><span data-lang-en>Actually received (at &euro;1.00)</span><span data-lang-de style="display:none">Tats&auml;chlich erhalten (&euro;1,00)</span></td><td class="num red">&euro;127,885</td></tr>
+      <tr class="highlight"><td><strong><span data-lang-en>Treasury shortfall</span><span data-lang-de style="display:none">Kassendefizit</span></strong></td><td class="num red"><strong>&euro;2,297,122</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="chart-container">
+  <div class="chart-title"><span data-lang-en>Price Per Share at Each Capital Event &mdash; Perseus Anomaly Highlighted</span><span data-lang-de style="display:none">Preis je Aktie bei jeder Kapitalma&szlig;nahme &mdash; Perseus-Anomalie hervorgehoben</span></div>
+  <div style="height:300px"><canvas id="priceBarChart"></canvas></div>
+</div>
+
+<h2><span data-lang-en>III. The LVS Convertible Loan &mdash; &euro;6.15M Unreturned</span><span data-lang-de style="display:none">III. Das LVS-Wandeldarlehen &mdash; &euro;6,15 Mio. nicht zur&uuml;ckgezahlt</span></h2>
+
+<p><span data-lang-en>Under a Cooperation and Call Option Agreement dated 21 May 2021, LVS SA committed &euro;18.75&thinsp;M to SyncPilot in exchange for eventual share conversion or repayment. Four tranches were disbursed totalling &euro;6.15&thinsp;M. The remaining &euro;12.6&thinsp;M was never disbursed. Of the &euro;6.15&thinsp;M that was paid, zero has been returned &mdash; either as cash repayment or as share conversion. The company holds the money; the lender holds nothing.</span><span data-lang-de style="display:none">Im Rahmen eines Kooperations- und Kaufoptionsvertrags vom 21. Mai 2021 stellte die LVS SA &euro;18,75&thinsp;Mio. zur Verf&uuml;gung. Vier Tranchen in H&ouml;he von &euro;6,15&thinsp;Mio. wurden ausgezahlt. Davon ist nichts zur&uuml;ckgeflossen.</span></p>
+
+<div class="chart-container" style="overflow-x:auto">
+  <div class="chart-title"><span data-lang-en>LVS Loan Tranche Schedule</span><span data-lang-de style="display:none">LVS-Darlehen Tranchenplan</span></div>
+  <table class="flow-table">
+    <thead><tr><th><span data-lang-en>Due Date</span><span data-lang-de style="display:none">F&auml;lligkeit</span></th><th class="num"><span data-lang-en>Amount Due</span><span data-lang-de style="display:none">Betrag f&auml;llig</span></th><th class="num"><span data-lang-en>Paid</span><span data-lang-de style="display:none">Gezahlt</span></th><th class="num"><span data-lang-en>Shares</span><span data-lang-de style="display:none">Aktien</span></th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>2021-04-07</td><td class="num">&euro;650,000</td><td class="num green">&euro;650,000</td><td class="num red">0</td><td><span style="color:var(--claret)">&#9679;</span> Paid &mdash; No Return</td></tr>
+      <tr><td>2021-05-21</td><td class="num">&euro;1,500,000</td><td class="num green">&euro;1,500,000</td><td class="num red">0</td><td><span style="color:var(--claret)">&#9679;</span> Paid &mdash; No Return</td></tr>
+      <tr><td>2021-05-31</td><td class="num">&euro;1,000,000</td><td class="num green">&euro;1,000,000</td><td class="num red">0</td><td><span style="color:var(--claret)">&#9679;</span> Paid &mdash; No Return</td></tr>
+      <tr><td>2021-06-30</td><td class="num">&euro;3,500,000</td><td class="num green">&euro;3,000,000</td><td class="num red">0</td><td><span style="color:var(--claret)">&#9679;</span> Partial &mdash; No Return</td></tr>
+      <tr><td>2022-01-30</td><td class="num">&euro;850,000</td><td class="num red">&mdash;</td><td class="num red">0</td><td><span style="color:rgba(38,42,51,.3)">&#9679;</span> Not Disbursed</td></tr>
+      <tr><td>2022-01-30</td><td class="num">&euro;11,250,000</td><td class="num red">&mdash;</td><td class="num red">0</td><td><span style="color:rgba(38,42,51,.3)">&#9679;</span> Not Disbursed</td></tr>
+      <tr class="total"><td><strong>Total</strong></td><td class="num"><strong>&euro;18,750,000</strong></td><td class="num green"><strong>&euro;6,150,000</strong></td><td class="num red"><strong>0</strong></td><td><span style="color:var(--claret);font-weight:700">OUTSTANDING</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="chart-container">
+  <div class="chart-title"><span data-lang-en>LVS Loan Disbursement vs. Capital Events Timeline</span><span data-lang-de style="display:none">LVS-Auszahlung vs. Kapitalereignis-Zeitachse</span></div>
+  <div style="height:320px"><canvas id="timelineChart"></canvas></div>
+</div>
+
+<h2><span data-lang-en>IV. Combined Deficit Analysis</span><span data-lang-de style="display:none">IV. Kombinierte Defizitanalyse</span></h2>
+
+<p><span data-lang-en>Taken together, SyncPilot&rsquo;s capital history reveals a pattern of asymmetric value flows. External capital enters through cash issuances and loan disbursements; value exits through below-market insider issuances and unreturned loan proceeds. The net effect: &euro;8.45&thinsp;M in value has been extracted from the company or its external capital providers, while insiders have accumulated shares at prices unavailable to outside investors.</span><span data-lang-de style="display:none">In der Gesamtbetrachtung zeigt die Kapitalgeschichte von SyncPilot ein Muster asymmetrischer Wertfl&uuml;sse. Externes Kapital flie&szlig;t durch Barkapitalerh&ouml;hungen und Darlehensauszahlungen ein; Wert flie&szlig;t durch unter-Marktwert-Ausgaben und nicht zur&uuml;ckgezahlte Darlehensmittel ab.</span></p>
+
+<div class="chart-container">
+  <div class="chart-title"><span data-lang-en>Value Flow Summary &mdash; What Came In vs. What Was Lost</span><span data-lang-de style="display:none">Wertfluss-Zusammenfassung &mdash; Zufl&uuml;sse vs. Verluste</span></div>
+  <div style="height:320px"><canvas id="summaryChart"></canvas></div>
+</div>
+
+<h2><span data-lang-en>V. Legal Framework</span><span data-lang-de style="display:none">V. Rechtlicher Rahmen</span></h2>
+
+<div class="legal-box">
+  <h3><span data-lang-en>Applicable Provisions</span><span data-lang-de style="display:none">Anwendbare Vorschriften</span></h3>
+  <dl>
+    <dt>Verm&ouml;gensbetreuungspflicht &mdash; &sect;266 StGB (Untreue)</dt>
+    <dd><span data-lang-en>Directors who approved the &euro;1-per-share issuance to Perseus breached their duty to safeguard company assets. The &euro;2.3M treasury shortfall represents a quantifiable <em>Verm&ouml;gensschaden</em> (financial loss) inflicted on the company and its other shareholders.</span><span data-lang-de style="display:none">Vorstands- oder Gesch&auml;ftsleitungsmitglieder, die die Ausgabe zu &euro;1 an Perseus genehmigten, verletzten ihre Verm&ouml;gensbetreuungspflicht. Der &euro;2,3-Mio.-Fehlbetrag stellt einen bezifferbaren Verm&ouml;gensschaden dar.</span></dd>
+    <dt>Kapitalerhaltung &mdash; &sect;57 AktG</dt>
+    <dd><span data-lang-en>Systematic below-market issuances to insiders effectively return company value to shareholders in violation of the capital maintenance rules. Each discounted share issuance dilutes the existing capital base without proportionate compensation.</span><span data-lang-de style="display:none">Systematische unter-Marktwert-Ausgaben an Insider geben faktisch Gesellschaftsverm&ouml;gen an Aktion&auml;re zur&uuml;ck und versto&szlig;en gegen die Kapitalerhaltungsvorschriften.</span></dd>
+    <dt>Wandeldarlehensvertrag &mdash; BGB &sect;488 ff., AktG &sect;221</dt>
+    <dd><span data-lang-en>The LVS convertible loan creates reciprocal obligations: the lender provides capital, the borrower either repays or converts to equity. SyncPilot has done neither. The &euro;6.15M represents a documented <em>Verm&ouml;gensschaden</em> to LVS SA.</span><span data-lang-de style="display:none">Der Wandeldarlehensvertrag begr&uuml;ndet gegenseitige Pflichten. SyncPilot hat weder zur&uuml;ckgezahlt noch gewandelt. Die &euro;6,15 Mio. stellen einen dokumentierten Verm&ouml;gensschaden der LVS SA dar.</span></dd>
+    <dt>EU Directive 2017/1132 &mdash; Capital Maintenance</dt>
+    <dd><span data-lang-en>The EU codification of company law directives mandates that public companies maintain their subscribed capital. Below-market share issuances that transfer value to insiders while depleting the capital reserve may violate these requirements.</span><span data-lang-de style="display:none">Die EU-Kodifizierung der gesellschaftsrechtlichen Richtlinien verpflichtet Gesellschaften zur Erhaltung ihres gezeichneten Kapitals.</span></dd>
+  </dl>
+</div>
+
+</main>
+
+<div class="chapter-nav">
+  <a href="06_perseus_breach.html">&larr; Ch 6 &middot; Perseus Breach</a>
+  <a href="08_wash_trades.html">Wash Trades &middot; Ch 8 &rarr;</a>
+  <a href="10_pictet_investment.html">Ch 10 · Pictet Investment</a><br>
+  <a href="11_lvs_loan.html">Ch 11 · LVS Convertible Loan</a><br>
+
+</div>
+
+<footer class="site-footer">
+  <p><span data-lang-en>This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.</span><span data-lang-de style="display:none">Diese Analyse stellt investigative Fragen und Mustererkennung dar, keine rechtlichen Feststellungen. F&uuml;r alle Personen gilt die Unschuldsvermutung.</span></p>
+  <p style="margin-top:var(--sp-3)">Last updated: February 2026</p>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');document.getElementById('menuOverlay').classList.toggle('visible')}
+let currentLang='en';
+function toggleLang(){currentLang=currentLang==='en'?'de':'en';document.querySelectorAll('[data-lang-en]').forEach(el=>el.style.display=currentLang==='en'?'':'none');document.querySelectorAll('[data-lang-de]').forEach(el=>el.style.display=currentLang==='de'?'':'none')}
+
+/* CHART 1: WATERFALL */
+(function(){
+  const ctx=document.getElementById('waterfallChart').getContext('2d');
+  const labels=['Sacheinlage\nDec 2020','Saupe\nDec 2021','Kimmich\nDec 2021','Perseus I\nDec 2022','Perseus II\nMar 2023','Tiven\nMay 2023','Perseus III\nJun 2023','bgh\nJun 2023','5th Dim.\nMay 2024','ATLASI\nAug 2025','Callidus\nAug 2025'];
+  const values=[22936000,500006,999999,3000004,127885,1000000,333340,666660,1313300,333339,166658];
+  const types=['kind','cash','cash','cash','anomaly','cash','cash','cash','cash','cash','cash'];
+  const colors=types.map(t=>t==='kind'?'rgba(107,114,128,.45)':t==='anomaly'?'#990F3D':'#0D7680');
+  new Chart(ctx,{type:'bar',data:{labels,datasets:[{data:values,backgroundColor:colors,borderWidth:0,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'€'+c.raw.toLocaleString('de-DE')}},annotation:{annotations:{perseusLine:{type:'line',yMin:127885,yMax:127885,borderColor:'rgba(153,15,61,.4)',borderWidth:1,borderDash:[4,4],label:{display:true,content:'€127,885 — Perseus anomaly',position:'start',font:{size:10,family:"'Source Sans 3'"},backgroundColor:'rgba(153,15,61,.1)',color:'#990F3D'}}}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v>=1e6?'€'+(v/1e6).toFixed(1)+'M':'€'+(v/1e3).toFixed(0)+'K',font:{family:"'Source Sans 3'",size:11}},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{family:"'Source Sans 3'",size:9},maxRotation:45}}}}});
+})();
+
+/* CHART 2: PRICE PER SHARE */
+(function(){
+  const ctx=document.getElementById('priceBarChart').getContext('2d');
+  const labels=['Dec 2020\nSacheinlage','Dec 2021\nSaupe','Dec 2021\nKimmich','Dec 2022\nPerseus I','Mar 2023\nPerseus II','May 2023\nTiven','Jun 2023\nPerseus III','Jun 2023\nbgh','May 2024\n5th Dim.','Aug 2025\nATLASI'];
+  const prices=[4.70,13.00,13.00,18.96,1.00,20.56,20.56,20.56,23.64,23.00];
+  const colors=prices.map(p=>p===1.00?'#990F3D':'#0D7680');
+  new Chart(ctx,{type:'bar',data:{labels,datasets:[{data:prices,backgroundColor:colors,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'€'+c.raw.toFixed(2)+' per share'}},annotation:{annotations:{gap:{type:'box',xMin:3.6,xMax:4.4,yMin:1,yMax:18.96,backgroundColor:'rgba(153,15,61,.08)',borderColor:'rgba(153,15,61,.3)',borderWidth:1,borderDash:[3,3],label:{display:true,content:'95% discount',position:{x:'center',y:'center'},font:{size:10,weight:'bold',family:"'Source Sans 3'"},color:'#990F3D'}}}}},scales:{y:{beginAtZero:true,title:{display:true,text:'€ per Share',font:{family:"'Source Sans 3'",size:11}},ticks:{callback:v=>'€'+v.toFixed(0),font:{family:"'Source Sans 3'",size:11}},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{family:"'Source Sans 3'",size:9},maxRotation:45}}}}});
+})();
+
+/* CHART 3: TIMELINE */
+(function(){
+  const ctx=document.getElementById('timelineChart').getContext('2d');
+  const cap=[{x:'2020-12-07',y:22936000},{x:'2021-12-03',y:500006},{x:'2021-12-13',y:999999},{x:'2022-12-09',y:3000004},{x:'2023-03-14',y:127885},{x:'2023-05-11',y:1000000},{x:'2023-06-05',y:333340},{x:'2023-06-30',y:666660},{x:'2024-05-17',y:1313300},{x:'2025-08-05',y:499997}];
+  const loan=[{x:'2021-04-07',y:-650000},{x:'2021-05-21',y:-1500000},{x:'2021-06-07',y:-1000000},{x:'2021-08-31',y:-3000000}];
+  new Chart(ctx,{type:'bar',data:{datasets:[{label:'Capital Issuance Receipts',data:cap,backgroundColor:'#0D7680',borderRadius:3,barPercentage:.6},{label:'LVS Loan Disbursements',data:loan,backgroundColor:'#990F3D',borderRadius:3,barPercentage:.6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{family:"'Source Sans 3'",size:11},usePointStyle:true,pointStyle:'rectRounded'}},tooltip:{callbacks:{label:c=>c.dataset.label+': €'+Math.abs(c.raw.y).toLocaleString('de-DE')}}},scales:{x:{type:'time',time:{unit:'quarter',displayFormats:{quarter:'MMM yy'}},ticks:{font:{family:"'Source Sans 3'",size:10}},min:'2020-09-01',max:'2025-12-01'},y:{ticks:{callback:v=>{const a=Math.abs(v);return(v<0?'-':'')+'€'+(a>=1e6?(a/1e6).toFixed(1)+'M':(a/1e3).toFixed(0)+'K')},font:{family:"'Source Sans 3'",size:11}},grid:{color:'rgba(0,0,0,.06)'}}}}});
+})();
+
+/* CHART 4: SUMMARY */
+(function(){
+  const ctx=document.getElementById('summaryChart').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:['Cash Raised\n(Capital Issuances)','LVS Loan\nDisbursed','Perseus FMV\nGap','LVS Loan\nUnreturned','Net Cash\nRetained'],datasets:[{data:[8441192,6150000,-2297122,-6150000,6144070],backgroundColor:['#0D7680','#0D7680','#990F3D','#990F3D','rgba(13,118,128,.4)'],borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;return(v<0?'-€':'€')+Math.abs(v).toLocaleString('de-DE')}}}},scales:{x:{ticks:{callback:v=>{const a=Math.abs(v);return(v<0?'-':'')+'€'+(a>=1e6?(a/1e6).toFixed(1)+'M':(a/1e3).toFixed(0)+'K')},font:{family:"'Source Sans 3'",size:11}},grid:{color:'rgba(0,0,0,.06)'}},y:{ticks:{font:{family:"'Source Sans 3'",size:10}}}}}});
+})();
+</script>
+</body>
+</html>

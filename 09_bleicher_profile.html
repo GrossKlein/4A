@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 9 &mdash; Franz Xaver Bleicher — The Architect | SyncPilot Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);background:var(--slate);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);z-index:1000}
+.nav-left{display:flex;align-items:center;gap:var(--sp-4)}
+.nav-title{font-family:var(--font-ui);font-weight:700;font-size:1rem;color:var(--paper);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:var(--sp-3)}
+.nav-right button,.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper);font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--paper);border-radius:1px}
+.side-menu{position:fixed;top:var(--nav-height);left:-300px;width:280px;height:calc(100vh - var(--nav-height));background:var(--white);border-right:1px solid var(--wheat);overflow-y:auto;transition:left .25s;z-index:999;padding:var(--sp-6)}
+.side-menu.open{left:0}
+.side-menu-overlay{position:fixed;inset:0;top:var(--nav-height);background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:998}
+.side-menu-overlay.visible{opacity:1;pointer-events:auto}
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6)}
+.hero{text-align:center;padding:var(--sp-12) var(--sp-6) var(--sp-8);max-width:720px;margin:0 auto}
+.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:var(--sp-4)}
+.hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
+.hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
+h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
+h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
+
+/* BLUF Box */
+.bluf-box{background:var(--white);border-left:4px solid var(--claret);border-radius:0 6px 6px 0;padding:var(--sp-6) var(--sp-8);margin:var(--sp-6) 0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bluf-label{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret);margin-bottom:var(--sp-2)}
+
+/* KPI Strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.kpi-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4) var(--sp-6);text-align:center}
+.kpi-card.alert{border-color:var(--claret);border-width:2px}
+.kpi-number{font-family:var(--font-ui);font-weight:700;font-size:1.8rem;line-height:1.1}
+.kpi-number.red{color:var(--claret)}
+.kpi-number.orange{color:#EA580C}
+.kpi-number.teal{color:var(--oxford)}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.5);margin-top:4px}
+
+/* Profile Card */
+.profile-hero{display:flex;gap:var(--sp-8);align-items:flex-start;margin:var(--sp-8) 0;padding:var(--sp-8);background:var(--white);border:1px solid var(--wheat);border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.profile-photo{width:140px;height:140px;border-radius:8px;object-fit:cover;border:3px solid var(--claret);flex-shrink:0}
+.profile-info{flex:1}
+.profile-name{font-size:1.6rem;font-weight:700;margin-bottom:var(--sp-2)}
+.profile-meta{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.55);margin-bottom:var(--sp-4)}
+.profile-meta span{display:inline-block;margin-right:var(--sp-4)}
+.role-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--sp-3)}
+.role-badge{font-family:var(--font-ui);font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em}
+.role-badge.gf{background:var(--claret);color:#fff}
+.role-badge.owner{background:var(--oxford);color:#fff}
+.role-badge.pres{background:#593380;color:#fff}
+.role-badge.liq{background:rgba(38,42,51,.15);color:var(--slate)}
+
+/* Corporate Tree */
+.tree-container{background:var(--white);border:1px solid var(--wheat);border-radius:8px;padding:var(--sp-6);margin:var(--sp-6) 0;overflow-x:auto}
+.tree-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-4)}
+.tree-source{font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+
+/* Entity Cards Grid */
+.entity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.entity-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4) var(--sp-6);position:relative;transition:transform .15s,box-shadow .15s}
+.entity-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.entity-card.primary{border-left:4px solid var(--claret)}
+.entity-card.holding{border-left:4px solid var(--oxford)}
+.entity-card.subsidiary{border-left:4px solid #593380}
+.entity-card.dormant{border-left:4px solid rgba(38,42,51,.2);opacity:.75}
+.entity-name{font-family:var(--font-ui);font-weight:700;font-size:.92rem;margin-bottom:4px}
+.entity-type{font-family:var(--font-ui);font-size:.68rem;font-weight:600;color:rgba(38,42,51,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--sp-2)}
+.entity-detail{font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.6);margin-bottom:2px}
+.entity-detail strong{color:var(--slate)}
+.entity-flag{position:absolute;top:var(--sp-3);right:var(--sp-3);font-size:1.2rem}
+.entity-pct{font-family:var(--font-ui);font-weight:700;font-size:1.4rem;color:var(--claret);margin-top:var(--sp-2)}
+.entity-pct.teal{color:var(--oxford)}
+
+/* Ownership change box */
+.ownership-change{background:linear-gradient(135deg,rgba(153,15,61,.04),rgba(13,118,128,.04));border:2px solid var(--wheat);border-radius:8px;padding:var(--sp-6);margin:var(--sp-6) 0}
+.ownership-change h3{margin-top:0}
+.change-row{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3) 0;border-bottom:1px solid var(--wheat)}
+.change-row:last-child{border:none}
+.change-photo{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--wheat);flex-shrink:0}
+.change-info{flex:1;font-family:var(--font-ui);font-size:.85rem}
+.change-arrow{font-size:1.2rem;color:var(--claret)}
+
+/* Legal framework */
+.legal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.legal-item{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--claret);border-radius:6px;padding:var(--sp-4) var(--sp-6)}
+.legal-ref{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--claret);margin-bottom:4px}
+.legal-term{font-family:var(--font-ui);font-weight:700;font-size:.95rem;margin-bottom:4px}
+.legal-desc{font-size:.85rem;color:rgba(38,42,51,.65);line-height:1.45}
+
+/* Question Box */
+.question-box{background:linear-gradient(135deg,rgba(153,15,61,.06),rgba(153,15,61,.02));border:2px solid var(--claret);border-radius:8px;padding:var(--sp-6) var(--sp-8);margin:var(--sp-8) 0}
+.question-box h3{color:var(--claret);margin-top:0;font-size:1.05rem}
+.question-box p{font-size:.95rem;margin-bottom:var(--sp-3);line-height:1.6}
+.question-box p:last-child{margin-bottom:0}
+
+/* Address Grid */
+.address-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.address-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4) var(--sp-6)}
+.address-flag{font-size:1.4rem;margin-bottom:var(--sp-2)}
+.address-label{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(38,42,51,.4);margin-bottom:4px}
+.address-text{font-family:var(--font-ui);font-size:.85rem}
+.address-entities{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);margin-top:var(--sp-2)}
+
+/* Chapter nav */
+.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
+.chapter-nav a:hover{color:var(--claret)}
+
+/* Canvas tree styles */
+#corpTree{width:100%;min-height:620px;display:block}
+
+/* Timeline mini */
+.timeline-mini{position:relative;padding-left:28px;margin:var(--sp-6) 0}
+.timeline-mini::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--wheat)}
+.tl-event{position:relative;padding:var(--sp-3) 0 var(--sp-4);font-family:var(--font-ui);font-size:.82rem}
+.tl-event::before{content:'';position:absolute;left:-22px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--claret);border:2px solid var(--paper)}
+.tl-event.teal::before{background:var(--oxford)}
+.tl-event .tl-date{font-weight:700;color:var(--slate);margin-bottom:2px}
+.tl-event .tl-desc{color:rgba(38,42,51,.6);line-height:1.4}
+
+/* Lang toggle */
+body.lang-en [data-lang-de]{display:none!important}
+body.lang-de [data-lang-en]{display:none!important}
+body.lang-de [data-lang-de]{display:block!important}
+body.lang-en [data-lang-en]{display:block!important}
+
+/* Mobile */
+@media(max-width:640px){
+  .profile-hero{flex-direction:column;align-items:center;text-align:center}
+  .entity-grid{grid-template-columns:1fr}
+  .kpi-strip{grid-template-columns:1fr 1fr}
+  .legal-grid{grid-template-columns:1fr}
+  .address-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body class="lang-en">
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-left">
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="nav-title" href="index.html">SyncPilot&nbsp;Dossier</a>
+  </div>
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang()">DE</button>
+  </div>
+</nav>
+
+<div class="side-menu" id="sideMenu">
+  <a href="index.html">Index</a><br><br>
+  <a href="01_ubo_directory.html">Ch 1 — UBO Directory</a><br>
+  <a href="02_capital_events.html">Ch 2 — Capital Events</a><br>
+  <a href="03_valuation.html">Ch 3 — Valuation</a><br>
+  <a href="04_revenue.html">Ch 4 — Revenue</a><br>
+  <a href="05_risk_ratings.html">Ch 5 — Risk Ratings</a><br>
+  <a href="06_perseus_breach.html">Ch 6 — Perseus Breach</a><br>
+  <a href="07_treasury_deficit.html">Ch 7 — Treasury Deficit</a><br>
+  <a href="08_wash_trades.html">Ch 8 — Wash Trades</a><br>
+  <a href="09_bleicher_profile.html"><strong>Ch 9 — Bleicher Profile</strong></a><br>
+</div>
+<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<div class="content-area">
+
+<div class="hero">
+  <h1 data-lang-en>Franz Xaver Bleicher — The Architect</h1>
+  <h1 data-lang-de style="display:none">Franz Xaver Bleicher — Der Architekt</h1>
+  <hr class="hero-rule">
+  <div class="hero-subtitle" data-lang-en>Chapter 9 — How One Man Controls an Entire Corporate Group Through Ten Interlinked Entities</div>
+  <div class="hero-subtitle" data-lang-de style="display:none">Kapitel 9 — Wie ein Mann eine gesamte Unternehmensgruppe über zehn verknüpfte Gesellschaften kontrolliert</div>
+</div>
+
+<!-- BLUF -->
+<div class="bluf-box">
+  <div class="bluf-label">Bottom Line</div>
+  <p data-lang-en>Franz Xaver Bleicher controls SyncPilot SE through at least 8 interrelated corporate vehicles across Germany and France, maintaining operational control as <em>Geschäftsführer</em> of multiple entities while systematically obscuring his UBO status through layered intermediaries. He holds 70% of BOSYNC Beteiligungs UG — the single largest shareholder of SyncPilot SE at 23.5% — and simultaneously serves as managing director of the SE itself, its key subsidiaries, and the Paris subsidiary. This concentration of control in one individual, combined with multiple entity types (SE, GmbH, UG, SAS) across two jurisdictions, creates structural opacity that complicates regulatory oversight and minority shareholder protection.</p>
+  <p data-lang-de style="display:none">Franz Xaver Bleicher kontrolliert die SyncPilot SE über mindestens 8 miteinander verbundene Gesellschaften in Deutschland und Frankreich, behält als <em>Geschäftsführer</em> mehrerer Gesellschaften die operative Kontrolle und verschleiert dabei systematisch seinen Status als wirtschaftlich Berechtigter durch mehrschichtige Zwischengesellschaften. Er hält 70 % der BOSYNC Beteiligungs UG — der größte Einzelaktionär der SyncPilot SE mit 23,5 % — und fungiert gleichzeitig als Geschäftsführer der SE selbst, ihrer Kerngesellschaften und der Pariser Tochtergesellschaft. Diese Konzentration der Kontrolle auf eine Person, kombiniert mit verschiedenen Rechtsformen (SE, GmbH, UG, SAS) in zwei Rechtsordnungen, schafft strukturelle Intransparenz, die die Regulierungsaufsicht und den Minderheitenschutz erschwert.</p>
+</div>
+
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi-card alert">
+    <div class="kpi-number red">8</div>
+    <div class="kpi-label" data-lang-en>Entities where Bleicher is officer</div>
+    <div class="kpi-label" data-lang-de style="display:none">Gesellschaften als Organ</div>
+  </div>
+  <div class="kpi-card alert">
+    <div class="kpi-number red">70%</div>
+    <div class="kpi-label" data-lang-en>Stake in BOSYNC (largest SH)</div>
+    <div class="kpi-label" data-lang-de style="display:none">Anteil an BOSYNC (größter AE)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number teal">23.5%</div>
+    <div class="kpi-label" data-lang-en>BOSYNC's stake in SyncPilot SE</div>
+    <div class="kpi-label" data-lang-de style="display:none">BOSYNCs Anteil an SyncPilot SE</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number orange">2</div>
+    <div class="kpi-label" data-lang-en>Jurisdictions (DE + FR)</div>
+    <div class="kpi-label" data-lang-de style="display:none">Rechtsordnungen (DE + FR)</div>
+  </div>
+</div>
+
+
+<!-- Profile Hero Card -->
+<div class="profile-hero">
+  <img class="profile-photo" src="data:image/jpeg;base64,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" alt="Franz Xaver Bleicher">
+  <div class="profile-info">
+    <div class="profile-name">Franz Xaver Bleicher</div>
+    <div class="profile-meta">
+      <span data-lang-en>📅 Born 9 September 1972</span>
+      <span data-lang-de style="display:none">📅 Geb. 9. September 1972</span>
+      <span>📍 Augsburg</span>
+    </div>
+    <p style="font-size:.9rem;color:rgba(38,42,51,.65);margin-bottom:var(--sp-3)" data-lang-en>
+      Managing director of SyncPilot SE and its principal subsidiaries. Majority owner of BOSYNC Beteiligungs UG (70%), the single largest shareholder of the SE. Simultaneously serves as <em>Geschäftsführer</em> of six additional group entities and as President of the Paris subsidiary SyncPilot SAS.
+    </p>
+    <p style="font-size:.9rem;color:rgba(38,42,51,.65);margin-bottom:var(--sp-3)" data-lang-de style="display:none">
+      Geschäftsführer der SyncPilot SE und ihrer wesentlichen Tochtergesellschaften. Mehrheitseigner der BOSYNC Beteiligungs UG (70 %), des größten Einzelaktionärs der SE. Gleichzeitig Geschäftsführer von sechs weiteren Konzerngesellschaften und Président der Pariser Tochtergesellschaft SyncPilot SAS.
+    </p>
+    <div class="role-badges">
+      <span class="role-badge gf" data-lang-en>Geschäftsführer × 6</span>
+      <span class="role-badge gf" data-lang-de style="display:none">Geschäftsführer × 6</span>
+      <span class="role-badge pres">President (SAS)</span>
+      <span class="role-badge owner">70% BOSYNC</span>
+      <span class="role-badge owner">90% Quintus</span>
+      <span class="role-badge liq">Liquidator (NOB)</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: Corporate Control Tree -->
+<h2 data-lang-en>Corporate Control Tree</h2>
+<h2 data-lang-de style="display:none">Unternehmenskontrollbaum</h2>
+
+<div class="tree-container">
+  <div class="tree-title" data-lang-en>Bleicher's Direct & Indirect Control Over SyncPilot Group Entities</div>
+  <div class="tree-title" data-lang-de style="display:none">Bleichers direkte & indirekte Kontrolle über SyncPilot-Konzerngesellschaften</div>
+  <canvas id="corpTree"></canvas>
+  <div class="tree-source" data-lang-en>Source: Handelsregister filings, SyncPilot SE Persons.xlsx, BOSYNC Beteiligungs UG shareholder list</div>
+  <div class="tree-source" data-lang-de style="display:none">Quelle: Handelsregister-Eintragungen, SyncPilot SE Persons.xlsx, BOSYNC Beteiligungs UG Gesellschafterliste</div>
+</div>
+
+<!-- SECTION: All Entity Cards -->
+<h2 data-lang-en>Entity Directory — 8 Positions, 5 Legal Forms, 2 Jurisdictions</h2>
+<h2 data-lang-de style="display:none">Gesellschaftsverzeichnis — 8 Positionen, 5 Rechtsformen, 2 Rechtsordnungen</h2>
+
+<div class="entity-grid">
+
+  <div class="entity-card primary">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type" data-lang-en>Societas Europaea</div>
+    <div class="entity-type" data-lang-de style="display:none">Societas Europaea</div>
+    <div class="entity-name">SYNCPILOT SE</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Geschäftsführer</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-detail" data-lang-en><strong>Control:</strong> Operational (managing director) + BOSYNC's 23.5% block</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Kontrolle:</strong> Operativ (Geschäftsführer) + BOSYNCs 23,5 %-Paket</div>
+  </div>
+
+  <div class="entity-card holding">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type">Unternehmergesellschaft (UG)</div>
+    <div class="entity-name">BOSYNC Beteiligungs UG</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Geschäftsführer</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-pct">70%</div>
+    <div class="entity-detail" data-lang-en><strong>Function:</strong> Primary holding vehicle; largest single shareholder of SyncPilot SE (1,312,782 shares / 23.5%)</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Funktion:</strong> Primäres Beteiligungsvehikel; größter Einzelaktionär der SyncPilot SE (1.312.782 Aktien / 23,5 %)</div>
+  </div>
+
+  <div class="entity-card holding">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type">GmbH</div>
+    <div class="entity-name">Quintus Beteiligungs GmbH</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Geschäftsführer</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-pct">90%</div>
+    <div class="entity-detail" data-lang-en><strong>Function:</strong> Secondary holding vehicle; purpose and downstream holdings unclear from public filings</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Funktion:</strong> Sekundäres Beteiligungsvehikel; Zweck und nachgelagerte Beteiligungen aus öffentlichen Unterlagen unklar</div>
+  </div>
+
+  <div class="entity-card subsidiary">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type">GmbH</div>
+    <div class="entity-name">SyncPilot Beteiligungs GmbH</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Geschäftsführer</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-detail" data-lang-en><strong>Function:</strong> Group participation entity</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Funktion:</strong> Konzernbeteiligungsgesellschaft</div>
+  </div>
+
+  <div class="entity-card subsidiary">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type">GmbH</div>
+    <div class="entity-name">SyncPilot S.P.S.A GmbH</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Geschäftsführer</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-detail" data-lang-en><strong>Function:</strong> Specific-purpose subsidiary</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Funktion:</strong> Zweckgesellschaft</div>
+  </div>
+
+  <div class="entity-card subsidiary">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type">GmbH</div>
+    <div class="entity-name">SIP SyncPilot GmbH</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Geschäftsführer</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-detail" data-lang-en><strong>Function:</strong> Operating company (legacy SyncPilot Software entity)</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Funktion:</strong> Betriebsgesellschaft (historische SyncPilot-Software-Gesellschaft)</div>
+  </div>
+
+  <div class="entity-card subsidiary">
+    <div class="entity-flag">🇫🇷</div>
+    <div class="entity-type">Société par actions simplifiée (SAS)</div>
+    <div class="entity-name">SyncPilot SAS</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Président</div>
+    <div class="entity-detail"><strong>Seat:</strong> Paris (23 rue d'Anjou, 75008)</div>
+    <div class="entity-detail" data-lang-en><strong>Function:</strong> French subsidiary; cross-jurisdictional expansion</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Funktion:</strong> Französische Tochtergesellschaft; grenzüberschreitende Expansion</div>
+  </div>
+
+  <div class="entity-card dormant">
+    <div class="entity-flag">🇩🇪</div>
+    <div class="entity-type">GmbH (in Liquidation)</div>
+    <div class="entity-name">NOB Vermögensverwaltungs GmbH</div>
+    <div class="entity-detail"><strong data-lang-en>Role:</strong><strong data-lang-de style="display:none">Rolle:</strong> Liquidator</div>
+    <div class="entity-detail"><strong data-lang-en>Seat:</strong><strong data-lang-de style="display:none">Sitz:</strong> Augsburg</div>
+    <div class="entity-detail" data-lang-en><strong>Status:</strong> In liquidation — Bleicher named as Liquidator</div>
+    <div class="entity-detail" data-lang-de style="display:none"><strong>Status:</strong> In Liquidation — Bleicher als Liquidator benannt</div>
+  </div>
+
+</div>
+
+<!-- SECTION: BOSYNC Ownership Shift -->
+<h2 data-lang-en>The BOSYNC Consolidation — Oberhofer Exit</h2>
+<h2 data-lang-de style="display:none">Die BOSYNC-Konsolidierung — Ausstieg Oberhofer</h2>
+
+<div class="ownership-change">
+  <h3 data-lang-en>⚡ Ownership Shift: May 2020 → September 2021</h3>
+  <h3 data-lang-de style="display:none">⚡ Eigentümerwechsel: Mai 2020 → September 2021</h3>
+
+  <p style="font-size:.88rem;margin-bottom:var(--sp-4)" data-lang-en>Between the founding of BOSYNC and September 2021, Bleicher acquired Jürgen Oberhofer's entire 20% stake, increasing his direct ownership from 50% to 70%. Oberhofer, who initially served as co-managing director, departed the company by April 2020. The acquisition was registered by September 2021.</p>
+  <p style="font-size:.88rem;margin-bottom:var(--sp-4)" data-lang-de style="display:none">Zwischen der Gründung von BOSYNC und September 2021 erwarb Bleicher den gesamten 20 %-Anteil von Jürgen Oberhofer und erhöhte damit seine direkte Beteiligung von 50 % auf 70 %. Oberhofer, der zunächst als Mitgeschäftsführer fungierte, schied bis April 2020 aus. Die Übernahme wurde bis September 2021 eingetragen.</p>
+
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:var(--sp-4);margin-top:var(--sp-4)">
+    <!-- Before -->
+    <div style="background:rgba(38,42,51,.03);border-radius:6px;padding:var(--sp-4)">
+      <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(38,42,51,.4);margin-bottom:var(--sp-3)">May 2020</div>
+      <div class="change-row">
+        <img class="change-photo" src="data:image/jpeg;base64,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" alt="FXB">
+        <div class="change-info"><strong>Bleicher</strong> — 50%</div>
+      </div>
+      <div class="change-row">
+        <div class="change-photo" style="background:var(--oxford);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-ui);font-weight:700;font-size:.72rem">AC</div>
+        <div class="change-info"><strong>AURIGA Capital</strong> — 30%</div>
+      </div>
+      <div class="change-row">
+        <img class="change-photo" src="data:image/jpeg;base64,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" alt="JO">
+        <div class="change-info"><strong>Oberhofer</strong> — 20%</div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="display:flex;align-items:center;font-size:2rem;color:var(--claret)">→</div>
+
+    <!-- After -->
+    <div style="background:rgba(153,15,61,.03);border-radius:6px;padding:var(--sp-4)">
+      <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--claret);margin-bottom:var(--sp-3)">September 2021</div>
+      <div class="change-row">
+        <img class="change-photo" src="data:image/jpeg;base64,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" alt="FXB" style="border-color:var(--claret)">
+        <div class="change-info"><strong>Bleicher</strong> — <span style="color:var(--claret);font-weight:700">70%</span> <span style="font-size:.72rem;color:rgba(38,42,51,.4)">(+20%)</span></div>
+      </div>
+      <div class="change-row">
+        <div class="change-photo" style="background:var(--oxford);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-ui);font-weight:700;font-size:.72rem">AC</div>
+        <div class="change-info"><strong>AURIGA Capital</strong> — 30%</div>
+      </div>
+      <div class="change-row" style="opacity:.35">
+        <img class="change-photo" src="data:image/jpeg;base64,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" alt="JO" style="filter:grayscale(1)">
+        <div class="change-info"><s>Oberhofer — 20%</s> <span style="font-size:.72rem"> Exited</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION: Registered Addresses -->
+<h2 data-lang-en>Registered Addresses — Three Locations, Two Countries</h2>
+<h2 data-lang-de style="display:none">Geschäftsadressen — Drei Standorte, Zwei Länder</h2>
+
+<div class="address-grid">
+  <div class="address-card">
+    <div class="address-flag">🇩🇪</div>
+    <div class="address-label" data-lang-en>Primary registered office</div>
+    <div class="address-label" data-lang-de style="display:none">Hauptgeschäftssitz</div>
+    <div class="address-text">James-Cook-Str. 25<br>86156 Augsburg</div>
+    <div class="address-entities" data-lang-en>Used by: SYNCPILOT SE, BOSYNC, Quintus, SyncPilot Beteiligungs, SIP SyncPilot</div>
+    <div class="address-entities" data-lang-de style="display:none">Genutzt von: SYNCPILOT SE, BOSYNC, Quintus, SyncPilot Beteiligungs, SIP SyncPilot</div>
+  </div>
+  <div class="address-card">
+    <div class="address-flag">🇩🇪</div>
+    <div class="address-label" data-lang-en>Secondary location</div>
+    <div class="address-label" data-lang-de style="display:none">Nebenstandort</div>
+    <div class="address-text">Kurzes Geländ 12<br>86156 Augsburg</div>
+    <div class="address-entities" data-lang-en>Used by: SyncPilot S.P.S.A GmbH</div>
+    <div class="address-entities" data-lang-de style="display:none">Genutzt von: SyncPilot S.P.S.A GmbH</div>
+  </div>
+  <div class="address-card">
+    <div class="address-flag">🇫🇷</div>
+    <div class="address-label" data-lang-en>Paris office</div>
+    <div class="address-label" data-lang-de style="display:none">Pariser Büro</div>
+    <div class="address-text">23 rue d'Anjou<br>75008 Paris</div>
+    <div class="address-entities" data-lang-en>Used by: SyncPilot SAS (Bleicher = Président)</div>
+    <div class="address-entities" data-lang-de style="display:none">Genutzt von: SyncPilot SAS (Bleicher = Président)</div>
+  </div>
+</div>
+
+<!-- SECTION: Entity Formation Timeline -->
+<h2 data-lang-en>Entity Timeline</h2>
+<h2 data-lang-de style="display:none">Gesellschaftschronologie</h2>
+
+<div class="timeline-mini">
+  <div class="tl-event teal">
+    <div class="tl-date" data-lang-en>Before 2018</div>
+    <div class="tl-date" data-lang-de style="display:none">Vor 2018</div>
+    <div class="tl-desc" data-lang-en><strong>SIP SyncPilot Software GmbH & Co. KG</strong> — Original operating entity, Augsburg. Bleicher serves as Geschäftsführer of its general partner SIP SyncPilot GmbH.</div>
+    <div class="tl-desc" data-lang-de style="display:none"><strong>SIP SyncPilot Software GmbH & Co. KG</strong> — Ursprüngliche Betriebsgesellschaft, Augsburg. Bleicher ist Geschäftsführer der Komplementärin SIP SyncPilot GmbH.</div>
+  </div>
+  <div class="tl-event">
+    <div class="tl-date">19 May 2020</div>
+    <div class="tl-desc" data-lang-en><strong>BOSYNC Beteiligungs UG</strong> founded — Bleicher 50%, AURIGA Capital 30%, Oberhofer 20%. Purpose: to hold shares in the future SE.</div>
+    <div class="tl-desc" data-lang-de style="display:none"><strong>BOSYNC Beteiligungs UG</strong> gegründet — Bleicher 50 %, AURIGA Capital 30 %, Oberhofer 20 %. Zweck: Beteiligung an der künftigen SE.</div>
+  </div>
+  <div class="tl-event">
+    <div class="tl-date">23 Sep 2020</div>
+    <div class="tl-desc" data-lang-en><strong>SYNCPILOT SE</strong> incorporated — Name change from predecessor shell, seat moved to Augsburg. BOSYNC receives 61,134 initial shares (50.9%).</div>
+    <div class="tl-desc" data-lang-de style="display:none"><strong>SYNCPILOT SE</strong> gegründet — Umfirmierung der Vorgängergesellschaft, Sitzverlegung nach Augsburg. BOSYNC erhält 61.134 Erstaktien (50,9 %).</div>
+  </div>
+  <div class="tl-event">
+    <div class="tl-date">7 Dec 2020</div>
+    <div class="tl-desc" data-lang-en><strong>Contribution in kind</strong> — SyncPilot GmbH contributed to the SE. BOSYNC receives 2,486,138 additional shares. Company valued at €23.5M.</div>
+    <div class="tl-desc" data-lang-de style="display:none"><strong>Sacheinlage</strong> — SyncPilot GmbH in die SE eingebracht. BOSYNC erhält 2.486.138 weitere Aktien. Unternehmensbewertung: 23,5 Mio. €.</div>
+  </div>
+  <div class="tl-event">
+    <div class="tl-date">Apr 2020</div>
+    <div class="tl-desc" data-lang-en><strong>Oberhofer exits</strong> as BOSYNC co-managing director. His 20% stake eventually transfers to Bleicher.</div>
+    <div class="tl-desc" data-lang-de style="display:none"><strong>Oberhofer scheidet aus</strong> als BOSYNC-Mitgeschäftsführer. Sein 20 %-Anteil geht schließlich an Bleicher.</div>
+  </div>
+  <div class="tl-event">
+    <div class="tl-date">22 Sep 2021</div>
+    <div class="tl-desc" data-lang-en><strong>BOSYNC consolidation</strong> registered — Bleicher now 70%, AURIGA 30%. Sole Geschäftsführer.</div>
+    <div class="tl-desc" data-lang-de style="display:none"><strong>BOSYNC-Konsolidierung</strong> eingetragen — Bleicher nun 70 %, AURIGA 30 %. Alleiniger Geschäftsführer.</div>
+  </div>
+  <div class="tl-event teal">
+    <div class="tl-date" data-lang-en>2021–2023</div>
+    <div class="tl-date" data-lang-de style="display:none">2021–2023</div>
+    <div class="tl-desc" data-lang-en>Multiple capital increases dilute BOSYNC from ~50.9% to 23.5%, but Bleicher retains managing director positions across all group entities, maintaining operational control regardless of equity dilution.</div>
+    <div class="tl-desc" data-lang-de style="display:none">Mehrere Kapitalerhöhungen verwässern BOSYNC von ~50,9 % auf 23,5 %, aber Bleicher behält Geschäftsführerpositionen in allen Konzerngesellschaften bei und behält damit die operative Kontrolle ungeachtet der Verwässerung.</div>
+  </div>
+</div>
+
+<!-- SECTION: Narrative -->
+<h2 data-lang-en>Analysis — The Architecture of Control</h2>
+<h2 data-lang-de style="display:none">Analyse — Die Architektur der Kontrolle</h2>
+
+<p data-lang-en>
+Franz Xaver Bleicher is not merely a managing director. He is the singular point of control through which the entire SyncPilot corporate structure flows. His architecture operates on three interlocking levels, each reinforcing the others to create a control framework that exceeds what any single shareholding percentage would suggest.
+</p>
+<p data-lang-de style="display:none">
+Franz Xaver Bleicher ist nicht nur ein Geschäftsführer. Er ist der singuläre Kontrollpunkt, über den die gesamte SyncPilot-Unternehmensstruktur läuft. Seine Architektur operiert auf drei ineinandergreifenden Ebenen, die sich gegenseitig verstärken und ein Kontrollgerüst schaffen, das über das hinausgeht, was eine einzelne Beteiligungsquote vermuten ließe.
+</p>
+
+<h3 data-lang-en>Level 1: Operational Control</h3>
+<h3 data-lang-de style="display:none">Ebene 1: Operative Kontrolle</h3>
+<p data-lang-en>
+As <em>Geschäftsführer</em> of six German entities and <em>Président</em> of the French SAS, Bleicher holds signing authority, represents the companies in legal transactions, and controls the day-to-day management of every significant entity in the group. No major transaction within the SyncPilot ecosystem can proceed without his signature. This includes the SyncPilot SE itself, where as managing director he controls board-level decisions, capital allocation, and — critically — the issuance of new shares and the approval of share transfers at preferential prices (see <a href="06_perseus_breach.html">Chapter 6: Perseus Breach</a>).
+</p>
+<p data-lang-de style="display:none">
+Als <em>Geschäftsführer</em> von sechs deutschen Gesellschaften und <em>Président</em> der französischen SAS hält Bleicher Zeichnungsberechtigung, vertritt die Gesellschaften im Rechtsverkehr und kontrolliert die laufende Geschäftsführung jeder wesentlichen Gesellschaft der Gruppe. Keine wesentliche Transaktion im SyncPilot-Ökosystem kann ohne seine Unterschrift durchgeführt werden. Dies schließt die SyncPilot SE selbst ein, wo er als Geschäftsführer Vorstandsentscheidungen, Kapitalallokation und — entscheidend — die Ausgabe neuer Aktien und die Genehmigung von Aktienübertragungen zu Vorzugspreisen kontrolliert (s. <a href="06_perseus_breach.html">Kapitel 6: Perseus-Breach</a>).
+</p>
+
+<h3 data-lang-en>Level 2: Equity Control via BOSYNC</h3>
+<h3 data-lang-de style="display:none">Ebene 2: Eigenkapitalkontrolle über BOSYNC</h3>
+<p data-lang-en>
+BOSYNC Beteiligungs UG holds 1,312,782 shares — the largest single block at 23.5% of the SE. Bleicher owns 70% of BOSYNC directly and serves as its sole <em>Geschäftsführer</em>. The remaining 30% is held by AURIGA Capital AG, itself controlled by the Steiner family (Harald Steiner, 60%). AURIGA also holds 403,551 shares (7.2%) directly in the SE, making the BOSYNC+AURIGA axis a combined 30.8% block. Bleicher's influence over AURIGA — as both BOSYNC co-owner and a business partner whose interests are structurally aligned — effectively extends his control beyond his formal 70% × 23.5% = 16.5% economic stake.
+</p>
+<p data-lang-de style="display:none">
+BOSYNC Beteiligungs UG hält 1.312.782 Aktien — das größte Einzelpaket mit 23,5 % der SE. Bleicher besitzt 70 % der BOSYNC direkt und ist deren alleiniger <em>Geschäftsführer</em>. Die verbleibenden 30 % hält die AURIGA Capital AG, die ihrerseits von der Familie Steiner kontrolliert wird (Harald Steiner, 60 %). AURIGA hält zudem 403.551 Aktien (7,2 %) direkt an der SE, was die BOSYNC+AURIGA-Achse auf ein kombiniertes Paket von 30,8 % bringt. Bleichers Einfluss auf AURIGA — als BOSYNC-Mitgesellschafter und Geschäftspartner mit strukturell gleichgerichteten Interessen — erweitert seine Kontrolle faktisch über seinen formalen wirtschaftlichen Anteil von 70 % × 23,5 % = 16,5 % hinaus.
+</p>
+
+<h3 data-lang-en>Level 3: Structural Opacity</h3>
+<h3 data-lang-de style="display:none">Ebene 3: Strukturelle Intransparenz</h3>
+<p data-lang-en>
+The use of five distinct legal forms (SE, GmbH, GmbH & Co. KG, UG, SAS) across two jurisdictions (Germany and France) creates regulatory arbitrage opportunities. German GwG Transparenzregister obligations require disclosure of UBOs holding 25%+ of an entity — but Bleicher's control is distributed through intermediaries that keep any single entity below this threshold. A French SAS has different disclosure requirements than a German SE. The liquidating NOB GmbH (where Bleicher serves as Liquidator) may have served as an additional asset-transfer vehicle. Quintus Beteiligungs GmbH, of which Bleicher owns 90%, has no publicly visible downstream investments, raising questions about its actual function within the group.
+</p>
+<p data-lang-de style="display:none">
+Die Nutzung von fünf verschiedenen Rechtsformen (SE, GmbH, GmbH & Co. KG, UG, SAS) in zwei Rechtsordnungen (Deutschland und Frankreich) schafft regulatorische Arbitrage-Möglichkeiten. Die deutsche GwG-Transparenzregisterpflicht erfordert die Offenlegung wirtschaftlich Berechtigter ab 25 % — aber Bleichers Kontrolle ist über Zwischengesellschaften verteilt, die jeden einzelnen Schwellenwert unterschreiten. Eine französische SAS unterliegt anderen Offenlegungspflichten als eine deutsche SE. Die NOB GmbH i.L. (Bleicher als Liquidator) könnte als zusätzliches Vermögenstransfervehikel gedient haben. Die Quintus Beteiligungs GmbH, an der Bleicher 90 % hält, hat keine öffentlich sichtbaren nachgelagerten Beteiligungen, was Fragen nach ihrer tatsächlichen Funktion innerhalb der Gruppe aufwirft.
+</p>
+
+<!-- Question Box -->
+<div class="question-box">
+  <h3 data-lang-en>🔍 Open Questions for Investigators</h3>
+  <h3 data-lang-de style="display:none">🔍 Offene Fragen für Ermittler</h3>
+  <p data-lang-en><strong>1.</strong> What is the purpose of Quintus Beteiligungs GmbH? With 90% Bleicher ownership and no visible downstream investments, does it hold undisclosed assets or serve as a conduit for payments?</p>
+  <p data-lang-de style="display:none"><strong>1.</strong> Welchen Zweck hat die Quintus Beteiligungs GmbH? Bei 90 % Bleicher-Eigentum und keinen sichtbaren nachgelagerten Beteiligungen — hält sie nicht offengelegte Vermögenswerte oder dient sie als Zahlungskanal?</p>
+  <p data-lang-en><strong>2.</strong> On what terms did Bleicher acquire Oberhofer's 20% BOSYNC stake? Was it at arm's length, and did minority SE shareholders receive notice of this consolidation of control?</p>
+  <p data-lang-de style="display:none"><strong>2.</strong> Zu welchen Konditionen hat Bleicher Oberhofers 20 %-BOSYNC-Anteil erworben? War es ein Drittvergleichsgeschäft, und wurden die SE-Minderheitsaktionäre über diese Kontrollkonsolidierung informiert?</p>
+  <p data-lang-en><strong>3.</strong> Has the SyncPilot Group complied with Transparenzregister (GwG §§18–25) obligations? Given the layered structure, is Bleicher correctly identified as UBO of each entity?</p>
+  <p data-lang-de style="display:none"><strong>3.</strong> Hat die SyncPilot-Gruppe ihre Transparenzregisterpflichten (GwG §§18–25) erfüllt? Ist Bleicher angesichts der geschichteten Struktur korrekt als wirtschaftlich Berechtigter jeder Gesellschaft identifiziert?</p>
+  <p data-lang-en><strong>4.</strong> What assets did NOB Vermögensverwaltungs GmbH hold before liquidation, and where were they transferred? As Liquidator, Bleicher controlled the dissolution and distribution process.</p>
+  <p data-lang-de style="display:none"><strong>4.</strong> Welche Vermögenswerte hielt die NOB Vermögensverwaltungs GmbH vor der Liquidation, und wohin wurden sie übertragen? Als Liquidator kontrollierte Bleicher den Auflösungs- und Verteilungsprozess.</p>
+  <p data-lang-en><strong>5.</strong> As the individual who approved the Perseus share transfer at a 95% discount (see <a href="06_perseus_breach.html">Chapter 6</a>), what benefit — direct or indirect — did Bleicher receive from Hunstein and Goerg?</p>
+  <p data-lang-de style="display:none"><strong>5.</strong> Als derjenige, der die Perseus-Aktienübertragung mit 95 % Abschlag genehmigte (s. <a href="06_perseus_breach.html">Kapitel 6</a>), welchen Vorteil — direkt oder indirekt — erhielt Bleicher von Hunstein und Goerg?</p>
+</div>
+
+<!-- Legal Framework -->
+<h2 data-lang-en>Legal Framework</h2>
+<h2 data-lang-de style="display:none">Rechtlicher Rahmen</h2>
+
+<div class="legal-grid">
+  <div class="legal-item">
+    <div class="legal-ref">AktG §§15–22</div>
+    <div class="legal-term">Konzernrecht</div>
+    <div class="legal-desc" data-lang-en>Group law provisions on affiliated and dependent enterprises. Defines when entities form a <em>Konzern</em> (group) and the obligations this creates.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Konzernrechtliche Vorschriften über verbundene und abhängige Unternehmen. Definiert, wann Gesellschaften einen <em>Konzern</em> bilden und welche Pflichten daraus entstehen.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref">AktG §17</div>
+    <div class="legal-term">Abhängiges Unternehmen</div>
+    <div class="legal-desc" data-lang-en>Dependent enterprise under dominant influence. An enterprise is dependent if another enterprise can exercise, directly or indirectly, a controlling influence over it.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Abhängiges Unternehmen unter beherrschendem Einfluss. Ein Unternehmen ist abhängig, wenn ein anderes Unternehmen unmittelbar oder mittelbar einen beherrschenden Einfluss auf es ausüben kann.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref" data-lang-en>CASE LAW</div>
+    <div class="legal-ref" data-lang-de style="display:none">RECHTSPRECHUNG</div>
+    <div class="legal-term">Faktische Organschaft</div>
+    <div class="legal-desc" data-lang-en>De facto control without formal group agreement (<em>Beherrschungsvertrag</em>). Where one person effectively controls multiple entities without a registered domination agreement, enhanced duty-of-care and liability provisions may apply.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Faktische Beherrschung ohne formalen Beherrschungsvertrag. Wenn eine Person faktisch mehrere Gesellschaften kontrolliert ohne eingetragenen Beherrschungsvertrag, können erhöhte Sorgfalts- und Haftungspflichten gelten.</div>
+  </div>
+  <div class="legal-item">
+    <div class="legal-ref">GwG §§18–25</div>
+    <div class="legal-term">Transparenzregister</div>
+    <div class="legal-desc" data-lang-en>German Anti-Money Laundering Act (<em>Geldwäschegesetz</em>) requires disclosure of ultimate beneficial owners (UBOs). Entities must report natural persons holding >25% of shares or voting rights, or exercising control by other means.</div>
+    <div class="legal-desc" data-lang-de style="display:none">Das Geldwäschegesetz verlangt die Offenlegung der wirtschaftlich Berechtigten (UBOs). Gesellschaften müssen natürliche Personen melden, die >25 % der Anteile oder Stimmrechte halten oder anderweitig Kontrolle ausüben.</div>
+  </div>
+</div>
+
+<!-- Chapter Navigation -->
+<div class="chapter-nav">
+  <a href="08_wash_trades.html">&larr; Ch 8 — Wash Trades</a>
+  <a href="10_pictet_investment.html">Ch 10 · Pictet Investment</a><br>
+  <a href="11_lvs_loan.html">Ch 11 · LVS Convertible Loan</a><br>
+
+  <a href="index.html">Index &rarr;</a>
+</div>
+
+</div><!-- end content-area -->
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+/* -- Nav toggles -- */
+function toggleMenu(){
+  var m=document.getElementById('sideMenu'),o=document.getElementById('menuOverlay');
+  m.classList.toggle('open');o.classList.toggle('visible');
+}
+var lang='en';
+function toggleLang(){
+  lang=lang==='en'?'de':'en';
+  document.body.classList.toggle('lang-de',lang==='de');
+  document.body.classList.toggle('lang-en',lang==='en');
+  document.querySelector('.lang-toggle').textContent=lang==='en'?'DE':'EN';
+}
+
+/* ============================================================
+   CORPORATE TREE — Canvas Visualization
+   ============================================================ */
+(function(){
+  var canvas=document.getElementById('corpTree');
+  if(!canvas)return;
+  var dpr=window.devicePixelRatio||1;
+  var W=canvas.parentElement.clientWidth-48;
+  var H=680;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  var ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+
+  var claret='#990F3D',oxford='#0D7680',slate='#262A33',wheat='#F2DFCE',purple='#593380';
+  var uiFont='Source Sans 3, Helvetica Neue, Arial, sans-serif';
+
+  // Node data
+  var nodes=[
+    {id:'fxb',label:'Franz Xaver Bleicher',sub:'The Architect',x:W/2,y:40,w:220,h:52,color:claret,type:'person'},
+    {id:'bosync',label:'BOSYNC UG',sub:'70% | GF',x:W*0.22,y:160,w:160,h:48,color:claret,type:'holding'},
+    {id:'quintus',label:'Quintus GmbH',sub:'90% | GF',x:W*0.78,y:160,w:160,h:48,color:oxford,type:'holding'},
+    {id:'se',label:'SYNCPILOT SE',sub:'GF | via BOSYNC 23.5%',x:W*0.22,y:290,w:180,h:48,color:claret,type:'primary'},
+    {id:'nob',label:'NOB GmbH i.L.',sub:'Liquidator',x:W*0.78,y:290,w:160,h:48,color:'#999',type:'dormant'},
+    {id:'bet',label:'SyncPilot Bet. GmbH',sub:'GF',x:W*0.12,y:410,w:160,h:44,color:purple,type:'sub'},
+    {id:'spsa',label:'S.P.S.A GmbH',sub:'GF',x:W*0.36,y:410,w:150,h:44,color:purple,type:'sub'},
+    {id:'sip',label:'SIP SyncPilot GmbH',sub:'GF',x:W*0.60,y:410,w:160,h:44,color:purple,type:'sub'},
+    {id:'sas',label:'SyncPilot SAS 🇫🇷',sub:'Président | Paris',x:W*0.84,y:410,w:160,h:44,color:purple,type:'sub'},
+    {id:'auriga',label:'AURIGA Capital AG',sub:'30% of BOSYNC',x:W*0.45,y:160,w:160,h:48,color:oxford,type:'partner'},
+  ];
+
+  // Edges: from, to, style
+  var edges=[
+    {from:'fxb',to:'bosync',style:'bold',label:'70%'},
+    {from:'fxb',to:'quintus',style:'bold',label:'90%'},
+    {from:'fxb',to:'nob',style:'dashed',label:'Liquidator'},
+    {from:'bosync',to:'se',style:'bold',label:'23.5% SE'},
+    {from:'fxb',to:'se',style:'dashed',label:'GF'},
+    {from:'se',to:'bet',style:'solid'},
+    {from:'se',to:'spsa',style:'solid'},
+    {from:'se',to:'sip',style:'solid'},
+    {from:'se',to:'sas',style:'solid'},
+    {from:'auriga',to:'bosync',style:'dashed',label:'30%'},
+  ];
+
+  function drawRoundedRect(x,y,w,h,r,fill,stroke){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}
+  }
+
+  function drawEdge(e){
+    var from=nodes.find(function(n){return n.id===e.from});
+    var to=nodes.find(function(n){return n.id===e.to});
+    if(!from||!to)return;
+    var fx=from.x,fy=from.y+from.h;
+    var tx=to.x,ty=to.y;
+
+    ctx.beginPath();
+    ctx.moveTo(fx,fy);
+
+    // Curved path
+    var my=(fy+ty)/2;
+    ctx.bezierCurveTo(fx,my,tx,my,tx,ty);
+
+    if(e.style==='bold'){ctx.lineWidth=3;ctx.strokeStyle=claret;ctx.setLineDash([]);}
+    else if(e.style==='dashed'){ctx.lineWidth=1.5;ctx.strokeStyle='rgba(38,42,51,.3)';ctx.setLineDash([6,4]);}
+    else{ctx.lineWidth=1.5;ctx.strokeStyle='rgba(38,42,51,.2)';ctx.setLineDash([]);}
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Edge label
+    if(e.label){
+      var lx=(fx+tx)/2,ly=my;
+      ctx.font='600 10px '+uiFont;
+      var tw=ctx.measureText(e.label).width;
+      ctx.fillStyle='#FFF1E5';
+      ctx.fillRect(lx-tw/2-4,ly-7,tw+8,14);
+      ctx.fillStyle=e.style==='bold'?claret:'rgba(38,42,51,.5)';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(e.label,lx,ly);
+    }
+  }
+
+  function drawNode(n){
+    var x=n.x-n.w/2,y=n.y;
+    var fill=n.type==='person'?claret:n.type==='dormant'?'rgba(38,42,51,.08)':'#fff';
+    var stroke=n.color;
+    drawRoundedRect(x,y,n.w,n.h,6,fill,stroke);
+
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    // Label
+    ctx.font='700 12px '+uiFont;
+    ctx.fillStyle=n.type==='person'?'#fff':slate;
+    ctx.fillText(n.label,n.x,n.y+n.h/2-(n.sub?8:0));
+    // Sub
+    if(n.sub){
+      ctx.font='600 10px '+uiFont;
+      ctx.fillStyle=n.type==='person'?'rgba(255,255,255,.7)':n.color;
+      ctx.fillText(n.sub,n.x,n.y+n.h/2+10);
+    }
+  }
+
+  // Draw
+  edges.forEach(drawEdge);
+  nodes.forEach(drawNode);
+
+  // Legend
+  var lx=12,ly=H-80;
+  ctx.font='700 11px '+uiFont;ctx.fillStyle=slate;ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('Legend:',lx,ly);
+  ly+=18;
+  // Bold line = ownership
+  ctx.beginPath();ctx.moveTo(lx,ly+6);ctx.lineTo(lx+30,ly+6);
+  ctx.lineWidth=3;ctx.strokeStyle=claret;ctx.stroke();
+  ctx.font='400 10px '+uiFont;ctx.fillStyle='rgba(38,42,51,.6)';
+  ctx.fillText('Direct ownership / control',lx+36,ly);
+  ly+=16;
+  // Dashed = influence
+  ctx.beginPath();ctx.moveTo(lx,ly+6);ctx.lineTo(lx+30,ly+6);
+  ctx.lineWidth=1.5;ctx.strokeStyle='rgba(38,42,51,.3)';ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillText('Indirect influence / officer role',lx+36,ly);
+  ly+=16;
+  // Colors
+  [[claret,'Primary / Holding'],[oxford,'Partner entity'],[purple,'Subsidiary'],['#999','Dormant / Liquidating']].forEach(function(c){
+    ctx.fillStyle=c[0];ctx.fillRect(lx,ly,12,12);
+    ctx.fillStyle='rgba(38,42,51,.6)';ctx.font='400 10px '+uiFont;
+    ctx.fillText(c[1],lx+18,ly+1);
+    ly+=16;
+  });
+
+})();
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

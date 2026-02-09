@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ch 8 &mdash; Circular Control &amp; Wash Trades | SyncPilot Dossier</title>
+<title>Ch 8 — Circular Control & Wash Trades | SyncPilot Dossier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
 :root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -30,625 +29,700 @@ a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
 .hero-rule{width:64px;height:3px;background:var(--claret);margin:var(--sp-4) auto;border:none}
 .hero-subtitle{font-family:var(--font-ui);font-size:1rem;color:rgba(38,42,51,.6);line-height:1.5}
 h2{font-size:1.35rem;margin:var(--sp-8) 0 var(--sp-4);padding-bottom:var(--sp-2);border-bottom:2px solid var(--wheat)}
-h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
 .chart-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0}
 .chart-title{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--slate);margin-bottom:var(--sp-3)}
-.chart-source{display:none}
+.chart-source{display:none;font-family:var(--font-ui);font-size:.68rem;color:rgba(38,42,51,.4);margin-top:var(--sp-3)}
+.bluf-box{background:var(--white);border-left:4px solid var(--claret);padding:var(--sp-6);margin:var(--sp-6) 0;border-radius:0 6px 6px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.bluf-label{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--claret);margin-bottom:var(--sp-2)}
+p{margin-bottom:var(--sp-4)}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.kpi-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);text-align:center}
+.kpi-card.alert{border-color:var(--claret);background:linear-gradient(180deg,rgba(153,15,61,.04) 0%,var(--white) 100%)}
+.kpi-number{font-family:var(--font-ui);font-weight:700;font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.1;margin-bottom:4px}
+.kpi-number.red{color:var(--claret)}
+.kpi-number.orange{color:#FF8833}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;font-weight:600;color:rgba(38,42,51,.55);text-transform:uppercase;letter-spacing:.08em}
+.legal-box{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--oxford);border-radius:0 6px 6px 0;padding:var(--sp-6);margin:var(--sp-6) 0}
+.legal-box h3{font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:var(--oxford);margin-bottom:var(--sp-3)}
+.legal-box dt{font-family:var(--font-ui);font-weight:700;font-size:.82rem;margin-top:var(--sp-3);color:var(--slate)}
+.legal-box dd{font-size:.88rem;margin-left:0;padding-left:var(--sp-4);border-left:2px solid var(--wheat);margin-top:2px;margin-bottom:var(--sp-3);color:rgba(38,42,51,.75)}
+.flow-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:.82rem;margin:var(--sp-4) 0}
+.flow-table th{background:var(--wheat);text-align:left;padding:var(--sp-3) var(--sp-4);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--slate)}
+.flow-table td{padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--wheat);vertical-align:top}
+.flow-table tr.highlight{background:rgba(153,15,61,.06);font-weight:600}
+.flow-table tr.total{background:var(--wheat);font-weight:700}
+.flow-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.flow-table .red{color:var(--claret)}
+.flow-table .note{font-size:.72rem;color:rgba(38,42,51,.5);font-weight:400}
+.site-footer{max-width:var(--max-width);margin:var(--sp-16) auto var(--sp-8);padding:var(--sp-6);border-top:1px solid var(--wheat);font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);line-height:1.5}
+.chapter-nav{display:flex;justify-content:space-between;max-width:var(--max-width);margin:var(--sp-8) auto;padding:0 var(--sp-6)}
+.chapter-nav a{font-family:var(--font-ui);font-size:.82rem;font-weight:600}
 
-/* BOMBSHELL BOX */
-.bombshell{background:var(--white);border:3px solid var(--claret);border-radius:12px;overflow:hidden;margin:var(--sp-8) 0;box-shadow:0 6px 30px rgba(153,15,61,.12)}
-.bombshell-header{background:var(--claret);color:#fff;padding:var(--sp-4) var(--sp-6);font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:10px}
-.bombshell-body{padding:var(--sp-6) var(--sp-8)}
-.bombshell-quote{font-size:1.4rem;font-weight:600;color:var(--claret);margin-bottom:var(--sp-4);line-height:1.35}
-.bombshell-detail{font-family:var(--font-ui);font-size:.88rem;color:rgba(38,42,51,.7);line-height:1.55}
-.bombshell-detail strong{color:var(--slate)}
+/* Network Graph */
+.network-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4);margin:var(--sp-6) 0;overflow-x:auto}
+.network-svg{width:100%;min-height:520px}
+.node-circle{cursor:pointer;transition:r .15s,opacity .15s}
+.node-circle:hover{opacity:.85}
+.node-label{font-family:var(--font-ui);font-size:10px;font-weight:600;fill:var(--slate);pointer-events:none;text-anchor:middle}
+.node-sublabel{font-family:var(--font-ui);font-size:8px;fill:rgba(38,42,51,.5);pointer-events:none;text-anchor:middle}
+.edge-line{stroke-linecap:round;fill:none}
+.edge-arrow{fill:var(--slate)}
+.node-tooltip{position:absolute;background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-3) var(--sp-4);font-family:var(--font-ui);font-size:.78rem;box-shadow:0 4px 16px rgba(0,0,0,.12);pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;max-width:280px;line-height:1.4}
+.node-tooltip.visible{opacity:1}
+.node-tooltip strong{display:block;margin-bottom:4px;font-size:.82rem}
+.node-tooltip .tt-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:2px}
+.node-tooltip .tt-label{color:rgba(38,42,51,.55)}
+.node-tooltip .tt-val{font-weight:600}
 
-/* KPI ROW */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
-.kpi-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4) var(--sp-6);text-align:center}
-.kpi-num{font-family:var(--font-ui);font-weight:700;font-size:clamp(1.8rem,4vw,2.4rem);color:var(--claret);line-height:1.1}
-.kpi-label{font-family:var(--font-ui);font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(38,42,51,.45);margin-top:4px}
-.kpi-card.teal .kpi-num{color:var(--oxford)}
+/* Sankey / Flow Diagram */
+.sankey-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4);margin:var(--sp-6) 0;overflow-x:auto}
+.sankey-svg{width:100%;min-height:450px}
+.sankey-path{opacity:.45;transition:opacity .2s}
+.sankey-path:hover{opacity:.75}
+.sankey-node-rect{stroke:var(--white);stroke-width:1}
+.sankey-node-label{font-family:var(--font-ui);font-size:10px;font-weight:600;fill:var(--slate)}
+.sankey-node-val{font-family:var(--font-ui);font-size:8px;fill:rgba(38,42,51,.5)}
 
-/* NETWORK VIZ */
-.network-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-4);margin:var(--sp-6) 0;position:relative;overflow:hidden}
-.network-container svg{width:100%;display:block}
-.node-label{font-family:var(--font-ui);font-size:9px;font-weight:600;fill:var(--slate);pointer-events:none}
-.link-label{font-family:var(--font-ui);font-size:7px;fill:rgba(38,42,51,.45);pointer-events:none}
-.tooltip-box{position:absolute;background:var(--slate);color:var(--paper);padding:8px 12px;border-radius:4px;font-family:var(--font-ui);font-size:.75rem;pointer-events:none;z-index:100;max-width:260px;line-height:1.4;opacity:0;transition:opacity .15s}
+/* Ghost entity warning */
+.ghost-warning{background:linear-gradient(135deg,rgba(153,15,61,.06) 0%,rgba(255,136,51,.04) 100%);border:2px dashed var(--claret);border-radius:8px;padding:var(--sp-6);margin:var(--sp-6) 0;position:relative}
+.ghost-warning::before{content:'⚠';font-size:1.6rem;position:absolute;top:var(--sp-3);right:var(--sp-4)}
+.ghost-warning h3{font-family:var(--font-ui);font-size:.92rem;font-weight:700;color:var(--claret);margin-bottom:var(--sp-2)}
+.ghost-warning p{font-size:.88rem;color:rgba(38,42,51,.75);margin-bottom:var(--sp-2)}
+.ghost-warning .quote{font-style:italic;color:var(--claret);font-weight:600}
 
-/* TRANSFER TABLE */
-.transfer-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:.8rem;margin:var(--sp-4) 0}
-.transfer-table th{background:var(--slate);color:var(--paper);padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
-.transfer-table td{padding:8px 10px;border-bottom:1px solid var(--wheat);vertical-align:top}
-.transfer-table tr:nth-child(even){background:rgba(242,223,206,.25)}
-.transfer-table .from{color:var(--claret);font-weight:600}
-.transfer-table .to{color:var(--oxford);font-weight:600}
-.transfer-table .shares{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+/* Axis cards */
+.axis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
+.axis-card{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);position:relative;overflow:hidden}
+.axis-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.axis-card.steiner::before{background:var(--oxford)}
+.axis-card.purkert::before{background:var(--claret)}
+.axis-card.bleicher::before{background:#FF8833}
+.axis-card h3{font-family:var(--font-ui);font-size:.88rem;font-weight:700;margin-bottom:var(--sp-2)}
+.axis-card .chain{font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.6);line-height:1.5}
+.axis-card .chain .entity{font-weight:600;color:var(--slate)}
+.axis-card .chain .arrow{color:var(--claret);font-weight:700;margin:0 4px}
 
-/* ENTITY CHAIN */
-.chain-wrap{display:flex;flex-direction:column;gap:var(--sp-3);margin:var(--sp-4) 0}
-.chain-row{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap}
-.chain-node{font-family:var(--font-ui);font-size:.78rem;font-weight:600;padding:6px 14px;border-radius:20px;border:2px solid;white-space:nowrap}
-.chain-node.person{background:rgba(234,88,12,.08);border-color:rgba(234,88,12,.35);color:#c2410c}
-.chain-node.company{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.25);color:#1d4ed8}
-.chain-node.ghost{background:rgba(153,15,61,.06);border-color:var(--claret);color:var(--claret);border-style:dashed}
-.chain-arrow{font-family:var(--font-ui);font-size:.82rem;color:rgba(38,42,51,.3);flex-shrink:0}
-.chain-pct{font-family:var(--font-ui);font-size:.65rem;font-weight:700;color:rgba(38,42,51,.4)}
-
-/* LEGAL GRID */
-.legal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin:var(--sp-6) 0}
-.legal-item{background:var(--white);border:1px solid var(--wheat);border-left:4px solid var(--claret);border-radius:6px;padding:var(--sp-4) var(--sp-6)}
-.legal-ref{font-family:var(--font-ui);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--claret);margin-bottom:4px}
-.legal-term{font-family:var(--font-ui);font-weight:700;font-size:.95rem;margin-bottom:4px}
-.legal-desc{font-size:.85rem;color:rgba(38,42,51,.65);line-height:1.45}
-
-.chapter-nav{display:flex;justify-content:space-between;padding:var(--sp-8) 0;margin-top:var(--sp-8);border-top:2px solid var(--wheat)}
-.chapter-nav a{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--oxford);text-decoration:none}
-.chapter-nav a:hover{color:var(--claret)}
-.site-footer{background:var(--slate);color:rgba(255,241,229,.5);padding:var(--sp-8) var(--sp-6);margin-top:var(--sp-16);font-family:var(--font-ui);font-size:.72rem;text-align:center}
-
-/* ALLUVIAL / SANKEY */
-.sankey-container{background:var(--white);border:1px solid var(--wheat);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0;overflow-x:auto}
-.sankey-container svg text{font-family:var(--font-ui);font-size:10px}
-
-@media(max-width:768px){
-  .kpi-row{grid-template-columns:1fr 1fr}
-  .chain-row{flex-direction:column;align-items:flex-start}
-  .legal-grid{grid-template-columns:1fr}
-}
-@media print{body{padding-top:0;background:#fff}.site-nav,.side-menu,.side-menu-overlay{display:none!important}}
-a.ubo-link{color:var(--claret);text-decoration:none;border-bottom:1px dotted rgba(153,15,61,.3);transition:border-color .15s}
-a.ubo-link:hover{border-bottom-color:var(--claret);text-decoration:none}
-td a.ubo-link,span.chain-node a.ubo-link{color:inherit;border-bottom-color:rgba(153,15,61,.25)}
-td a.ubo-link:hover,span.chain-node a.ubo-link:hover{color:var(--claret);border-bottom-color:var(--claret)}
+@media(max-width:767px){.kpi-strip{grid-template-columns:1fr 1fr}.flow-table{font-size:.72rem}.flow-table td,.flow-table th{padding:var(--sp-2) var(--sp-3)}.axis-grid{grid-template-columns:1fr}.network-svg{min-height:400px}}
 </style>
 </head>
 <body>
-<!-- NAV -->
-<nav class="site-nav" role="navigation">
+
+<nav class="site-nav">
   <div class="nav-left">
-    <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.side-menu').classList.toggle('open');document.querySelector('.side-menu-overlay').classList.toggle('visible')">
-      <span></span><span></span><span></span>
-    </button>
-    <a href="index.html" class="nav-title">SyncPilot Dossier</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="nav-title" href="index.html">SyncPilot Dossier</a>
   </div>
-  <div class="nav-right">
-    <button class="lang-toggle" onclick="toggleLang()">DE</button>
-  </div>
+  <div class="nav-right"><button class="lang-toggle" onclick="toggleLang()">DE / EN</button></div>
 </nav>
-<div class="side-menu-overlay" onclick="document.querySelector('.side-menu').classList.remove('open');this.classList.remove('visible')"></div>
-<aside class="side-menu">
-  <nav style="display:flex;flex-direction:column;gap:6px">
-    <a href="01_ubo_directory.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 1 — Ultimate Beneficial Owners</a>
-    <a href="02_capital_events.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 2 — Capital Events Timeline</a>
-    <a href="03_valuation.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 3 — Corporate Valuation</a>
-    <a href="04_revenue.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 4 — Revenue Analysis</a>
-    <a href="05_risk_ratings.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 5 — UBO Risk Assessment</a>
-    <a href="06_perseus_breach.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 6 — The Perseus Breach</a>
-    <a href="07_treasury_deficit.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 7 — The Treasury Deficit</a>
-    <a href="08_wash_trades.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--claret);font-weight:700">Ch 8 — Circular Control &amp; Wash Trades ●</a>
-    <a href="09_bleicher_profile.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 9 — Bleicher — The Architect</a>
-    <a href="10_pictet_investment.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 10 — The Pictet Investment</a>
-    <a href="11_lvs_loan.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 11 — The LVS Convertible Loan</a>
-    <a href="12_goldfinger.html" style="font-family:var(--font-ui);font-size:.82rem;padding:6px 0;color:var(--slate)">Ch 12 — The Goldfinger Connection</a>
-  </nav>
-</aside>
+<div class="side-menu" id="sideMenu">
+  <a href="index.html">Index</a><br><br>
+  <a href="01_ubo_directory.html">Ch 1 — UBO Directory</a><br>
+  <a href="02_capital_events.html">Ch 2 — Capital Events</a><br>
+  <a href="03_valuation.html">Ch 3 — Valuation</a><br>
+  <a href="04_revenue.html">Ch 4 — Revenue</a><br>
+  <a href="05_risk_ratings.html">Ch 5 — Risk Ratings</a><br>
+  <a href="06_perseus_breach.html">Ch 6 — Perseus Breach</a><br>
+  <a href="07_treasury_deficit.html">Ch 7 — Treasury Deficit</a><br>
+  <a href="08_wash_trades.html"><strong>Ch 8 — Wash Trades</strong></a><br>
+  <a href="09_bleicher_profile.html">Ch 9 — Bleicher Profile</a><br>
+</div>
+<div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
-<main class="content-area">
+<div class="content-area">
 
-<!-- HERO -->
-<section class="hero">
-  <h1 data-lang-en>The Shell Game:<br>30&nbsp;Entities, 8&nbsp;Puppeteers</h1>
-  <h1 data-lang-de style="display:none">Das Hütchenspiel:<br>30&nbsp;Gesellschaften, 8&nbsp;Strippenzieher</h1>
+<div class="hero">
+  <h1 data-lang-en>Circular Control &amp; Wash Trades</h1>
+  <h1 data-lang-de style="display:none">Zirkuläre Kontrolle &amp; Wash Trades</h1>
   <hr class="hero-rule">
-  <p class="hero-subtitle" data-lang-en>How a network of shell companies, circular transfers, and a non-existent entity were used to obscure beneficial ownership and redistribute millions in equity — all controlled by the same handful of individuals.</p>
-  <p class="hero-subtitle" data-lang-de style="display:none">Wie ein Netzwerk aus Briefkastengesellschaften, zirkulären Übertragungen und einer nicht existierenden Gesellschaft genutzt wurde, um wirtschaftliche Eigentumsverhältnisse zu verschleiern und Millionen an Eigenkapital umzuverteilen — alles kontrolliert von derselben Handvoll Personen.</p>
-</section>
-
-<!-- KPIs -->
-<div class="kpi-row">
-  <div class="kpi-card"><div class="kpi-num">30+</div><div class="kpi-label" data-lang-en>Corporate Entities</div><div class="kpi-label" data-lang-de style="display:none">Gesellschaften</div></div>
-  <div class="kpi-card"><div class="kpi-num">8</div><div class="kpi-label" data-lang-en>Controlling Individuals</div><div class="kpi-label" data-lang-de style="display:none">Kontrollierende Personen</div></div>
-  <div class="kpi-card"><div class="kpi-num">20</div><div class="kpi-label" data-lang-en>Transfers on One Day</div><div class="kpi-label" data-lang-de style="display:none">Übertragungen an einem Tag</div></div>
-  <div class="kpi-card"><div class="kpi-num" style="color:var(--claret)">1</div><div class="kpi-label" data-lang-en>Non-Existent Entity</div><div class="kpi-label" data-lang-de style="display:none">Nicht existierende Gesellschaft</div></div>
+  <div class="hero-subtitle" data-lang-en>Chapter 8 — Where Shares Disappear Into Entities That Don't Exist</div>
+  <div class="hero-subtitle" data-lang-de style="display:none">Kapitel 8 — Wo Aktien in nicht existierenden Gesellschaften verschwinden</div>
 </div>
 
-<!-- SECTION 1: THE GHOST ENTITY -->
-<h2 data-lang-en>&#x1F6A8; "Tiven S.A. existiert nicht"</h2>
-<h2 data-lang-de style="display:none">&#x1F6A8; „Tiven S.A. existiert nicht"</h2>
+<div class="bluf-box">
+  <div class="bluf-label">Bottom Line</div>
+  <p data-lang-en>Share transfers to Tiven S.A. — an entity that, per project records, <em>"does not exist"</em> as registered — and the interlocking Steiner-Purkert axis through AURIGA Capital and BOSYNC reveal circular ownership patterns consistent with wash trading and <em>Scheingeschäfte</em> (sham transactions) under §117 BGB.</p>
+  <p data-lang-de style="display:none">Aktienübertragungen an die Tiven S.A. — eine Gesellschaft, die laut Projektunterlagen <em>„nicht existiert"</em> — sowie die verschränkte Steiner-Purkert-Achse über AURIGA Capital und BOSYNC zeigen zirkuläre Eigentumsmuster, die auf Wash Trading und <em>Scheingeschäfte</em> i.S.d. §117 BGB hindeuten.</p>
+</div>
 
-<div class="bombshell">
-  <div class="bombshell-header">&#9888;&#65039; Critical Finding — Verified in Source Data</div>
-  <div class="bombshell-body">
-    <div class="bombshell-quote" data-lang-en>"Tiven S.A. existiert nicht."</div>
-    <div class="bombshell-quote" data-lang-de style="display:none">„Tiven S.A. existiert nicht."</div>
-    <div class="bombshell-detail" data-lang-en>
-      The company's own records contain this explicit warning: <strong>"Tiven S.A. does not exist."</strong> The note clarifies that what is labelled "Tiven S.A." is actually "Tiven Sàrl" — a different legal entity type entirely. Yet on <strong>5 August 2025</strong>, exactly <strong>244,445 shares</strong> (4.38% of SyncPilot) were transferred to this entity, making it the 7th largest shareholder. At the prevailing €23 per share, these shares carry a notional value of approximately <strong>€5.6 million</strong>.
+<!-- KPI Strip -->
+<div class="kpi-strip">
+  <div class="kpi-card alert">
+    <div class="kpi-number red">244,445</div>
+    <div class="kpi-label" data-lang-en>Shares held by ghost entity</div>
+    <div class="kpi-label" data-lang-de style="display:none">Aktien bei Geistergesellschaft</div>
+  </div>
+  <div class="kpi-card alert">
+    <div class="kpi-number orange">4</div>
+    <div class="kpi-label" data-lang-en>Tiven entities, one chain</div>
+    <div class="kpi-label" data-lang-de style="display:none">Tiven-Gesellschaften, eine Kette</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number red">3</div>
+    <div class="kpi-label" data-lang-en>Jurisdictions obscuring control</div>
+    <div class="kpi-label" data-lang-de style="display:none">Rechtsordnungen zur Verschleierung</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number orange">849,994</div>
+    <div class="kpi-label" data-lang-en>DSI shares rerouted to AURIGA</div>
+    <div class="kpi-label" data-lang-de style="display:none">DSI-Aktien umgeleitet zu AURIGA</div>
+  </div>
+</div>
+
+<!-- Ghost Entity Warning -->
+<div class="ghost-warning">
+  <h3 data-lang-en>⚠ The Ghost Entity: Tiven S.A.</h3>
+  <h3 data-lang-de style="display:none">⚠ Die Geistergesellschaft: Tiven S.A.</h3>
+  <p data-lang-en>Project records contain an explicit note on the Tiven S.A. data sheet:</p>
+  <p data-lang-de style="display:none">Projektunterlagen enthalten einen ausdrücklichen Vermerk auf dem Tiven-S.A.-Datenblatt:</p>
+  <p class="quote">"Achtung: 'Tiven S.A.' existiert nicht. Es wird die Tiven Sàrl angenommen."</p>
+  <p data-lang-en>Translation: <em>"Warning: 'Tiven S.A.' does not exist. The Tiven Sàrl is assumed."</em> Despite this warning, 244,445 SyncPilot shares were attributed to this entity as of August 2025. If shares are recorded in the name of an entity that does not legally exist, those transfers are void under §117 BGB (<em>Scheingeschäft</em>).</p>
+  <p data-lang-de style="display:none">Trotz dieser Warnung werden 244.445 SyncPilot-Aktien per August 2025 dieser Gesellschaft zugeordnet. Wenn Aktien im Namen einer rechtlich nicht existierenden Gesellschaft erfasst sind, sind diese Übertragungen gem. §117 BGB (<em>Scheingeschäft</em>) nichtig.</p>
+</div>
+
+<h2 data-lang-en>The Three Control Axes</h2>
+<h2 data-lang-de style="display:none">Die drei Kontrollachsen</h2>
+
+<p data-lang-en>Three interlocking ownership chains concentrate control of SyncPilot while obscuring who actually makes decisions. Each axis runs through multiple entities across jurisdictions.</p>
+<p data-lang-de style="display:none">Drei ineinander greifende Eigentümerketten konzentrieren die Kontrolle über SyncPilot und verschleiern, wer tatsächlich Entscheidungen trifft.</p>
+
+<div class="axis-grid">
+  <div class="axis-card steiner">
+    <h3>The Steiner-AURIGA Axis</h3>
+    <div class="chain">
+      <span class="entity">Harald Steiner</span> <span class="arrow">→</span> 60% <span class="entity">AURIGA Capital AG</span> <span class="arrow">→</span> 30% <span class="entity">BOSYNC</span> <span class="arrow">→</span> 24% SyncPilot<br>
+      + family: <span class="entity">Christiane</span> (30%) + <span class="entity">Daniel</span> (10%) = 100% AURIGA<br><br>
+      <strong>849,994 shares</strong> appear at AURIGA in Dec 2022 — the same number DSI lost in Dec 2021. Steiner simultaneously controls AURIGA and influences BOSYNC through AURIGA's 30% stake.
     </div>
-    <div class="bombshell-detail" data-lang-de style="display:none">
-      Die unternehmenseigenen Unterlagen enthalten diese ausdrückliche Warnung: <strong>„Tiven S.A. existiert nicht."</strong> Die Anmerkung stellt klar, dass es sich bei der als „Tiven S.A." bezeichneten Gesellschaft tatsächlich um eine „Tiven Sàrl" handelt — ein völlig anderer Rechtsformtyp. Dennoch wurden am <strong>5. August 2025</strong> genau <strong>244.445 Aktien</strong> (4,38% von SyncPilot) auf diese Gesellschaft übertragen, was sie zur siebtgrößten Aktionärin macht. Beim vorherrschenden Kurs von €23 pro Aktie haben diese Aktien einen Nominalwert von ca. <strong>5,6 Mio. €</strong>.
+  </div>
+  <div class="axis-card purkert">
+    <h3>The Purkert-Tiven Chain</h3>
+    <div class="chain">
+      <span class="entity">Gert Purkert</span> <span class="arrow">→</span> 100% <span class="entity">Tiven GmbH</span> (DE) <span class="arrow">→</span><br>
+      100% <span class="entity">Tiven Malta Ltd.</span> (MT) <span class="arrow">→</span><br>
+      100% <span class="entity">Tiven Invest SA SICAV RAIF</span> (LU) <span class="arrow">→</span><br>
+      100% <span class="entity">Tiven S.A.</span> (???) — <strong style="color:var(--claret)">"existiert nicht"</strong><br><br>
+      Four layers across three jurisdictions (Germany, Malta, Luxembourg), terminating in a non-existent entity holding 244,445 shares.
+    </div>
+  </div>
+  <div class="axis-card bleicher">
+    <h3>The Bleicher-BOSYNC Hub</h3>
+    <div class="chain">
+      <span class="entity">Franz-Xaver Bleicher</span> <span class="arrow">→</span> 50% <span class="entity">BOSYNC</span> (direct)<br>
+      + AURIGA's 30% = effective 80% influence over BOSYNC<br>
+      Sep 2021: Oberhofer's 20% <span class="arrow">→</span> Bleicher (now 70% direct)<br><br>
+      BOSYNC is the single largest SE shareholder but has systematically shed shares to related entities: <strong>−1,208,849</strong> shares transferred out since peak.
     </div>
   </div>
 </div>
 
-<p data-lang-en>The Tiven chain illustrates the layering strategy at work. One person — <strong><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Gert Purkert</a></strong> — controls the entire chain through four jurisdictions:</p>
-<p data-lang-de style="display:none">Die Tiven-Kette veranschaulicht die eingesetzte Verschleierungsstrategie. Eine Person — <strong><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Gert Purkert</a></strong> — kontrolliert die gesamte Kette über vier Jurisdiktionen:</p>
+<h2 data-lang-en>Entity Network</h2>
+<h2 data-lang-de style="display:none">Netzwerk der Beteiligten</h2>
 
-<div class="chain-wrap">
-  <div class="chain-row">
-    <span class="chain-node person"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Purkert, Gert</a></span>
-    <span class="chain-arrow">→ 100%</span>
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Tiven Invest SA SICAV RAIF</a><br><span class="chain-pct">Luxembourg</span></span>
-    <span class="chain-arrow">→ 100%</span>
-    <span class="chain-node ghost"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Tiven S.A. / Tiven Sàrl</a><br><span class="chain-pct">Luxembourg — "existiert nicht"</span></span>
-  </div>
-  <div class="chain-row">
-    <span class="chain-node person"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Purkert, Gert</a></span>
-    <span class="chain-arrow">→ 100%</span>
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Tiven Malta Ltd.</a><br><span class="chain-pct">Malta</span></span>
-    <span class="chain-arrow">→ 100%</span>
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Tiven GmbH</a><br><span class="chain-pct">Germany</span></span>
-  </div>
+<div class="network-container" style="position:relative">
+  <div class="chart-title" data-lang-en>Interactive Ownership &amp; Transfer Network</div>
+  <div class="chart-title" data-lang-de style="display:none">Interaktives Beteiligungs- &amp; Übertragungsnetzwerk</div>
+  <svg id="networkSvg" class="network-svg" viewBox="0 0 920 520"></svg>
+  <div class="node-tooltip" id="nodeTooltip"></div>
 </div>
 
-<p data-lang-en>The transfer of shares to a formally non-existent entity raises questions under <strong>§ 185 AktG</strong> (issuance of shares) and <strong>§ 68 AktG</strong> (share transfer requirements). If the receiving entity has no legal personality, the transfer may be void.</p>
-<p data-lang-de style="display:none">Die Übertragung von Aktien auf eine formal nicht existierende Gesellschaft wirft Fragen nach <strong>§ 185 AktG</strong> (Ausgabe von Aktien) und <strong>§ 68 AktG</strong> (Anforderungen an die Aktienübertragung) auf. Hat die empfangende Gesellschaft keine Rechtspersönlichkeit, könnte die Übertragung nichtig sein.</p>
+<h2 data-lang-en>Share Flow Diagram</h2>
+<h2 data-lang-de style="display:none">Aktienflussbild</h2>
 
+<p data-lang-en>The diagram below traces share movements between entities from 2020 to 2025. Flow width is proportional to shares transferred. Red flows indicate transfers that raise wash-trade or circularity concerns.</p>
 
-<!-- SECTION 2: THE NETWORK -->
-<h2 data-lang-en>The Control Network</h2>
-<h2 data-lang-de style="display:none">Das Kontrollnetzwerk</h2>
-
-<p data-lang-en>SyncPilot's shareholder register lists 14 entities. But these entities are controlled by only 8 individuals through nested holding structures spanning Germany, Malta, Luxembourg, Cyprus, and the UK. The interactive network below maps every control relationship documented in the company's records.</p>
-<p data-lang-de style="display:none">Das Aktienregister von SyncPilot listet 14 Gesellschaften auf. Diese Gesellschaften werden jedoch von nur 8 Personen über verschachtelte Holdingstrukturen kontrolliert, die sich über Deutschland, Malta, Luxemburg, Zypern und Großbritannien erstrecken.</p>
-
-<div class="network-container" id="networkViz" style="min-height:500px">
-  <div class="chart-title" data-lang-en>Entity Control Network — Click nodes for details</div>
-  <div class="chart-title" data-lang-de style="display:none">Kontrollnetzwerk der Gesellschaften — Knoten anklicken für Details</div>
-  <div class="tooltip-box" id="netTooltip"></div>
-  <canvas id="networkCanvas" style="width:100%;height:480px"></canvas>
+<div class="sankey-container">
+  <div class="chart-title">Share Transfers 2020–2025 — Flow Width ∝ Share Volume</div>
+  <svg id="sankeySvg" class="sankey-svg" viewBox="0 0 920 450"></svg>
 </div>
 
-<!-- SECTION 3: THE DECEMBER BLITZ -->
-<h2 data-lang-en>&#x26A1; The December 31 Blitz: 20 Transfers, One Day</h2>
-<h2 data-lang-de style="display:none">&#x26A1; Der 31.-Dezember-Blitz: 20 Übertragungen an einem Tag</h2>
+<h2 data-lang-en>Transfer Evidence Table</h2>
+<h2 data-lang-de style="display:none">Übertragungsbeweis-Tabelle</h2>
 
-<p data-lang-en>On 31 December 2023, twenty separate share transfers were executed simultaneously — the single largest restructuring event in SyncPilot's history. Every transfer was authorized under <em>"Anlage 2 Niederschrift Hauptversammlung"</em> (Appendix 2 of the General Meeting minutes). The transfers moved shares from the original founding vehicles (BOSYNC, AURIGA, DSI, Augusta, H.G. Perseus) to a new constellation of entities — many of which were created shortly before.</p>
-<p data-lang-de style="display:none">Am 31. Dezember 2023 wurden zwanzig separate Aktienübertragungen gleichzeitig durchgeführt — die größte einzelne Umstrukturierung in der Geschichte von SyncPilot. Jede Übertragung wurde gemäß „Anlage 2 Niederschrift Hauptversammlung" genehmigt.</p>
+<p data-lang-en>The following table documents share movements that create circular or opaque ownership patterns. All figures are from the SyncPilot SE share register.</p>
+
+<div class="chart-container" style="overflow-x:auto">
+<table class="flow-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>From</th>
+      <th>To</th>
+      <th class="num">Shares</th>
+      <th>Anomaly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="highlight">
+      <td>2021-12-31</td>
+      <td>DSI Digital Solutions</td>
+      <td>—</td>
+      <td class="num red">−849,994</td>
+      <td>DSI halved; same amount appears at AURIGA one year later</td>
+    </tr>
+    <tr class="highlight">
+      <td>2022-12-09</td>
+      <td>—</td>
+      <td>AURIGA Capital AG</td>
+      <td class="num">+849,994</td>
+      <td>Matches DSI loss; Steiner family controls both DSI origin chain and AURIGA</td>
+    </tr>
+    <tr>
+      <td>2022-12-09</td>
+      <td>—</td>
+      <td>H.G. Perseus GmbH StbG</td>
+      <td class="num">+158,208</td>
+      <td>First Perseus allocation — see <a href="06_perseus_breach.html">Ch 6</a></td>
+    </tr>
+    <tr class="highlight">
+      <td>2023-03-14</td>
+      <td>—</td>
+      <td>H.G. Perseus GmbH StbG</td>
+      <td class="num red">+127,885</td>
+      <td>The €1 transaction — 95% discount to fair value</td>
+    </tr>
+    <tr>
+      <td>2023-05-11</td>
+      <td>—</td>
+      <td>Tiven GmbH</td>
+      <td class="num">+48,632</td>
+      <td>First Tiven appearance in share register</td>
+    </tr>
+    <tr>
+      <td>2023-05-25</td>
+      <td>AURIGA</td>
+      <td>Perseus Innovations</td>
+      <td class="num">+195,000</td>
+      <td>AURIGA → Perseus pipeline begins</td>
+    </tr>
+    <tr class="highlight">
+      <td>2023-12-31</td>
+      <td>BOSYNC</td>
+      <td>Perseus Innovations</td>
+      <td class="num red">+264,676</td>
+      <td>Three transfers (79,610 + 116,100 + 68,966)</td>
+    </tr>
+    <tr>
+      <td>2023-12-31</td>
+      <td>AURIGA</td>
+      <td>Multiple</td>
+      <td class="num">−1,101,436</td>
+      <td>Distributed to ZKP, Lapis, Attegia, Schaeff, bgh, etc.</td>
+    </tr>
+    <tr>
+      <td>2023-12-31</td>
+      <td>H.G. Perseus StbG</td>
+      <td>Lapis Ltd. / Saupe</td>
+      <td class="num">−170,708</td>
+      <td>Perseus shares redistributed to opaque vehicles</td>
+    </tr>
+    <tr class="highlight">
+      <td>2023-12-31</td>
+      <td>Various</td>
+      <td>Tiven GmbH</td>
+      <td class="num">+163,723</td>
+      <td>Tiven grows via AURIGA and BOSYNC spillover</td>
+    </tr>
+    <tr class="highlight">
+      <td>2024-05-18</td>
+      <td>Tiven GmbH</td>
+      <td>Tiven Invest SA SICAV RAIF</td>
+      <td class="num red">+212,355</td>
+      <td>Entire Tiven GmbH holding moves to Luxembourg fund</td>
+    </tr>
+    <tr class="highlight">
+      <td>2025-08-05</td>
+      <td>Tiven Invest RAIF</td>
+      <td>Tiven S.A.</td>
+      <td class="num red">+244,445</td>
+      <td><strong>Shares arrive at entity that "does not exist"</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 data-lang-en>The DSI → AURIGA Pipeline</h2>
+<h2 data-lang-de style="display:none">Die DSI → AURIGA Pipeline</h2>
+
+<p data-lang-en>One of the most striking patterns in the share register is the apparent transfer pipeline from DSI Digital Solutions Invest GmbH to AURIGA Capital AG. DSI held 1,699,987 shares at end-2020, then lost exactly 849,994 in December 2021. One year later, AURIGA — controlled by the Steiner family — appeared in the register with exactly 849,994 shares. The Steiner family already controlled 30% of BOSYNC through AURIGA, meaning the DSI shares effectively circled back to entities under the same beneficial ownership orbit.</p>
+
+<p data-lang-en>By end-2023, AURIGA had distributed over 1.1 million shares to entities including ZKP Innovations (512,718), Lapis Ltd. (285,000), Attegia Holding (162,045), and others — all vehicles controlled by UBOs also represented in the broader SyncPilot structure. The pattern is consistent with share parking: moving ownership through intermediaries to obscure concentration of control.</p>
 
 <div class="chart-container">
-  <div class="chart-title" data-lang-en>31 December 2023 — Share Transfer Flow</div>
-  <div class="chart-title" data-lang-de style="display:none">31. Dezember 2023 — Aktienübertragungsfluss</div>
-  <div style="overflow-x:auto">
-  <table class="transfer-table">
-    <thead>
-      <tr><th>From</th><th>To</th><th style="text-align:right">Shares</th><th>Controlled By</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Perseus Innovations & Services</a></td><td class="shares">195,000</td><td><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> → <a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Perseus Innovations & Services</a></td><td class="shares">79,610</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Perseus Innovations & Services</a></td><td class="shares">116,100</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Perseus Innovations & Services</a></td><td class="shares">68,966</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Perseus Innovations & Services</a></td><td class="shares">103,448</td><td><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> → <a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a></td></tr>
-      <tr style="background:rgba(153,15,61,.06)"><td colspan="2" style="font-weight:700;color:var(--claret);padding-left:24px">↳ Subtotal to Perseus Innovations</td><td class="shares" style="color:var(--claret)">563,124</td><td></td></tr>
-
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">DSI Digital Solutions</a></td><td class="to"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="shares">849,993</td><td>Circular: DSI shareholders → <a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a></td></tr>
-
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">ZKP Innovations Holding</a></td><td class="shares">512,718</td><td><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> → <a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Krocke</a> / <a href="01_ubo_directory.html#ubo-12" class="ubo-link" title="→ UBO Directory">Kimmich</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Lapis Ltd.</a></td><td class="shares">285,000</td><td><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> → <a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Kurth</a> family (London)</td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Attegia Holding Ltd.</a></td><td class="shares">162,045</td><td><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> → <a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Krocke</a> (Cyprus)</td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Tiven GmbH</a></td><td class="shares">38,225</td><td><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> → <a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Purkert</a></td></tr>
-
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Tiven GmbH</a></td><td class="shares">125,498</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Purkert</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-15" class="ubo-link" title="→ UBO Directory">bgh Vermögensverwaltung</a></td><td class="shares">109,148</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-15" class="ubo-link" title="→ UBO Directory">Hansen</a> family</td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-5" class="ubo-link" title="→ UBO Directory">Schaeff Group AG</a></td><td class="shares">128,388</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-5" class="ubo-link" title="→ UBO Directory">Schaeff</a> family</td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Attegia Holding (×3)</a></td><td class="shares">256,776</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Krocke</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC Beteiligungs UG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Lapis Ltd.</a></td><td class="shares">54,574</td><td><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> → <a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Kurth</a> family</td></tr>
-
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">H.G. Perseus GmbH StBG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Lapis Ltd.</a></td><td class="shares">158,208</td><td><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a> → <a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Kurth</a> family</td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">H.G. Perseus GmbH StBG</a></td><td class="to"><a href="01_ubo_directory.html#ubo-22" class="ubo-link" title="→ UBO Directory">Christiane Saupe</a></td><td class="shares">12,500</td><td><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a> → <a href="01_ubo_directory.html#ubo-22" class="ubo-link" title="→ UBO Directory">Saupe</a></td></tr>
-      <tr><td class="from"><a href="01_ubo_directory.html#ubo-3" class="ubo-link" title="→ UBO Directory">Augusta Software GmbH</a></td><td class="to"><a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Lapis Ltd.</a></td><td class="shares">66,666</td><td><a href="01_ubo_directory.html#ubo-3" class="ubo-link" title="→ UBO Directory">Jakisch</a> / <a href="01_ubo_directory.html#ubo-4" class="ubo-link" title="→ UBO Directory">Funk</a> → <a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Kurth</a> family</td></tr>
-
-      <tr style="background:rgba(13,118,128,.06)"><td colspan="2" style="font-weight:700;color:var(--oxford);padding-left:24px">Total Shares Moved</td><td class="shares" style="color:var(--oxford);font-size:.95rem">3,572,387</td><td style="font-family:var(--font-ui);font-size:.75rem;color:rgba(38,42,51,.5)">64% of total equity</td></tr>
-    </tbody>
-  </table>
-  </div>
+  <div class="chart-title">BOSYNC Share Erosion — Cumulative Shares Over Time</div>
+  <canvas id="bosyncChart" height="280"></canvas>
 </div>
 
-<p data-lang-en>The pattern is unmistakable: shares flow <em>from</em> founding-era vehicles (BOSYNC, AURIGA, DSI, Augusta) <em>to</em> newly created holding structures — but the <strong>same individuals</strong> control both sides. BOSYNC (<a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> 70%, AURIGA 30%) sends shares to entities where Bleicher's associates hold the keys. AURIGA (<a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> family) redistributes to <a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Krocke</a>, the <a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Kurth</a> family, and <a href="01_ubo_directory.html#ubo-6" class="ubo-link" title="→ UBO Directory">Purkert</a>. The result is dispersed nominal ownership with preserved actual control.</p>
-<p data-lang-de style="display:none">Das Muster ist unverkennbar: Aktien fließen von den Gründungsgesellschaften (BOSYNC, AURIGA, DSI, Augusta) zu neu geschaffenen Holdingstrukturen — aber dieselben Personen kontrollieren beide Seiten.</p>
+<h2 data-lang-en>The Tiven Matryoshka</h2>
+<h2 data-lang-de style="display:none">Die Tiven-Matroschka</h2>
 
-
-<!-- SECTION 4: CIRCULAR CHAIN ANALYSIS -->
-<h2 data-lang-en>Circular Ownership Chains</h2>
-<h2 data-lang-de style="display:none">Zirkuläre Eigentumsketten</h2>
-
-<p data-lang-en>Several documented flows exhibit circular characteristics — shares pass through intermediary entities and return to the control sphere of the original transferor:</p>
-<p data-lang-de style="display:none">Mehrere dokumentierte Flüsse weisen zirkuläre Merkmale auf — Aktien durchlaufen Zwischengesellschaften und kehren in die Kontrollsphäre des ursprünglichen Übertragenden zurück:</p>
-
-<h3 data-lang-en>Chain 1: The DSI → AURIGA Loop</h3>
-
-<div class="chain-wrap">
-  <div class="chain-row">
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">DSI Digital Solutions</a></span>
-    <span class="chain-arrow">→ 849,993 shares</span>
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">AURIGA Capital AG</a></span>
-    <span class="chain-arrow">→ redistributed to 5 entities</span>
-  </div>
-</div>
-<p data-lang-en style="font-size:.92rem">DSI's shareholders include AURIGA (16.7%). AURIGA receives 849,993 shares from DSI, then immediately redistributes them across five entities. The shares complete a circuit: from an entity partly owned by AURIGA, to AURIGA, then outward again — all on the same day.</p>
-
-<h3 data-lang-en>Chain 2: The BOSYNC → Perseus Pipeline</h3>
-
-<div class="chain-wrap">
-  <div class="chain-row">
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">BOSYNC</a><br><span class="chain-pct">Bleicher 70% + AURIGA 30%</span></span>
-    <span class="chain-arrow">→ 264,676</span>
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Perseus Innovations</a><br><span class="chain-pct">Hunstein 50% + Goerg 50%</span></span>
-  </div>
-</div>
-<p data-lang-en style="font-size:.92rem">Bleicher's BOSYNC sends 264,676 shares to Perseus Innovations — controlled by the same lawyers (<a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> and <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a>) who simultaneously represented <a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> in the LVS loan negotiations and purchased SyncPilot shares at a 95% discount through H.G. Perseus (see <a href="06_perseus_breach.html">Ch. 6</a>).</p>
-
-<h3 data-lang-en>Chain 3: The Perseus → Lapis Wash</h3>
-
-<div class="chain-wrap">
-  <div class="chain-row">
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">H.G. Perseus GmbH StBG</a><br><span class="chain-pct">Hunstein / Goerg</span></span>
-    <span class="chain-arrow">→ 158,208 shares</span>
-    <span class="chain-node company"><a href="01_ubo_directory.html#ubo-10" class="ubo-link" title="→ UBO Directory">Lapis Ltd.</a><br><span class="chain-pct">Kurth family (London)</span></span>
-  </div>
-</div>
-<p data-lang-en style="font-size:.92rem">H.G. Perseus — the entity that bought 127,885 shares at €1.00 each — transfers 158,208 shares to Lapis Ltd. on the same day. This includes the original shares purchased at the 95% discount plus shares acquired at market rate. The transfer price and terms are not disclosed in available records. If these were transferred at market value, H.G. Perseus realized the embedded discount as profit.</p>
-
-
-<!-- SECTION 5: CONCENTRATION ANALYSIS -->
-<h2 data-lang-en>Who Really Controls SyncPilot?</h2>
-<h2 data-lang-de style="display:none">Wer kontrolliert SyncPilot wirklich?</h2>
+<p data-lang-en>Gert Purkert's control chain is layered like a Russian nesting doll. Each entity is wholly owned by the one above it, adding a jurisdictional hop at every level:</p>
 
 <div class="chart-container">
-  <div class="chart-title" data-lang-en>Current Ownership: Entities vs. Ultimate Controllers</div>
-  <canvas id="controlChart" height="320"></canvas>
-</div>
-
-<p data-lang-en>Despite being distributed across 14 registered shareholders, effective control of SyncPilot is concentrated among three clusters totalling <strong>79.3%</strong> of equity:</p>
-<p data-lang-de style="display:none">Obwohl das Eigentum auf 14 eingetragene Aktionäre verteilt ist, konzentriert sich die effektive Kontrolle über SyncPilot auf drei Cluster mit insgesamt <strong>79,3%</strong> des Eigenkapitals:</p>
-
-<div class="kpi-row">
-  <div class="kpi-card"><div class="kpi-num">37.3%</div><div class="kpi-label"><a href="01_ubo_directory.html#ubo-0" class="ubo-link" title="→ UBO Directory">Bleicher</a> Cluster<br><span style="font-size:.62rem;letter-spacing:0;text-transform:none;font-weight:400">(BOSYNC + Augusta + 5th Dim.)</span></div></div>
-  <div class="kpi-card teal"><div class="kpi-num">25.5%</div><div class="kpi-label"><a href="01_ubo_directory.html#ubo-1" class="ubo-link" title="→ UBO Directory">Krocke</a> / <a href="01_ubo_directory.html#ubo-12" class="ubo-link" title="→ UBO Directory">Kimmich</a> Cluster<br><span style="font-size:.62rem;letter-spacing:0;text-transform:none;font-weight:400">(ZKP + Attegia)</span></div></div>
-  <div class="kpi-card"><div class="kpi-num">16.5%</div><div class="kpi-label"><a href="01_ubo_directory.html#ubo-2" class="ubo-link" title="→ UBO Directory">Steiner</a> / <a href="01_ubo_directory.html#ubo-13" class="ubo-link" title="→ UBO Directory">Hunstein</a> / <a href="01_ubo_directory.html#ubo-14" class="ubo-link" title="→ UBO Directory">Goerg</a><br><span style="font-size:.62rem;letter-spacing:0;text-transform:none;font-weight:400">(AURIGA + Perseus Innov.)</span></div></div>
-</div>
-
-<!-- SECTION 6: LEGAL FRAMEWORK -->
-<h2 data-lang-en>Applicable Legal Framework</h2>
-<h2 data-lang-de style="display:none">Anwendbarer Rechtsrahmen</h2>
-
-<div class="legal-grid">
-  <div class="legal-item">
-    <div class="legal-ref">§ 20 AktG</div>
-    <div class="legal-term" data-lang-en>Disclosure of Holdings</div>
-    <div class="legal-term" data-lang-de style="display:none">Mitteilungspflichten</div>
-    <div class="legal-desc" data-lang-en>Enterprises holding more than 25% of shares must notify the company. Multi-layered holding structures may circumvent this obligation if individual entities stay below threshold.</div>
-  </div>
-  <div class="legal-item">
-    <div class="legal-ref">§ 117 AktG</div>
-    <div class="legal-term" data-lang-en>Liability for Undue Influence</div>
-    <div class="legal-term" data-lang-de style="display:none">Haftung für unzulässige Einflussnahme</div>
-    <div class="legal-desc" data-lang-en>Anyone who uses their influence on the company to induce board members or supervisory board members to act to the detriment of the company or its shareholders is liable for damages.</div>
-  </div>
-  <div class="legal-item">
-    <div class="legal-ref">§ 71a AktG</div>
-    <div class="legal-term" data-lang-en>Prohibition of Concealed Acquisition</div>
-    <div class="legal-term" data-lang-de style="display:none">Verbot der verdeckten Einlagenrückgewähr</div>
-    <div class="legal-desc" data-lang-en>Legal transactions circumventing restrictions on a company's acquisition of its own shares are void. Transfers between entities under common control may constitute concealed self-dealing.</div>
-  </div>
-  <div class="legal-item">
-    <div class="legal-ref">§ 263 StGB</div>
-    <div class="legal-term" data-lang-en>Betrug / Fraud</div>
-    <div class="legal-term" data-lang-de style="display:none">Betrug</div>
-    <div class="legal-desc" data-lang-en>If circular transfers were designed to create the appearance of arm's-length transactions to deceive investors or regulators, they may constitute fraud under German criminal law.</div>
-  </div>
-  <div class="legal-item">
-    <div class="legal-ref">GwG §§ 3, 10</div>
-    <div class="legal-term" data-lang-en>Anti-Money Laundering</div>
-    <div class="legal-term" data-lang-de style="display:none">Geldwäschegesetz</div>
-    <div class="legal-desc" data-lang-en>The complexity of the ownership structure — 30+ entities, 4+ jurisdictions, non-existent entities — may trigger due diligence obligations under the German Money Laundering Act.</div>
-  </div>
-  <div class="legal-item">
-    <div class="legal-ref">§ 185 AktG</div>
-    <div class="legal-term" data-lang-en>Share Issuance Requirements</div>
-    <div class="legal-term" data-lang-de style="display:none">Anforderungen an die Aktienausgabe</div>
-    <div class="legal-desc" data-lang-en>Shares must be issued to entities with legal personality. If "Tiven S.A." has no legal existence, any share issuance or transfer to it may be legally void (nichtig).</div>
+  <div class="chart-title">The Tiven Chain — Four Layers, Three Jurisdictions, One Beneficial Owner</div>
+  <div style="display:flex;flex-direction:column;gap:2px;font-family:var(--font-ui);font-size:.82rem;padding:var(--sp-4) 0">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:140px;background:var(--oxford);color:#fff;padding:8px 12px;border-radius:4px;text-align:center;font-weight:700">Gert Purkert</div>
+      <div style="color:var(--claret);font-weight:700">→ 100%</div>
+      <div style="flex:1;background:var(--wheat);padding:8px 12px;border-radius:4px"><strong>Tiven GmbH</strong> · Germany · Est. 2017</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding-left:40px">
+      <div style="width:100px"></div>
+      <div style="color:var(--claret);font-weight:700">→ 100%</div>
+      <div style="flex:1;background:var(--wheat);padding:8px 12px;border-radius:4px"><strong>Tiven Malta Ltd.</strong> · Malta · 248,800 shares</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding-left:80px">
+      <div style="width:60px"></div>
+      <div style="color:var(--claret);font-weight:700">→ 100%</div>
+      <div style="flex:1;background:var(--wheat);padding:8px 12px;border-radius:4px"><strong>Tiven Invest SA SICAV RAIF</strong> · Luxembourg · Est. Nov 2023</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding-left:120px">
+      <div style="width:20px"></div>
+      <div style="color:var(--claret);font-weight:700">→ 100%</div>
+      <div style="flex:1;background:rgba(153,15,61,.08);border:2px dashed var(--claret);padding:8px 12px;border-radius:4px"><strong>Tiven S.A.</strong> · ??? · <strong style="color:var(--claret)">"existiert nicht"</strong> · 244,445 shares (Aug 2025)</div>
+    </div>
   </div>
 </div>
 
+<p data-lang-en>The chain terminates in a <em>Scheingesellschaft</em> — a sham entity. Under German law, transactions with non-existent legal persons are null and void (§117 BGB). The fact that SyncPilot shares are attributed to this entity raises questions about the validity of the entire Tiven transfer chain and whether the real purpose was to place shares beyond the reach of regulatory scrutiny.</p>
 
-<!-- CHAPTER NAV -->
+<h2 data-lang-en>Legal Framework</h2>
+<h2 data-lang-de style="display:none">Rechtlicher Rahmen</h2>
+
+<div class="legal-box">
+  <h3 data-lang-en>Applicable Provisions</h3>
+  <h3 data-lang-de style="display:none">Anwendbare Vorschriften</h3>
+  <dl>
+    <dt>Scheingeschäft — §117 BGB</dt>
+    <dd data-lang-en>A declaration of intent made to another party with their agreement that it is merely illusory (<em>zum Schein</em>) is void. Transactions recorded in the name of a non-existent entity constitute <em>Scheingeschäfte</em> by definition — the purported recipient cannot have legal capacity to receive shares.</dd>
+    <dd data-lang-de style="display:none">Eine Willenserklärung, die einem anderen gegenüber mit dessen Einverständnis nur zum Schein abgegeben wird, ist nichtig. Übertragungen an eine nicht existierende Gesellschaft sind per definitionem Scheingeschäfte.</dd>
+
+    <dt>Wash Trading — EU MAR Art. 12(1)(a)</dt>
+    <dd data-lang-en>Under the EU Market Abuse Regulation (596/2014), transactions that give misleading signals about supply, demand, or price of financial instruments constitute market manipulation. While SyncPilot is not publicly listed, the circular transfer patterns — entities transferring shares to affiliated vehicles and back — mirror wash-trading structures that would be prohibited in regulated markets.</dd>
+
+    <dt>Strohmanngeschäft — Nominee Arrangements</dt>
+    <dd data-lang-en>The AURIGA-BOSYNC interlock, where the Steiner family controls AURIGA (100%) which holds 30% of BOSYNC, while Bleicher holds the remaining 70%, creates a <em>Strohmannkonstellation</em> (nominee arrangement). The beneficial ownership is concentrated but the legal ownership appears distributed.</dd>
+
+    <dt>Verschleierung der wirtschaftlichen Berechtigung — GwG §§18–25</dt>
+    <dd data-lang-en>The Geldwäschegesetz (Anti-Money Laundering Act) requires transparent disclosure of ultimate beneficial owners. Routing ownership through four Tiven entities across three jurisdictions, terminating in a non-existent entity, directly contravenes these transparency requirements.</dd>
+
+    <dt>Konzernrecht — AktG §§15–22</dt>
+    <dd data-lang-en>German group law provisions establish that enterprises under common control (<em>verbundene Unternehmen</em>) must be identified. The BOSYNC-AURIGA-DSI-Tiven web constitutes a de facto group (<em>faktischer Konzern</em>) without the formal Beherrschungsvertrag (domination agreement) or loss-compensation obligations that AktG §302 would require.</dd>
+  </dl>
+</div>
+
+</div><!-- content-area -->
+
 <div class="chapter-nav">
-  <a href="07_treasury_deficit.html">&larr; Ch 7: The Treasury Deficit</a>
-  <a href="09_bleicher_profile.html">Ch 9: Bleicher — The Architect &rarr;</a>
-</div>
+  <a href="07_treasury_deficit.html">← Ch 7 — Treasury Deficit</a>
+  <a href="10_pictet_investment.html">Ch 10 · Pictet Investment</a><br>
+  <a href="11_lvs_loan.html">Ch 11 · LVS Convertible Loan</a><br>
 
-</main>
+  <span></span>
+</div>
 
 <footer class="site-footer">
-  <p>SyncPilot Corporate Anomaly Dossier &middot; Compiled from public records &amp; corporate filings</p>
-  <p style="margin-top:4px">Last updated: February 2026</p>
+  This analysis represents investigative questions and pattern identification, not legal determinations of wrongdoing. Assertions are categorized by evidence tier: established facts, documented allegations, and analytical inferences. Individuals are presumed innocent unless proven otherwise in a court of law.
 </footer>
 
 <script>
-// LANGUAGE TOGGLE
-function toggleLang(){
-  var b=document.querySelector('.lang-toggle');
-  var isEn=b.textContent.trim()==='DE';
-  b.textContent=isEn?'EN':'DE';
-  document.querySelectorAll('[data-lang-en]').forEach(function(el){el.style.display=isEn?'none':''});
-  document.querySelectorAll('[data-lang-de]').forEach(function(el){el.style.display=isEn?'':'none'});
-}
+/* Nav */
+function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');document.getElementById('menuOverlay').classList.toggle('visible')}
+let lang='en';function toggleLang(){lang=lang==='en'?'de':'en';document.querySelectorAll('[data-lang-en]').forEach(el=>el.style.display=lang==='en'?'':'none');document.querySelectorAll('[data-lang-de]').forEach(el=>el.style.display=lang==='de'?'':'none')}
 
-// CONTROL CHART — Horizontal stacked bar showing entity → controller mapping
+/* BOSYNC erosion chart */
 (function(){
-  var ctx=document.getElementById('controlChart');
-  if(!ctx)return;
-  
-  var data = {
-    labels: ['By Registered Entity', 'By Ultimate Controller'],
-    datasets: [
-      {label:'BOSYNC (Bleicher)',data:[23.54,0],backgroundColor:'#990F3D'},
-      {label:'Augusta (Jakisch/Funk)',data:[9.40,0],backgroundColor:'#c0392b'},
-      {label:'5th Dimension (Schorr)',data:[1.00,0],backgroundColor:'#e74c3c'},
-      {label:'ZKP (Krocke/Kimmich)',data:[22.17,0],backgroundColor:'#0D7680'},
-      {label:'Attegia (Krocke)',data:[8.65,0],backgroundColor:'#148f9f'},
-      {label:'Lapis (Kurth)',data:[11.99,0],backgroundColor:'#1abc9c'},
-      {label:'AURIGA (Steiner)',data:[7.24,0],backgroundColor:'#2563EB'},
-      {label:'Perseus Innov. (Hunstein/Goerg)',data:[3.33,0],backgroundColor:'#3b82f6'},
-      {label:'bgh (Hansen)',data:[3.31,0],backgroundColor:'#6B7280'},
-      {label:'Tiven S.A. (Purkert)',data:[4.38,0],backgroundColor:'#9ca3af'},
-      {label:'Schaeff Group',data:[3.00,0],backgroundColor:'#d1d5db'},
-      {label:'Others',data:[1.99,0],backgroundColor:'#e5e7eb'},
-      // Controller view
-      {label:'Bleicher cluster',data:[0,37.32],backgroundColor:'#990F3D'},
-      {label:'Krocke/Kimmich cluster',data:[0,30.82],backgroundColor:'#0D7680'},
-      {label:'Kurth family',data:[0,11.99],backgroundColor:'#1abc9c'},
-      {label:'Steiner/Hunstein/Goerg',data:[0,10.57],backgroundColor:'#2563EB'},
-      {label:'Purkert (Tiven)',data:[0,4.38],backgroundColor:'#9ca3af'},
-      {label:'Others (ctrl)',data:[0,4.92],backgroundColor:'#e5e7eb'}
-    ]
-  };
-  
-  new Chart(ctx,{
-    type:'bar',
-    data:data,
-    options:{
-      indexAxis:'y',
-      responsive:true,
-      maintainAspectRatio:false,
-      scales:{
-        x:{stacked:true,max:100,ticks:{callback:function(v){return v+'%'},font:{family:'Source Sans 3',size:11}},grid:{color:'rgba(0,0,0,.05)'}},
-        y:{stacked:true,ticks:{font:{family:'Source Sans 3',size:13,weight:600}},grid:{display:false}}
-      },
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          callbacks:{
-            label:function(c){return c.raw>0?c.dataset.label+': '+c.raw.toFixed(1)+'%':null}
-          }
-        }
-      }
+const ctx=document.getElementById('bosyncChart').getContext('2d');
+const labels=['Sep 2020','Dec 2020','Dec 2021','Dec 2022','Mar 2023','May 2023','Dec 2023','May 2024','Aug 2025'];
+const bosync=[61134,2547272,2547272,2547272,2547272,2547272,2282596,1608213,1338423];
+const auriga=[0,0,0,849994,849994,849994,654994,403550,403551];
+const tiven=[0,0,0,0,0,48632,212355,212355,244445];
+const perseus=[0,0,0,158208,286093,286093,497304,694720,198468];
+
+new Chart(ctx,{
+type:'line',
+data:{
+  labels:labels,
+  datasets:[
+    {label:'BOSYNC',data:bosync,borderColor:'#FF8833',backgroundColor:'rgba(255,136,51,.1)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3},
+    {label:'AURIGA',data:auriga,borderColor:'#0D7680',backgroundColor:'rgba(13,118,128,.08)',fill:true,tension:.3,borderWidth:2,pointRadius:3},
+    {label:'Perseus (StbG + Innovations)',data:perseus,borderColor:'#990F3D',backgroundColor:'rgba(153,15,61,.06)',fill:true,tension:.3,borderWidth:2,pointRadius:3},
+    {label:'Tiven chain',data:tiven,borderColor:'#6B7280',backgroundColor:'rgba(107,114,128,.06)',fill:true,tension:.3,borderWidth:2,pointRadius:3,borderDash:[5,3]}
+  ]
+},
+options:{
+  responsive:true,
+  interaction:{mode:'index',intersect:false},
+  plugins:{
+    legend:{position:'bottom',labels:{font:{family:"'Source Sans 3'",size:11},usePointStyle:true,pointStyle:'circle'}},
+    tooltip:{
+      backgroundColor:'#262A33',titleFont:{family:"'Source Sans 3'",size:12},bodyFont:{family:"'Source Sans 3'",size:11},
+      callbacks:{label:function(ctx){return ctx.dataset.label+': '+ctx.parsed.y.toLocaleString()+' shares'}}
     }
-  });
+  },
+  scales:{
+    y:{title:{display:true,text:'Shares',font:{family:"'Source Sans 3'",size:11}},ticks:{callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'K':v,font:{family:"'Source Sans 3'",size:10}}},
+    x:{ticks:{font:{family:"'Source Sans 3'",size:10},maxRotation:45}}
+  }
+}
+});
 })();
 
-// NETWORK VISUALIZATION — Canvas-based force-directed graph
+/* Network Graph (SVG) */
 (function(){
-  var canvas = document.getElementById('networkCanvas');
-  if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W, H;
-  var dpr = window.devicePixelRatio || 1;
-  
-  function resize(){
-    var rect = canvas.parentElement.getBoundingClientRect();
-    W = rect.width - 32;
-    H = 480;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  resize();
+const svg=document.getElementById('networkSvg');
+const tooltip=document.getElementById('nodeTooltip');
+const W=920,H=520;
 
-  // NODES: persons (orange), companies (blue), ghost (red dashed)
-  var nodes = [
-    // Persons
-    {id:'bleicher',label:'Bleicher',type:'person',x:120,y:200,r:22,info:'Franz-Xaver Bleicher — Founder, controls BOSYNC (70%), central architect of corporate structure'},
-    {id:'steiner',label:'Steiner',type:'person',x:120,y:340,r:18,info:'Harald Steiner — Controls AURIGA Capital AG (60%) with family'},
-    {id:'hunstein',label:'Hunstein',type:'person',x:680,y:120,r:16,info:'Martin Hunstein — Tax lawyer, 50% H.G. Perseus & Perseus Innovations, former Goldfinger defendant'},
-    {id:'goerg',label:'Goerg',type:'person',x:680,y:200,r:16,info:'Diethard Goerg — Tax lawyer, 50% H.G. Perseus & Perseus Innovations, former Goldfinger defendant'},
-    {id:'purkert',label:'Purkert',type:'person',x:680,y:380,r:14,info:'Gert Purkert — Controls entire Tiven chain (4 entities, 3 jurisdictions)'},
-    {id:'krocke',label:'Krocke',type:'person',x:420,y:50,r:16,info:'Dr. Ingo Krocke — "Germany\'s most successful PE investor", controls Attegia + 50% ZKP'},
-    {id:'kurth',label:'Kurth family',type:'person',x:420,y:420,r:14,info:'Dr. Hans-Rudolph Kurth + sons — London-based, control Lapis Ltd.'},
-    {id:'hansen',label:'Hansen',type:'person',x:250,y:440,r:12,info:'Hansen family (5 persons) — Control bgh Vermögensverwaltung GmbH'},
-    // Companies
-    {id:'bosync',label:'BOSYNC',type:'company',x:230,y:200,r:24,info:'BOSYNC Beteiligungs UG — 23.54% of SyncPilot, Bleicher 70% + AURIGA 30%'},
-    {id:'auriga',label:'AURIGA',type:'company',x:230,y:340,r:20,info:'AURIGA Capital AG — 7.24% of SyncPilot, Steiner family 100%'},
-    {id:'dsi',label:'DSI',type:'company',x:100,y:100,r:14,info:'DSI Digital Solutions Invest GmbH — Original founding vehicle, shares transferred to AURIGA'},
-    {id:'augusta',label:'Augusta',type:'company',x:100,y:290,r:14,info:'Augusta Software GmbH — 9.40% of SyncPilot, Jakisch + Funk 50/50'},
-    {id:'perseus_hg',label:'H.G. Perseus',type:'company',x:560,y:160,r:16,info:'H.G. Perseus GmbH StBG — Tax advisory firm of Hunstein/Goerg, bought shares at €1.00 (95% discount)'},
-    {id:'perseus_inn',label:'Perseus Innov.',type:'company',x:560,y:240,r:18,info:'Perseus Innovations & Services Holding — Malta, Hunstein/Goerg 50/50, received 563,124 shares'},
-    {id:'zkp',label:'ZKP',type:'company',x:420,y:130,r:20,info:'ZKP Innovations Holding Ltd. — 22.17% of SyncPilot, Krocke + Kimmich'},
-    {id:'attegia',label:'Attegia',type:'company',x:340,y:50,r:16,info:'Attegia Holding Ltd. — 8.65%, Cyprus, Krocke via Attegia GmbH'},
-    {id:'lapis',label:'Lapis',type:'company',x:420,y:340,r:18,info:'Lapis Ltd. — 11.99% of SyncPilot, Kurth family (London)'},
-    {id:'bgh',label:'bgh',type:'company',x:300,y:420,r:14,info:'bgh Vermögensverwaltung GmbH — 3.31%, Hansen family'},
-    {id:'tiven_gmbh',label:'Tiven GmbH',type:'company',x:560,y:380,r:14,info:'Tiven GmbH — German entity, owned by Tiven Malta (Purkert)'},
-    {id:'tiven_sa',label:'Tiven S.A.',type:'ghost',x:560,y:440,r:14,info:'⚠ "Tiven S.A. existiert nicht" — 244,445 shares (4.38%) held by non-existent entity'},
-    {id:'schaeff',label:'Schaeff',type:'company',x:340,y:460,r:12,info:'Schaeff Group Holding AG — 3.00%, Schaeff family'},
-  ];
-  
-  // Edges: from → to with share count
-  var edges = [
-    // Person → Company control
-    {from:'bleicher',to:'bosync',type:'control',label:'70%'},
-    {from:'steiner',to:'auriga',type:'control',label:'100%'},
-    {from:'steiner',to:'bosync',type:'control',label:'30% via AURIGA'},
-    {from:'hunstein',to:'perseus_hg',type:'control',label:'50%'},
-    {from:'goerg',to:'perseus_hg',type:'control',label:'50%'},
-    {from:'hunstein',to:'perseus_inn',type:'control',label:'50%'},
-    {from:'goerg',to:'perseus_inn',type:'control',label:'50%'},
-    {from:'purkert',to:'tiven_gmbh',type:'control',label:'100%'},
-    {from:'purkert',to:'tiven_sa',type:'control',label:'100%'},
-    {from:'krocke',to:'zkp',type:'control',label:'~50%'},
-    {from:'krocke',to:'attegia',type:'control',label:'100%'},
-    {from:'kurth',to:'lapis',type:'control',label:'100%'},
-    {from:'hansen',to:'bgh',type:'control',label:'100%'},
-    // Dec 31 transfer flows
-    {from:'bosync',to:'perseus_inn',type:'transfer',label:'264K',w:4},
-    {from:'auriga',to:'perseus_inn',type:'transfer',label:'298K',w:4},
-    {from:'dsi',to:'auriga',type:'transfer',label:'850K',w:6},
-    {from:'auriga',to:'zkp',type:'transfer',label:'513K',w:5},
-    {from:'auriga',to:'lapis',type:'transfer',label:'285K',w:4},
-    {from:'auriga',to:'attegia',type:'transfer',label:'162K',w:3},
-    {from:'auriga',to:'tiven_gmbh',type:'transfer',label:'38K',w:2},
-    {from:'bosync',to:'tiven_gmbh',type:'transfer',label:'125K',w:3},
-    {from:'bosync',to:'bgh',type:'transfer',label:'109K',w:3},
-    {from:'bosync',to:'schaeff',type:'transfer',label:'128K',w:3},
-    {from:'bosync',to:'attegia',type:'transfer',label:'257K',w:4},
-    {from:'bosync',to:'lapis',type:'transfer',label:'55K',w:2},
-    {from:'perseus_hg',to:'lapis',type:'transfer',label:'158K',w:3},
-    {from:'augusta',to:'lapis',type:'transfer',label:'67K',w:2},
-  ];
-  
-  // Build node map
-  var nmap = {};
-  nodes.forEach(function(n){nmap[n.id]=n});
-  
-  var hovered = null;
-  var tooltip = document.getElementById('netTooltip');
-  
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    
-    // Draw edges
-    edges.forEach(function(e){
-      var a=nmap[e.from], b=nmap[e.to];
-      if(!a||!b) return;
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      if(e.type==='control'){
-        ctx.strokeStyle='rgba(38,42,51,.12)';
-        ctx.lineWidth=1;
-        ctx.setLineDash([4,4]);
-      } else {
-        var alpha = hovered && (hovered===e.from||hovered===e.to) ? .6 : .2;
-        ctx.strokeStyle = 'rgba(153,15,61,'+alpha+')';
-        ctx.lineWidth = e.w || 2;
-        ctx.setLineDash([]);
-      }
-      ctx.stroke();
-      ctx.setLineDash([]);
-      
-      // Arrow for transfers
-      if(e.type==='transfer'){
-        var dx=b.x-a.x, dy=b.y-a.y, len=Math.sqrt(dx*dx+dy*dy);
-        var ux=dx/len, uy=dy/len;
-        var ax2=b.x-ux*(b.r+4), ay2=b.y-uy*(b.r+4);
-        ctx.beginPath();
-        ctx.moveTo(ax2, ay2);
-        ctx.lineTo(ax2-ux*8+uy*4, ay2-uy*8-ux*4);
-        ctx.lineTo(ax2-ux*8-uy*4, ay2-uy*8+ux*4);
-        ctx.closePath();
-        ctx.fillStyle='rgba(153,15,61,.3)';
-        ctx.fill();
-      }
-      
-      // Edge label
-      if(e.label && e.type==='transfer'){
-        var mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
-        ctx.font='600 8px Source Sans 3';
-        ctx.fillStyle='rgba(38,42,51,.35)';
-        ctx.textAlign='center';
-        ctx.fillText(e.label, mx, my-4);
-      }
-    });
-    
-    // Draw nodes
-    nodes.forEach(function(n){
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
-      
-      if(n.type==='person'){
-        ctx.fillStyle = hovered===n.id ? '#EA580C' : 'rgba(234,88,12,.12)';
-        ctx.strokeStyle = '#EA580C';
-        ctx.lineWidth = 2;
-      } else if(n.type==='ghost'){
-        ctx.fillStyle = hovered===n.id ? 'rgba(153,15,61,.2)' : 'rgba(153,15,61,.06)';
-        ctx.strokeStyle = '#990F3D';
-        ctx.lineWidth = 2;
-        ctx.setLineDash([4,3]);
-      } else {
-        ctx.fillStyle = hovered===n.id ? 'rgba(37,99,235,.15)' : 'rgba(37,99,235,.06)';
-        ctx.strokeStyle = '#2563EB';
-        ctx.lineWidth = 1.5;
-      }
-      ctx.fill();
-      ctx.stroke();
-      ctx.setLineDash([]);
-      
-      // Label
-      ctx.font = '600 '+(n.r>16?'10':'9')+'px Source Sans 3';
-      ctx.fillStyle = n.type==='ghost' ? '#990F3D' : 'var(--slate)';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(n.label, n.x, n.y);
-      
-      // Ghost warning
-      if(n.type==='ghost'){
-        ctx.font='bold 12px sans-serif';
-        ctx.fillStyle='#990F3D';
-        ctx.fillText('⚠', n.x+n.r-2, n.y-n.r+2);
-      }
-    });
+// Node definitions: id, label, x, y, r, color, type, details
+const nodes=[
+  {id:'bleicher',label:'Bleicher',sub:'Franz-Xaver',x:460,y:80,r:22,color:'#FF8833',details:'50% BOSYNC (70% after Sep 2021). Geschäftsführer of 10+ entities. Central control hub.'},
+  {id:'steiner',label:'Steiner',sub:'Harald',x:180,y:100,r:18,color:'#0D7680',details:'60% AURIGA Capital. Family controls 100%. Indirect SE stake ~8.7% via BOSYNC.'},
+  {id:'purkert',label:'Purkert',sub:'Gert',x:740,y:100,r:18,color:'#990F3D',details:'100% Tiven chain. Four-layer structure across DE/MT/LU terminating in ghost entity.'},
+  {id:'bosync',label:'BOSYNC',sub:'Beteiligungs UG',x:370,y:220,r:28,color:'#FF8833',details:'Largest SE shareholder. Peak 2,547,272 shares → 1,338,423 by Aug 2025. Lost 1.2M shares.'},
+  {id:'auriga',label:'AURIGA',sub:'Capital AG',x:180,y:260,r:22,color:'#0D7680',details:'Held 849,994 shares (Dec 2022). Distributed 1.1M+ shares to ZKP, Lapis, Attegia, others.'},
+  {id:'dsi',label:'DSI',sub:'Digital Solutions',x:80,y:380,r:16,color:'#6B7280',details:'Lost 849,994 shares (Dec 2021). Same number appeared at AURIGA one year later. Dissolved by 2024.'},
+  {id:'perseus_stbg',label:'H.G. Perseus',sub:'GmbH StbG',x:540,y:340,r:18,color:'#990F3D',details:'158,208 shares (Dec 2022) + 127,885 at €1 (Mar 2023). Hunstein/Goerg vehicle.'},
+  {id:'perseus_inn',label:'Perseus Inn.',sub:'Holding Ltd.',x:420,y:420,r:18,color:'#990F3D',details:'Received 563,124 shares from BOSYNC/AURIGA. Malta-registered vehicle.'},
+  {id:'tiven_gmbh',label:'Tiven GmbH',sub:'Germany',x:740,y:240,r:16,color:'#990F3D',details:'100% Purkert. Held 212,355 shares. Transferred ALL to Tiven Invest (May 2024).'},
+  {id:'tiven_malta',label:'Tiven Malta',sub:'Ltd.',x:820,y:310,r:12,color:'#990F3D',details:'100% Purkert. Malta intermediary. 248,800 shares at entity level.'},
+  {id:'tiven_invest',label:'Tiven Invest',sub:'SA SICAV RAIF',x:770,y:370,r:14,color:'#990F3D',details:'Luxembourg fund. Est. Nov 2023. Received 212,355 shares from Tiven GmbH.'},
+  {id:'tiven_sa',label:'Tiven S.A.',sub:'"existiert nicht"',x:700,y:450,r:18,color:'#990F3D',details:'⚠ DOES NOT EXIST. 244,445 shares attributed as of Aug 2025. Scheingesellschaft.'},
+  {id:'zkp',label:'ZKP',sub:'Innovations',x:230,y:420,r:14,color:'#6B7280',details:'512,718 shares from AURIGA (Dec 2023). Opaque holding vehicle.'},
+  {id:'lapis',label:'Lapis Ltd.',sub:'',x:350,y:480,r:14,color:'#6B7280',details:'285,000 from AURIGA + 158,208 from H.G. Perseus. Total 668,407 shares.'},
+  {id:'attegia',label:'Attegia',sub:'Holding Ltd.',x:100,y:460,r:14,color:'#6B7280',details:'162,045 from AURIGA + additional from BOSYNC. Krocke vehicle. 482,113 shares.'},
+  {id:'augusta',label:'Augusta',sub:'Software GmbH',x:560,y:180,r:14,color:'#6B7280',details:'Jakisch/Funk vehicle. 524,200 shares. Relatively stable holder.'}
+];
+
+// Edges: from, to, weight (proportional to shares), color, dashed
+const edges=[
+  {from:'bleicher',to:'bosync',w:3,color:'#FF8833',label:'50–70%'},
+  {from:'steiner',to:'auriga',w:2.5,color:'#0D7680',label:'60%'},
+  {from:'auriga',to:'bosync',w:2,color:'#0D7680',label:'30%'},
+  {from:'purkert',to:'tiven_gmbh',w:2,color:'#990F3D',label:'100%'},
+  {from:'tiven_gmbh',to:'tiven_malta',w:1.5,color:'#990F3D',label:'100%'},
+  {from:'tiven_malta',to:'tiven_invest',w:1.5,color:'#990F3D',label:''},
+  {from:'tiven_invest',to:'tiven_sa',w:2,color:'#990F3D',label:'244K',dashed:true},
+  {from:'dsi',to:'auriga',w:3,color:'#990F3D',label:'850K',dashed:true},
+  {from:'bosync',to:'perseus_inn',w:2.5,color:'#990F3D',label:'265K'},
+  {from:'auriga',to:'perseus_inn',w:2,color:'#990F3D',label:'195K'},
+  {from:'auriga',to:'zkp',w:2,color:'#6B7280',label:'513K'},
+  {from:'auriga',to:'lapis',w:1.5,color:'#6B7280',label:'285K'},
+  {from:'auriga',to:'attegia',w:1.5,color:'#6B7280',label:'162K'},
+  {from:'perseus_stbg',to:'lapis',w:1.5,color:'#990F3D',label:'158K'},
+  {from:'bosync',to:'perseus_stbg',w:1,color:'#6B7280',label:''},
+  {from:'tiven_gmbh',to:'tiven_invest',w:2,color:'#990F3D',label:'212K'}
+];
+
+// Draw edges
+edges.forEach(e=>{
+  const from=nodes.find(n=>n.id===e.from);
+  const to=nodes.find(n=>n.id===e.to);
+  if(!from||!to)return;
+  const dx=to.x-from.x,dy=to.y-from.y,dist=Math.sqrt(dx*dx+dy*dy);
+  const nx=dx/dist,ny=dy/dist;
+  const x1=from.x+nx*from.r,y1=from.y+ny*from.r;
+  const x2=to.x-nx*(to.r+6),y2=to.y-ny*(to.r+6);
+
+  const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('x1',x1);line.setAttribute('y1',y1);
+  line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+  line.setAttribute('stroke',e.color);
+  line.setAttribute('stroke-width',e.w);
+  line.setAttribute('stroke-opacity','0.5');
+  if(e.dashed)line.setAttribute('stroke-dasharray','6,4');
+  line.classList.add('edge-line');
+  svg.appendChild(line);
+
+  // Arrow
+  const ax=to.x-nx*(to.r+4),ay=to.y-ny*(to.r+4);
+  const pw=4,ph=8;
+  const px1=ax-ny*pw-nx*ph,py1=ay+nx*pw-ny*ph;
+  const px2=ax+ny*pw-nx*ph,py2=ay-nx*pw-ny*ph;
+  const arrow=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  arrow.setAttribute('points',`${ax},${ay} ${px1},${py1} ${px2},${py2}`);
+  arrow.setAttribute('fill',e.color);
+  arrow.setAttribute('opacity','0.6');
+  svg.appendChild(arrow);
+
+  // Edge label
+  if(e.label){
+    const mx=(x1+x2)/2,my=(y1+y2)/2;
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',mx);t.setAttribute('y',my-5);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family',"'Source Sans 3'");t.setAttribute('font-size','8');
+    t.setAttribute('fill',e.color);t.setAttribute('font-weight','600');
+    t.textContent=e.label;
+    svg.appendChild(t);
   }
-  
-  // Hover detection
-  canvas.addEventListener('mousemove', function(ev){
-    var rect=canvas.getBoundingClientRect();
-    var mx=ev.clientX-rect.left, my=ev.clientY-rect.top;
-    var found=null;
-    nodes.forEach(function(n){
-      var dx=mx-n.x, dy=my-n.y;
-      if(dx*dx+dy*dy <= (n.r+4)*(n.r+4)) found=n;
-    });
-    if(found){
-      hovered=found.id;
-      tooltip.style.opacity='1';
-      tooltip.innerHTML='<strong>'+found.label+'</strong><br>'+found.info;
-      var tx=Math.min(found.x+found.r+12, W-200);
-      var ty=found.y-30;
-      tooltip.style.left=tx+'px';
-      tooltip.style.top=ty+'px';
-      canvas.style.cursor='pointer';
-    } else {
-      hovered=null;
-      tooltip.style.opacity='0';
-      canvas.style.cursor='default';
-    }
-    draw();
+});
+
+// Draw nodes
+nodes.forEach(n=>{
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+
+  // Ghost entity dashed outline
+  if(n.id==='tiven_sa'){
+    const dash=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dash.setAttribute('cx',n.x);dash.setAttribute('cy',n.y);dash.setAttribute('r',n.r+4);
+    dash.setAttribute('fill','none');dash.setAttribute('stroke','#990F3D');
+    dash.setAttribute('stroke-width','2');dash.setAttribute('stroke-dasharray','4,3');
+    dash.setAttribute('opacity','0.5');
+    g.appendChild(dash);
+  }
+
+  const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  circle.setAttribute('cx',n.x);circle.setAttribute('cy',n.y);circle.setAttribute('r',n.r);
+  circle.setAttribute('fill',n.color);circle.classList.add('node-circle');
+  circle.addEventListener('mouseenter',function(ev){
+    tooltip.innerHTML='<strong>'+n.label+(n.sub?' — '+n.sub:'')+'</strong>'+n.details;
+    tooltip.classList.add('visible');
+    const rect=svg.parentElement.getBoundingClientRect();
+    tooltip.style.left=Math.min(n.x,rect.width-290)+'px';
+    tooltip.style.top=(n.y+n.r+12)+'px';
   });
-  
-  canvas.addEventListener('mouseleave', function(){
-    hovered=null;
-    tooltip.style.opacity='0';
-    draw();
+  circle.addEventListener('mouseleave',()=>tooltip.classList.remove('visible'));
+  g.appendChild(circle);
+
+  const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+  label.setAttribute('x',n.x);label.setAttribute('y',n.y+(n.sub?-2:4));
+  label.classList.add('node-label');
+  label.setAttribute('fill','#fff');label.setAttribute('font-size',n.r>16?'11':'9');
+  label.textContent=n.label;
+  g.appendChild(label);
+
+  if(n.sub){
+    const sub=document.createElementNS('http://www.w3.org/2000/svg','text');
+    sub.setAttribute('x',n.x);sub.setAttribute('y',n.y+10);
+    sub.classList.add('node-sublabel');
+    sub.setAttribute('fill','rgba(255,255,255,.7)');sub.setAttribute('font-size','7');
+    sub.textContent=n.sub;
+    g.appendChild(sub);
+  }
+  svg.appendChild(g);
+});
+})();
+
+/* Sankey-style flow diagram */
+(function(){
+const svg=document.getElementById('sankeySvg');
+const W=920,H=450;
+
+// Simplified Sankey: left column = sources, middle = intermediaries, right = destinations
+// Each node: id, label, x, y, h (height proportional to shares)
+const scale=0.00015; // shares to pixels
+
+const srcNodes=[
+  {id:'bosync_s',label:'BOSYNC',shares:1208849,x:20,color:'#FF8833'},
+  {id:'dsi_s',label:'DSI',shares:849994,x:20,color:'#6B7280'},
+  {id:'issuance',label:'New Issuances',shares:500000,x:20,color:'#0D7680'}
+];
+const midNodes=[
+  {id:'auriga_m',label:'AURIGA',shares:1101436,x:360,color:'#0D7680'},
+  {id:'perseus_m',label:'Perseus (both)',shares:760000,x:360,color:'#990F3D'},
+  {id:'tiven_m',label:'Tiven chain',shares:244445,x:360,color:'#990F3D'}
+];
+const dstNodes=[
+  {id:'zkp_d',label:'ZKP',shares:512718,x:700,color:'#6B7280'},
+  {id:'lapis_d',label:'Lapis',shares:443208,x:700,color:'#6B7280'},
+  {id:'attegia_d',label:'Attegia',shares:162045,x:700,color:'#6B7280'},
+  {id:'tiven_sa_d',label:'Tiven S.A. ⚠',shares:244445,x:700,color:'#990F3D'},
+  {id:'other_d',label:'Others',shares:300000,x:700,color:'#6B7280'}
+];
+
+// Layout: compute y positions
+function layoutCol(nodes,startY){
+  let y=startY;
+  nodes.forEach(n=>{
+    n.h=Math.max(n.shares*scale,12);
+    n.y=y;
+    y+=n.h+8;
   });
-  
-  window.addEventListener('resize', function(){resize();draw()});
-  draw();
+}
+layoutCol(srcNodes,30);
+layoutCol(midNodes,40);
+layoutCol(dstNodes,20);
+
+const nodeW=130;
+
+// Draw nodes
+function drawNodes(col){
+  col.forEach(n=>{
+    const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x',n.x);rect.setAttribute('y',n.y);
+    rect.setAttribute('width',nodeW);rect.setAttribute('height',n.h);
+    rect.setAttribute('fill',n.color);rect.setAttribute('rx',3);
+    rect.classList.add('sankey-node-rect');
+    svg.appendChild(rect);
+
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',n.x+nodeW/2);t.setAttribute('y',n.y+n.h/2+4);
+    t.setAttribute('text-anchor','middle');t.classList.add('sankey-node-label');
+    t.setAttribute('fill','#fff');t.setAttribute('font-size','11');
+    t.textContent=n.label;
+    svg.appendChild(t);
+
+    const v=document.createElementNS('http://www.w3.org/2000/svg','text');
+    v.setAttribute('x',n.x+nodeW/2);v.setAttribute('y',n.y+n.h/2+16);
+    v.setAttribute('text-anchor','middle');v.classList.add('sankey-node-val');
+    v.setAttribute('fill','rgba(255,255,255,.7)');v.setAttribute('font-size','9');
+    v.textContent=n.shares.toLocaleString()+' shares';
+    svg.appendChild(v);
+  });
+}
+drawNodes(srcNodes);
+drawNodes(midNodes);
+drawNodes(dstNodes);
+
+// Draw flows
+const flows=[
+  {from:srcNodes[1],to:midNodes[0],shares:849994,color:'#990F3D'},// DSI→AURIGA
+  {from:srcNodes[0],to:midNodes[0],shares:251442,color:'#FF8833'},// BOSYNC→AURIGA(indirect)
+  {from:srcNodes[0],to:midNodes[1],shares:264676,color:'#990F3D'},// BOSYNC→Perseus
+  {from:srcNodes[2],to:midNodes[1],shares:286093,color:'#0D7680'},// Issuance→Perseus
+  {from:srcNodes[2],to:midNodes[2],shares:48632,color:'#0D7680'},// Issuance→Tiven
+  {from:srcNodes[0],to:midNodes[2],shares:163723,color:'#FF8833'},// BOSYNC→Tiven(indirect)
+  {from:midNodes[0],to:dstNodes[0],shares:512718,color:'#6B7280'},// AURIGA→ZKP
+  {from:midNodes[0],to:dstNodes[1],shares:285000,color:'#6B7280'},// AURIGA→Lapis
+  {from:midNodes[0],to:dstNodes[2],shares:162045,color:'#6B7280'},// AURIGA→Attegia
+  {from:midNodes[1],to:dstNodes[1],shares:158208,color:'#990F3D'},// Perseus→Lapis
+  {from:midNodes[1],to:dstNodes[4],shares:198468,color:'#6B7280'},// Perseus→Others
+  {from:midNodes[2],to:dstNodes[3],shares:244445,color:'#990F3D'}// Tiven→Tiven S.A.
+];
+
+let srcOffsets={},midOffsets={},dstOffsets={};
+srcNodes.forEach(n=>srcOffsets[n.id]=n.y);
+midNodes.forEach(n=>{midOffsets[n.id]=n.y;});
+dstNodes.forEach(n=>dstOffsets[n.id]=n.y);
+
+flows.forEach(f=>{
+  const fh=Math.max(f.shares*scale,4);
+  const x1=f.from.x+nodeW;
+  const y1=srcOffsets[f.from.id]||midOffsets[f.from.id]||f.from.y;
+  const x2=f.to.x;
+  const y2=dstOffsets[f.to.id]||midOffsets[f.to.id]||f.to.y;
+
+  // Update offsets
+  if(srcOffsets[f.from.id]!==undefined)srcOffsets[f.from.id]+=fh+1;
+  if(midOffsets[f.from.id]!==undefined)midOffsets[f.from.id]+=fh+1;
+  if(midOffsets[f.to.id]!==undefined)midOffsets[f.to.id]+=fh+1;
+  if(dstOffsets[f.to.id]!==undefined)dstOffsets[f.to.id]+=fh+1;
+
+  const cx1=x1+(x2-x1)*0.4,cx2=x1+(x2-x1)*0.6;
+  const d=`M${x1},${y1} C${cx1},${y1} ${cx2},${y2} ${x2},${y2} L${x2},${y2+fh} C${cx2},${y2+fh} ${cx1},${y1+fh} ${x1},${y1+fh} Z`;
+
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',d);path.setAttribute('fill',f.color);
+  path.classList.add('sankey-path');
+  path.innerHTML=`<title>${f.from.label} → ${f.to.label}: ${f.shares.toLocaleString()} shares</title>`;
+  svg.appendChild(path);
+});
+
+// Redraw nodes on top
+drawNodes(srcNodes);
+drawNodes(midNodes);
+drawNodes(dstNodes);
 })();
 </script>
-
 </body>
 </html>
