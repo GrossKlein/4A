@@ -6,8 +6,7 @@
 <title>Ch 11 &mdash; The LVS Convertible Loan | SyncPilot Dossier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+
 <style>
 :root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -132,7 +131,7 @@ body.lang-en [data-lang-en]{display:block!important}
 }
 </style>
 </head>
-<body>
+<body class="lang-en">
 <div class="content-area">
 
 <div class="hero">
@@ -313,18 +312,59 @@ body.lang-en [data-lang-en]{display:block!important}
 </table>
 
 <p data-lang-en style="font-size:.88rem;color:rgba(38,42,51,.55);margin-top:var(--sp-3)">
-<strong>Note:</strong> Tranche 2 was paid 22 days early (29 Apr vs. 21 May due date). Tranche 4 was paid two months late and €500,000 short. Tranches 5–6 were never disbursed — Damerau (LVS/EuroAtlantic) informed Bleicher on 27 Dec 2021 that he would not transfer the remaining €11.25M. The €850,000 (Tranche 5) appears to have been the next scheduled payment that was also withheld.
+<strong>Note:</strong> Tranche 2 was paid 22 days early (29 Apr vs. 21 May due date), demonstrating LVS's initial good faith. Yet by Tranche 4 — paid two months late and €500,000 short — SyncPilot was already failing its contractual obligations. Critically, the agreement that Hunstein had promised to notarize remained unsigned. Damerau (LVS/EuroAtlantic) concluded that continuing to disburse funds into a structure where the counterparty was not fulfilling its primary obligations was unjustifiable, and informed Bleicher on 27 Dec 2021 that he would not transfer the remaining €11.25M.
 </p>
 <p data-lang-de style="display:none;font-size:.88rem;color:rgba(38,42,51,.55);margin-top:var(--sp-3)">
-<strong>Hinweis:</strong> Tranche 2 wurde 22 Tage früher gezahlt (29. Apr. statt Fälligkeit 21. Mai). Tranche 4 wurde zwei Monate verspätet und um 500.000 € gekürzt gezahlt. Tranchen 5–6 wurden nie ausgezahlt — Damerau (LVS/EuroAtlantic) teilte Bleicher am 27. Dez. 2021 mit, dass er die verbleibenden 11,25 Mio. € nicht überweisen werde.
+<strong>Hinweis:</strong> Tranche 2 wurde 22 Tage früher gezahlt (29. Apr. statt Fälligkeit 21. Mai) — Zeichen des anfänglichen guten Glaubens von LVS. Doch bei Tranche 4 — zwei Monate verspätet und um 500.000 € gekürzt — verletzte SyncPilot bereits seine vertraglichen Pflichten. Entscheidend: Die Vereinbarung, deren Beurkundung Hunstein versprochen hatte, blieb weiterhin nicht beurkundet. Damerau (LVS/EuroAtlantic) kam zu dem Schluss, dass weitere Auszahlungen in eine Struktur, in der die Gegenseite ihre Hauptpflichten nicht erfüllte, nicht zu rechtfertigen waren, und teilte Bleicher am 27. Dez. 2021 mit, dass er die verbleibenden 11,25 Mio. € nicht überweisen werde.
 </p>
 
-<!-- CHART: Tranche Timeline -->
-<div class="chart-container">
-  <div class="chart-title" data-lang-en>Loan Disbursement Timeline — Cumulative Flow (€)</div>
-  <div class="chart-title" data-lang-de style="display:none">Zeitverlauf der Darlehensauszahlung — Kumulierter Fluss (€)</div>
-  <canvas id="trancheChart" style="width:100%;max-height:380px"></canvas>
-  <div class="chart-source" data-lang-en>Source: SyncPilot_SE_Project.xlsx → Payments sheet | Bank transfer confirmations linked per row</div>
+<!-- WHY LVS STOPPED — replaces broken Chart.js chart -->
+<div style="background:var(--white);border:2px solid var(--claret);border-radius:6px;padding:var(--sp-6);margin:var(--sp-6) 0">
+  <div style="font-family:var(--font-ui);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--claret);margin-bottom:var(--sp-3)">
+    <span data-lang-en>⚠ Why LVS Stopped Disbursement</span>
+    <span data-lang-de style="display:none">⚠ Warum LVS die Auszahlung stoppte</span>
+  </div>
+  <p data-lang-en style="font-size:.92rem;margin-bottom:var(--sp-4);line-height:1.65">
+    On 27 December 2021, Arnulf Damerau (LVS/EuroAtlantic) formally declared that he would not transfer the remaining €11.25M. This decision followed a pattern of <strong>escalating contractual failures by SyncPilot</strong>:
+  </p>
+  <p data-lang-de style="display:none;font-size:.92rem;margin-bottom:var(--sp-4);line-height:1.65">
+    Am 27. Dezember 2021 erklärte Arnulf Damerau (LVS/EuroAtlantic) formell, die verbleibenden 11,25 Mio. € nicht zu überweisen. Diese Entscheidung folgte einem Muster <strong>eskalierender Vertragsverletzungen seitens SyncPilot</strong>:
+  </p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--sp-4)">
+    <div style="background:rgba(153,15,61,.04);padding:var(--sp-4);border-radius:4px;border-left:3px solid var(--claret)">
+      <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:var(--claret);margin-bottom:4px">
+        <span data-lang-en>Tranche 4 Irregular</span><span data-lang-de style="display:none">Tranche 4 irregulär</span>
+      </div>
+      <div style="font-size:.85rem;line-height:1.5">
+        <span data-lang-en>Paid <strong>two months late</strong> and <strong>€500K short</strong> — signalling financial distress or bad faith before Damerau's remaining commitment of €12.6M was due.</span>
+        <span data-lang-de style="display:none">Zwei Monate zu spät und <strong>500.000 € zu wenig</strong> — ein Signal finanzieller Schwierigkeiten oder bösen Glaubens, bevor Dameraus verbleibendes Engagement von 12,6 Mio. € fällig wurde.</span>
+      </div>
+    </div>
+    <div style="background:rgba(153,15,61,.04);padding:var(--sp-4);border-radius:4px;border-left:3px solid var(--claret)">
+      <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:var(--claret);margin-bottom:4px">
+        <span data-lang-en>Contract Never Notarized</span><span data-lang-de style="display:none">Vertrag nie beurkundet</span>
+      </div>
+      <div style="font-size:.85rem;line-height:1.5">
+        <span data-lang-en>Hunstein <strong>repeatedly promised</strong> to notarize the agreement but kept postponing. Without notarization, the contract lacked the legal force required for share transfers under German law (§15 GmbHG / SE-VO).</span>
+        <span data-lang-de style="display:none">Hunstein <strong>versprach wiederholt</strong>, den Vertrag notariell zu beurkunden, verschob dies aber immer wieder. Ohne Beurkundung fehlte dem Vertrag die für Anteilsübertragungen nach deutschem Recht erforderliche Rechtskraft (§15 GmbHG / SE-VO).</span>
+      </div>
+    </div>
+    <div style="background:rgba(153,15,61,.04);padding:var(--sp-4);border-radius:4px;border-left:3px solid var(--claret)">
+      <div style="font-family:var(--font-ui);font-size:.72rem;font-weight:700;color:var(--claret);margin-bottom:4px">
+        <span data-lang-en>Unreachable Management</span><span data-lang-de style="display:none">Unerreichbare Geschäftsführung</span>
+      </div>
+      <div style="font-size:.85rem;line-height:1.5">
+        <span data-lang-en>Bleicher was <strong>barely reachable</strong> for follow-up questions, agreed deadlines were missed, and previously confirmed arrangements were <strong>repeatedly renegotiated</strong> — eroding trust in SyncPilot's reliability as a counterparty.</span>
+        <span data-lang-de style="display:none">Bleicher war für Rückfragen <strong>kaum erreichbar</strong>, vereinbarte Termine wurden versäumt und zuvor bestätigte Vereinbarungen <strong>wiederholt nachverhandelt</strong> — was das Vertrauen in SyncPilots Zuverlässigkeit als Vertragspartner untergrub.</span>
+      </div>
+    </div>
+  </div>
+  <p data-lang-en style="font-size:.85rem;color:rgba(38,42,51,.55);margin-top:var(--sp-4);font-style:italic">
+    In hindsight, LVS's decision to halt further disbursement was prudent: the €6.15M already transferred has neither been converted into shares nor repaid — validating the concerns that prompted the stop. The counterparty's subsequent claim that the unnotarized contract is "legally void" confirmed that LVS was effectively trapped: money out, no legal instrument to compel return.
+  </p>
+  <p data-lang-de style="display:none;font-size:.85rem;color:rgba(38,42,51,.55);margin-top:var(--sp-4);font-style:italic">
+    Rückblickend war die Entscheidung von LVS, weitere Auszahlungen zu stoppen, vorausschauend: Die bereits überwiesenen 6,15 Mio. € wurden weder in Aktien umgewandelt noch zurückgezahlt — was die Bedenken bestätigt, die zum Stopp führten. Die spätere Behauptung der Gegenseite, der nicht beurkundete Vertrag sei „rechtlich unwirksam", bestätigte, dass LVS faktisch in eine Falle geraten war: Geld ausgezahlt, kein rechtliches Instrument zur Erzwingung der Rückgabe.
+  </p>
 </div>
 
 <!-- SECTION: The Notarization Trap -->
@@ -544,83 +584,6 @@ Der bemerkenswerteste Aspekt dieses Falls ist nicht die Nichtrückzahlung selbst
 <!-- Chapter Navigation -->
 </div><!-- end content-area -->
 
-<script>
-var lang='en';
-,
-          pointBackgroundColor:'#990F3D',
-          pointBorderColor:'#fff',
-          pointBorderWidth:2,
-          tension:0.1
-        }
-      ]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:true,
-      aspectRatio:2.2,
-      plugins:{
-        legend:{
-          position:'bottom',
-          labels:{font:{family:'Source Sans 3',size:11}}
-        },
-        tooltip:{
-          callbacks:{
-            label:function(c){return c.dataset.label+': €'+c.raw.toLocaleString();}
-          }
-        },
-        annotation:{
-          annotations:{
-            gapLabel:{
-              type:'label',
-              xValue:12,
-              yValue:12000000,
-              content:['Gap: €12.6M','never disbursed'],
-              font:{family:'Source Sans 3',size:11,weight:'600'},
-              color:'rgba(38,42,51,0.4)',
-              backgroundColor:'rgba(255,241,229,0.8)',
-              padding:6
-            },
-            outstandingBox:{
-              type:'box',
-              xMin:8,xMax:15,
-              yMin:5800000,yMax:6500000,
-              backgroundColor:'rgba(153,15,61,0.06)',
-              borderColor:'rgba(153,15,61,0.2)',
-              borderWidth:1,
-              label:{
-                display:true,
-                content:'€6.15M OUTSTANDING — no shares, no repayment',
-                position:{x:'center',y:'center'},
-                font:{family:'Source Sans 3',size:10,weight:'700'},
-                color:'#990F3D',
-                backgroundColor:'transparent'
-              }
-            }
-          }
-        }
-      },
-      scales:{
-        y:{
-          beginAtZero:true,
-          max:20000000,
-          ticks:{
-            callback:function(v){return '€'+( v>=1000000? (v/1000000).toFixed(1)+'M' : (v/1000).toFixed(0)+'K' );},
-            font:{family:'Source Sans 3',size:11}
-          },
-          grid:{color:'rgba(242,223,206,0.5)'}
-        },
-        x:{
-          ticks:{
-            font:{family:'Source Sans 3',size:10},
-            maxRotation:45
-          },
-          grid:{display:false}
-        }
-      }
-    }
-  });
-})();
-</script>
 <script src="nav.js"></script>
 </body>
 </html>

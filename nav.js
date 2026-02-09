@@ -18,7 +18,8 @@
     { id: '08', file: '08_wash_trades.html',      en: 'Circular Control & Wash Trades',      de: 'Zirkuläre Kontrolle' },
     { id: '09', file: '09_bleicher_profile.html',  en: 'Bleicher — The Architect',            de: 'Bleicher — Der Architekt' },
     { id: '10', file: '10_pictet_investment.html', en: 'The Pictet Investment',               de: 'Die Pictet-Investition' },
-    { id: '11', file: '11_lvs_loan.html',         en: 'The LVS Convertible Loan',            de: 'Das LVS-Wandeldarlehen' }
+    { id: '11', file: '11_lvs_loan.html',         en: 'The LVS Convertible Loan',            de: 'Das LVS-Wandeldarlehen' },
+    { id: '12', file: '12_goldfinger.html',       en: 'The Goldfinger Connection',            de: 'Die Goldfinger-Verbindung' }
   ];
 
   /* ── Detect Current Page ──────────────────────────────── */
@@ -56,6 +57,8 @@
     '.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height,56px);background:var(--slate,#262A33);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:1000}',
     '.nav-left{display:flex;align-items:center;gap:16px}',
     '.nav-title{font-family:var(--font-ui,"Source Sans 3",sans-serif);font-weight:700;font-size:1rem;color:var(--paper,#FFF1E5);text-decoration:none}',
+    '.nav-logo{height:22px;filter:brightness(0) invert(1);opacity:.85;margin-right:2px;vertical-align:middle}',
+    '.side-menu-logo{display:block;margin:0 24px 16px;height:20px;opacity:.45}',
     '.nav-right{display:flex;align-items:center;gap:12px}',
     '.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper,#FFF1E5);font-family:var(--font-ui,"Source Sans 3",sans-serif);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer;letter-spacing:.04em;transition:background .15s}',
     '.lang-toggle:hover{background:rgba(255,241,229,.12)}',
@@ -96,7 +99,7 @@
   nav.innerHTML =
     '<div class="nav-left">' +
       '<button class="hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>' +
-      '<a class="nav-title" href="index.html">SyncPilot\u00a0Dossier</a>' +
+      '<a class="nav-title" href="index.html"><img src="SYNCPILOT%20logo%201.png" alt="" class="nav-logo" onerror="this.style.display=\'none\'">Dossier</a>' +
     '</div>' +
     '<div class="nav-right">' +
       '<button class="lang-toggle" id="navLangBtn" aria-label="Switch language">DE</button>' +
@@ -111,7 +114,7 @@
   aside.className = 'side-menu';
   aside.id = 'navSideMenu';
 
-  var menuHTML = '';
+  var menuHTML = '<img src="SYNCPILOT%20logo%201.png" alt="SYNCPILOT" class="side-menu-logo" onerror="this.style.display=\'none\'">';
   for (var j = 0; j < chapters.length; j++) {
     var ch = chapters[j];
     var isActive = j === currentIdx;

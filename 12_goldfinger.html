@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ch 12 &mdash; The Goldfinger Connection | SyncPilot Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--font-body:'Source Serif 4',Georgia,serif;--font-ui:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--paper:#FFF1E5;--wheat:#F2DFCE;--white:#FFFFFF;--claret:#990F3D;--oxford:#0D7680;--slate:#262A33;--gold:#C09853;--gold-dark:#8B6914;--gold-light:#F5E6C8;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-6:24px;--sp-8:32px;--sp-12:48px;--sp-16:64px;--max-width:960px;--nav-height:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--paper);color:var(--slate);line-height:1.65;padding-top:var(--nav-height);font-size:1rem}
+a{color:var(--claret);text-decoration:none}a:hover{text-decoration:underline}
+body.lang-en [data-lang-de]{display:none}body.lang-de [data-lang-en]{display:none}body.lang-de span[data-lang-de],body.lang-en span[data-lang-en]{display:inline!important}
+
+.content-area{max-width:var(--max-width);margin:0 auto;padding:0 var(--sp-6) var(--sp-12)}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,var(--slate) 0%,#1a1d24 100%);color:var(--paper);padding:var(--sp-16) var(--sp-6);margin:0 calc(-50vw + 50%) var(--sp-12);width:100vw;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;right:-40px;bottom:0;width:300px;background:linear-gradient(180deg,rgba(192,152,83,.15) 0%,rgba(192,152,83,.03) 100%);transform:skewX(-12deg)}
+.hero-inner{max-width:var(--max-width);margin:0 auto;position:relative;z-index:1}
+.hero-kicker{font-family:var(--font-ui);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);margin-bottom:var(--sp-3)}
+.hero h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:700;line-height:1.15;margin-bottom:var(--sp-4);max-width:680px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+
+/* ── BLUF ── */
+.bluf{background:var(--white);border-left:4px solid var(--gold);padding:var(--sp-6);margin-bottom:var(--sp-8);border-radius:0 4px 4px 0;font-size:.95rem;line-height:1.7}
+.bluf-label{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dark);margin-bottom:var(--sp-2)}
+
+/* ── KPI Strip ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--sp-4);margin-bottom:var(--sp-12)}
+.kpi-card{background:var(--white);padding:var(--sp-4) var(--sp-6);border-radius:4px;border-top:3px solid var(--wheat);text-align:center}
+.kpi-card.gold{border-top-color:var(--gold)}
+.kpi-card.alert{border-top-color:var(--claret)}
+.kpi-number{font-family:var(--font-ui);font-size:1.5rem;font-weight:700;color:var(--slate);line-height:1.2}
+.kpi-number.gold{color:var(--gold-dark)}
+.kpi-number.red{color:var(--claret)}
+.kpi-label{font-family:var(--font-ui);font-size:.72rem;font-weight:600;color:rgba(38,42,51,.55);margin-top:4px;line-height:1.3}
+
+/* ── Section Headers ── */
+h2{font-size:1.4rem;font-weight:700;margin:var(--sp-12) 0 var(--sp-6);border-bottom:2px solid var(--gold);padding-bottom:var(--sp-2)}
+h3{font-size:1.1rem;font-weight:700;margin:var(--sp-8) 0 var(--sp-4)}
+
+/* ── Dual Timeline ── */
+.timeline-container{background:var(--white);border-radius:6px;padding:var(--sp-6);margin-bottom:var(--sp-12);overflow-x:auto}
+.timeline-svg{width:100%;min-width:800px;height:auto}
+
+/* ── Actor Map ── */
+.actor-map{background:var(--white);border-radius:6px;padding:var(--sp-6);margin-bottom:var(--sp-12);overflow-x:auto}
+.actor-svg{width:100%;min-width:700px;height:auto}
+
+/* ── Narrative ── */
+.narrative{margin-bottom:var(--sp-12)}
+.narrative p{margin-bottom:var(--sp-4);text-align:justify;hyphens:auto}
+.narrative .dropcap::first-letter{font-size:3.2em;float:left;line-height:.85;margin-right:6px;margin-top:4px;color:var(--gold-dark);font-weight:700}
+
+/* ── Pattern Box ── */
+.pattern-box{background:linear-gradient(135deg,#fdf8f0 0%,var(--white) 100%);border:2px solid var(--gold);border-radius:6px;padding:var(--sp-6);margin-bottom:var(--sp-12)}
+.pattern-box h3{margin-top:0;color:var(--gold-dark);border:none}
+.pattern-step{display:flex;gap:var(--sp-4);margin-bottom:var(--sp-4);align-items:flex-start}
+.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:.82rem;font-weight:700}
+.step-text{font-size:.92rem;line-height:1.55}
+.step-text strong{color:var(--gold-dark)}
+
+/* ── Source Grid ── */
+.source-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp-4);margin-bottom:var(--sp-12)}
+.source-card{background:var(--white);padding:var(--sp-4);border-radius:4px;border-left:3px solid var(--wheat)}
+.source-card.key{border-left-color:var(--gold)}
+.source-pub{font-family:var(--font-ui);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gold-dark)}
+.source-title{font-size:.88rem;font-weight:600;margin:4px 0 2px;line-height:1.35}
+.source-date{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45)}
+
+/* ── Question Box ── */
+.question-box{background:var(--white);border:2px solid var(--claret);border-radius:6px;padding:var(--sp-6);margin-bottom:var(--sp-12)}
+.question-box h3{color:var(--claret);margin-top:0;border:none}
+.q-item{margin-bottom:var(--sp-3);font-size:.92rem;line-height:1.55;padding-left:var(--sp-6);position:relative}
+.q-item::before{content:'?';position:absolute;left:0;top:0;font-family:var(--font-ui);font-weight:700;color:var(--claret);font-size:1rem}
+
+/* ── Cross-ref chips ── */
+.xref{display:inline-block;font-family:var(--font-ui);font-size:.72rem;font-weight:600;background:rgba(13,118,128,.08);color:var(--oxford);padding:3px 10px;border-radius:12px;text-decoration:none;margin:2px 4px 2px 0}
+.xref:hover{background:rgba(13,118,128,.15);text-decoration:none}
+
+/* ── Footer ── */
+.site-footer{background:var(--slate);color:rgba(255,241,229,.55);padding:var(--sp-6);text-align:center;font-family:var(--font-ui);font-size:.72rem;margin-top:var(--sp-16);line-height:1.6}
+
+/* ── Tooltip for SVG ── */
+.tt{position:absolute;background:var(--slate);color:var(--paper);font-family:var(--font-ui);font-size:.75rem;padding:6px 10px;border-radius:4px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;max-width:260px;line-height:1.4;white-space:normal}
+.tt.show{opacity:1}
+
+@media(max-width:640px){
+  .hero{padding:var(--sp-8) var(--sp-6)}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .source-grid{grid-template-columns:1fr}
+  h2{font-size:1.2rem}
+}
+@media print{body{padding-top:0;background:#fff;color:#000;font-size:11pt}.hero{background:#333!important;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body class="lang-en">
+
+<div class="content-area">
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+<div class="hero-inner">
+  <div class="hero-kicker">
+    <span data-lang-en>Chapter 12</span><span data-lang-de>Kapitel 12</span>
+  </div>
+  <h1>
+    <span data-lang-en>The <em>Goldfinger</em> Connection</span>
+    <span data-lang-de>Die <em>Goldfinger</em>-Verbindung</span>
+  </h1>
+</div>
+</section>
+
+<!-- ═══════════════ BLUF ═══════════════ -->
+<div class="bluf">
+  <div class="bluf-label"><span data-lang-en>Bottom Line Up Front</span><span data-lang-de>Kernaussage</span></div>
+  <p data-lang-en>Martin Hunstein and Diethard Goerg &mdash; who acquired SyncPilot&nbsp;SE shares at a 95% discount through their Perseus entity &mdash; were previously indicted in Germany&rsquo;s largest tax fraud prosecution, the &lsquo;Goldfinger&rsquo; case, before the trial collapsed in 2020. As former partners of the dissolved law firm AFR Aigner Fischer, they faced accusations of orchestrating up to &euro;1&thinsp;billion in artificial tax losses through sham gold trading operations. Their transition from defendants in a billion-euro fraud case to beneficiaries of a below-market share acquisition raises fundamental questions about pattern and intent.</p>
+  <p data-lang-de>Martin Hunstein und Diethard Goerg &mdash; die &uuml;ber ihre Perseus-Gesellschaft Aktien der SyncPilot&nbsp;SE mit 95&thinsp;% Abschlag erwarben &mdash; waren zuvor im gr&ouml;&szlig;ten deutschen Steuerstrafverfahren angeklagt, dem &bdquo;Goldfinger&ldquo;-Fall, bevor das Verfahren 2020 zusammenbrach. Als ehemalige Partner der aufgel&ouml;sten Kanzlei AFR Aigner Fischer standen sie im Verdacht, bis zu 1&thinsp;Mrd.&thinsp;&euro; an k&uuml;nstlichen Steuerverlusten durch vorget&auml;uschte Goldhandelsgesch&auml;fte erzeugt zu haben. Ihr &Uuml;bergang von Angeklagten in einem Milliardenbetrugsfall zu Beg&uuml;nstigten eines unter Marktwert liegenden Aktienerwerbs wirft grundlegende Fragen zu Muster und Vorsatz auf.</p>
+</div>
+
+<!-- ═══════════════ KPI STRIP ═══════════════ -->
+<div class="kpi-strip">
+  <div class="kpi-card gold">
+    <div class="kpi-number gold">&euro;1bn</div>
+    <div class="kpi-label"><span data-lang-en>Alleged tax losses generated</span><span data-lang-de>Behauptete Steuerverluste</span></div>
+  </div>
+  <div class="kpi-card gold">
+    <div class="kpi-number gold">100+</div>
+    <div class="kpi-label"><span data-lang-en>Suspects investigated</span><span data-lang-de>Beschuldigte ermittelt</span></div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-number">78</div>
+    <div class="kpi-label"><span data-lang-en>Trial days scheduled</span><span data-lang-de>Verhandlungstage angesetzt</span></div>
+  </div>
+  <div class="kpi-card alert">
+    <div class="kpi-number red">&euro;2.84M</div>
+    <div class="kpi-label"><span data-lang-en>Perseus discount value</span><span data-lang-de>Perseus-Rabattwert</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ THE SCHEME ═══════════════ -->
+<h2><span data-lang-en>The Goldfinger Scheme</span><span data-lang-de>Das Goldfinger-Modell</span></h2>
+
+<div class="pattern-box">
+  <h3><span data-lang-en>How It Worked</span><span data-lang-de>Funktionsweise</span></h3>
+  <div class="pattern-step">
+    <div class="step-num">1</div>
+    <div class="step-text"><span data-lang-en><strong>Establish a gold trading company in the UK</strong> &mdash; a jurisdiction with a German double-taxation agreement (Doppelbesteuerungsabkommen). The firm purchased physical gold, generating operating losses.</span><span data-lang-de><strong>Goldhandelsgesellschaft in Gro&szlig;britannien gr&uuml;nden</strong> &mdash; einem Land mit deutschem Doppelbesteuerungsabkommen. Die Firma kaufte physisches Gold und erzeugte Betriebsverluste.</span></div>
+  </div>
+  <div class="pattern-step">
+    <div class="step-num">2</div>
+    <div class="step-text"><span data-lang-en><strong>Claim losses under Progressionsvorbehalt</strong> &mdash; the German taxpayer deducted UK losses against domestic income, reducing their effective tax rate towards zero. An earner of &euro;1M/year could reduce taxes from ~&euro;916,000 to ~&euro;467,000 over two years.</span><span data-lang-de><strong>Verluste &uuml;ber Progressionsvorbehalt geltend machen</strong> &mdash; der deutsche Steuerpflichtige verrechnete britische Verluste mit inl&auml;ndischem Einkommen und senkte seinen effektiven Steuersatz Richtung null. Ein Verdiener von 1&thinsp;Mio.&thinsp;&euro;/Jahr konnte Steuern von ~916.000&thinsp;&euro; auf ~467.000&thinsp;&euro; in zwei Jahren senken.</span></div>
+  </div>
+  <div class="pattern-step">
+    <div class="step-num">3</div>
+    <div class="step-text"><span data-lang-en><strong>Sell the gold, close the loop</strong> &mdash; the gold was later resold, and the UK company wound down. The prosecution alleged that foreign &ldquo;business premises&rdquo; were fictitious (Scheinbetriebsst&auml;tten), making the entire construct tax fraud. The defence insisted the operations were genuine.</span><span data-lang-de><strong>Gold verkaufen, Kreis schlie&szlig;en</strong> &mdash; das Gold wurde sp&auml;ter ver&auml;u&szlig;ert und die britische Gesellschaft abgewickelt. Die Staatsanwaltschaft behauptete, die ausl&auml;ndischen &bdquo;Betriebsst&auml;tten&ldquo; seien fiktiv (Scheinbetriebsst&auml;tten), was das gesamte Konstrukt zur Steuerhinterziehung mache. Die Verteidigung bestand darauf, der Gesch&auml;ftsbetrieb sei real gewesen.</span></div>
+  </div>
+  <p style="font-family:var(--font-ui);font-size:.78rem;color:rgba(38,42,51,.5);margin-top:var(--sp-4)"><span data-lang-en>Source: Wissenschaftlicher Dienst des Bundestages; JUVE Steuermarkt 14.11.2019; Augsburger Allgemeine 07.11.2019</span><span data-lang-de>Quelle: Wissenschaftlicher Dienst des Bundestages; JUVE Steuermarkt 14.11.2019; Augsburger Allgemeine 07.11.2019</span></p>
+</div>
+
+
+<!-- ═══════════════ DUAL TIMELINE ═══════════════ -->
+<h2><span data-lang-en>Dual Timeline: From Goldfinger to SyncPilot</span><span data-lang-de>Doppelte Zeitleiste: Von Goldfinger zu SyncPilot</span></h2>
+
+<div class="timeline-container">
+<svg class="timeline-svg" viewBox="0 0 940 520" xmlns="http://www.w3.org/2000/svg">
+  <!-- Legend -->
+  <rect x="20" y="10" width="14" height="14" rx="2" fill="#990F3D"/>
+  <text x="40" y="21" font-family="Source Sans 3,sans-serif" font-size="11" fill="#262A33" font-weight="600">Goldfinger Track</text>
+  <rect x="160" y="10" width="14" height="14" rx="2" fill="#0D7680"/>
+  <text x="180" y="21" font-family="Source Sans 3,sans-serif" font-size="11" fill="#262A33" font-weight="600">SyncPilot Track</text>
+  <rect x="300" y="10" width="14" height="14" rx="2" fill="#C09853"/>
+  <text x="320" y="21" font-family="Source Sans 3,sans-serif" font-size="11" fill="#262A33" font-weight="600">Connecting Events</text>
+
+  <!-- Year axis -->
+  <line x1="60" y1="260" x2="920" y2="260" stroke="#D4C5B5" stroke-width="1"/>
+  <text x="105" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2013</text>
+  <text x="215" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2018</text>
+  <text x="360" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2019</text>
+  <text x="505" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2020</text>
+  <text x="640" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2021</text>
+  <text x="760" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2023</text>
+  <text x="880" y="275" font-family="Source Sans 3,sans-serif" font-size="10" fill="#999" text-anchor="middle">2024</text>
+  <!-- Year ticks -->
+  <line x1="105" y1="256" x2="105" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+  <line x1="215" y1="256" x2="215" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+  <line x1="360" y1="256" x2="360" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+  <line x1="505" y1="256" x2="505" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+  <line x1="640" y1="256" x2="640" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+  <line x1="760" y1="256" x2="760" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+  <line x1="880" y1="256" x2="880" y2="264" stroke="#D4C5B5" stroke-width="1"/>
+
+  <!-- ── GOLDFINGER TRACK (above axis) ── -->
+  <text x="30" y="130" font-family="Source Sans 3,sans-serif" font-size="10" fill="#990F3D" font-weight="700" transform="rotate(-90 30 130)">GOLDFINGER</text>
+
+  <!-- 2013: Loophole closed -->
+  <line x1="105" y1="256" x2="105" y2="195" stroke="#990F3D" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="105" cy="190" r="6" fill="#990F3D"/>
+  <text x="105" y="178" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">Loophole closed</text>
+  <text x="105" y="166" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">Legislator acts</text>
+
+  <!-- Feb 2018: Razzia -->
+  <line x1="215" y1="256" x2="215" y2="120" stroke="#990F3D" stroke-width="2"/>
+  <circle cx="215" cy="115" r="8" fill="#990F3D"/>
+  <rect x="155" y="60" width="120" height="48" rx="4" fill="#990F3D" opacity=".9"/>
+  <text x="215" y="76" font-family="Source Sans 3,sans-serif" font-size="10" fill="#FFF1E5" text-anchor="middle" font-weight="700">RAZZIA</text>
+  <text x="215" y="89" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.8)" text-anchor="middle">200+ raids, 7 arrested</text>
+  <text x="215" y="101" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.8)" text-anchor="middle">Feb 2018</text>
+
+  <!-- Oct 2018: AFR dissolves -->
+  <line x1="280" y1="256" x2="280" y2="150" stroke="#990F3D" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="280" cy="145" r="6" fill="#990F3D"/>
+  <text x="280" y="133" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">AFR dissolves</text>
+  <text x="280" y="121" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">Oct 2018</text>
+
+  <!-- Nov 2019: Trial begins -->
+  <line x1="385" y1="256" x2="385" y2="90" stroke="#990F3D" stroke-width="2"/>
+  <circle cx="385" cy="85" r="8" fill="#990F3D"/>
+  <rect x="325" y="38" width="120" height="40" rx="4" fill="#990F3D" opacity=".9"/>
+  <text x="385" y="53" font-family="Source Sans 3,sans-serif" font-size="10" fill="#FFF1E5" text-anchor="middle" font-weight="700">TRIAL BEGINS</text>
+  <text x="385" y="66" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.8)" text-anchor="middle">LG Augsburg &middot; 13 Nov 2019</text>
+
+  <!-- May 2020: Judge signals acquittal -->
+  <line x1="480" y1="256" x2="480" y2="140" stroke="#990F3D" stroke-width="1.5"/>
+  <circle cx="480" cy="135" r="6" fill="#990F3D"/>
+  <text x="480" y="123" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">&ldquo;Paukenschlag&rdquo;</text>
+  <text x="480" y="111" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">Judge signals acquittal</text>
+  <text x="480" y="99" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">May 2020</text>
+
+  <!-- Jul 2020: FG rules no fraud -->
+  <line x1="530" y1="256" x2="530" y2="170" stroke="#990F3D" stroke-width="1.5"/>
+  <circle cx="530" cy="165" r="6" fill="#990F3D"/>
+  <text x="530" y="153" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">FG: No fraud</text>
+  <text x="530" y="141" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">FG Baden-W. Jul 2020</text>
+
+  <!-- 2020-2021: Trial collapses -->
+  <rect x="540" y="195" width="60" height="20" rx="3" fill="rgba(153,15,61,.1)" stroke="#990F3D" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="570" y="208" font-family="Source Sans 3,sans-serif" font-size="8" fill="#990F3D" text-anchor="middle">Trial collapses</text>
+
+  <!-- ── SYNCPILOT TRACK (below axis) ── -->
+  <text x="30" y="400" font-family="Source Sans 3,sans-serif" font-size="10" fill="#0D7680" font-weight="700" transform="rotate(-90 30 400)">SYNCPILOT</text>
+
+  <!-- 2020: SE formation -->
+  <line x1="505" y1="264" x2="505" y2="320" stroke="#0D7680" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="505" cy="325" r="6" fill="#0D7680"/>
+  <text x="505" y="343" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">SE formed</text>
+  <text x="505" y="355" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">2020</text>
+
+  <!-- Feb 2021: Hunstein introduces LVS -->
+  <line x1="615" y1="264" x2="615" y2="350" stroke="#0D7680" stroke-width="1.5"/>
+  <circle cx="615" cy="355" r="6" fill="#0D7680"/>
+  <text x="615" y="373" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">Hunstein &rarr; LVS</text>
+  <text x="615" y="385" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">Feb 2021</text>
+
+  <!-- Apr-Aug 2021: €6.15M flows -->
+  <line x1="665" y1="264" x2="665" y2="320" stroke="#0D7680" stroke-width="2"/>
+  <circle cx="665" cy="315" r="8" fill="#0D7680"/>
+  <rect x="620" y="395" width="90" height="34" rx="4" fill="#0D7680" opacity=".9"/>
+  <text x="665" y="410" font-family="Source Sans 3,sans-serif" font-size="10" fill="#FFF1E5" text-anchor="middle" font-weight="700">&euro;6.15M flows</text>
+  <text x="665" y="422" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.8)" text-anchor="middle">Apr&ndash;Aug 2021</text>
+
+  <!-- Mar 2023: Perseus €1/share -->
+  <line x1="760" y1="264" x2="760" y2="370" stroke="#0D7680" stroke-width="2"/>
+  <circle cx="760" cy="375" r="8" fill="#C09853" stroke="#0D7680" stroke-width="2"/>
+  <rect x="710" y="435" width="100" height="48" rx="4" fill="#C09853" opacity=".95"/>
+  <text x="760" y="451" font-family="Source Sans 3,sans-serif" font-size="10" fill="#FFF1E5" text-anchor="middle" font-weight="700">PERSEUS</text>
+  <text x="760" y="463" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.8)" text-anchor="middle">&euro;1/share &middot; 95% discount</text>
+  <text x="760" y="475" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.8)" text-anchor="middle">Mar 2023</text>
+
+  <!-- Nov 2024: Pictet invests -->
+  <line x1="880" y1="264" x2="880" y2="330" stroke="#0D7680" stroke-width="1.5"/>
+  <circle cx="880" cy="335" r="6" fill="#0D7680"/>
+  <text x="880" y="353" font-family="Source Sans 3,sans-serif" font-size="9" fill="#262A33" text-anchor="middle" font-weight="600">Pictet invests</text>
+  <text x="880" y="365" font-family="Source Sans 3,sans-serif" font-size="8" fill="#999" text-anchor="middle">Nov 2024</text>
+
+  <!-- ── CONNECTING LINES (Hunstein/Goerg as bridge) ── -->
+  <!-- From trial collapse zone to SyncPilot involvement -->
+  <path d="M 570 215 C 570 260, 615 260, 615 345" stroke="#C09853" stroke-width="2" fill="none" stroke-dasharray="6,3" opacity=".7"/>
+  <path d="M 530 175 C 600 240, 700 300, 760 370" stroke="#C09853" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".5"/>
+
+  <!-- Label on connecting line -->
+  <rect x="575" y="288" width="130" height="22" rx="3" fill="var(--gold-light)" stroke="#C09853" stroke-width="1"/>
+  <text x="640" y="303" font-family="Source Sans 3,sans-serif" font-size="9" fill="#8B6914" text-anchor="middle" font-weight="700">Hunstein &amp; Goerg</text>
+</svg>
+</div>
+
+<!-- ═══════════════ ACTOR CONNECTION MAP ═══════════════ -->
+<h2><span data-lang-en>Actor Connection Map</span><span data-lang-de>Akteurs-Verbindungskarte</span></h2>
+
+<div class="actor-map">
+<svg class="actor-svg" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+  <!-- ── Left cluster: Goldfinger entities ── -->
+  <rect x="20" y="30" width="250" height="380" rx="8" fill="rgba(153,15,61,.04)" stroke="rgba(153,15,61,.2)" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="145" y="52" font-family="Source Sans 3,sans-serif" font-size="11" fill="#990F3D" text-anchor="middle" font-weight="700">GOLDFINGER ENTITIES</text>
+
+  <!-- AFR Aigner Fischer -->
+  <rect x="50" y="75" width="190" height="55" rx="6" fill="#990F3D" opacity=".9"/>
+  <text x="145" y="97" font-family="Source Sans 3,sans-serif" font-size="11" fill="#FFF1E5" text-anchor="middle" font-weight="700">AFR Aigner Fischer</text>
+  <text x="145" y="113" font-family="Source Sans 3,sans-serif" font-size="9" fill="rgba(255,241,229,.7)" text-anchor="middle">Dissolved Oct 2018</text>
+  <text x="145" y="125" font-family="Source Sans 3,sans-serif" font-size="8" fill="rgba(255,241,229,.5)" text-anchor="middle">Law firm &middot; Munich</text>
+
+  <!-- Global Trading -->
+  <rect x="60" y="155" width="170" height="40" rx="5" fill="rgba(153,15,61,.15)"/>
+  <text x="145" y="174" font-family="Source Sans 3,sans-serif" font-size="10" fill="#990F3D" text-anchor="middle" font-weight="600">Global Trading GmbH</text>
+  <text x="145" y="188" font-family="Source Sans 3,sans-serif" font-size="8" fill="#990F3D" text-anchor="middle" opacity=".6">UK gold trading vehicle</text>
+
+  <!-- Goldhandelsgesellschaften -->
+  <rect x="60" y="210" width="170" height="35" rx="5" fill="rgba(153,15,61,.08)"/>
+  <text x="145" y="232" font-family="Source Sans 3,sans-serif" font-size="9" fill="#990F3D" text-anchor="middle">20+ Goldhandels&shy;gesellschaften</text>
+
+  <!-- LG Augsburg -->
+  <rect x="60" y="270" width="170" height="45" rx="5" fill="rgba(153,15,61,.1)" stroke="#990F3D" stroke-width="1"/>
+  <text x="145" y="290" font-family="Source Sans 3,sans-serif" font-size="10" fill="#990F3D" text-anchor="middle" font-weight="600">LG Augsburg</text>
+  <text x="145" y="305" font-family="Source Sans 3,sans-serif" font-size="8" fill="#990F3D" text-anchor="middle" opacity=".6">10. Strafkammer &middot; Ballis</text>
+
+  <!-- Jens Lehmann -->
+  <rect x="70" y="340" width="150" height="38" rx="5" fill="rgba(192,152,83,.15)" stroke="var(--gold)" stroke-width="1"/>
+  <text x="145" y="358" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="var(--gold-dark)" text-anchor="middle" font-weight="600">Jens Lehmann</text>
+  <text x="145" y="372" font-family="Source Sans 3,sans-serif" font-size="8" fill="var(--gold-dark)" text-anchor="middle" opacity=".6">Paid &euro;100K settlement</text>
+
+  <!-- ── Central nodes: Hunstein & Goerg ── -->
+  <!-- Hunstein -->
+  <circle cx="450" cy="160" r="42" fill="#C09853" stroke="#8B6914" stroke-width="2.5"/>
+  <text x="450" y="153" font-family="Source Sans 3,sans-serif" font-size="11" fill="#FFF1E5" text-anchor="middle" font-weight="700">Martin</text>
+  <text x="450" y="168" font-family="Source Sans 3,sans-serif" font-size="11" fill="#FFF1E5" text-anchor="middle" font-weight="700">Hunstein</text>
+
+  <!-- Goerg -->
+  <circle cx="450" cy="300" r="42" fill="#C09853" stroke="#8B6914" stroke-width="2.5"/>
+  <text x="450" y="293" font-family="Source Sans 3,sans-serif" font-size="11" fill="#FFF1E5" text-anchor="middle" font-weight="700">Diethard</text>
+  <text x="450" y="308" font-family="Source Sans 3,sans-serif" font-size="11" fill="#FFF1E5" text-anchor="middle" font-weight="700">Goerg</text>
+
+  <!-- GHR label between them -->
+  <rect x="408" y="215" width="84" height="22" rx="4" fill="var(--gold-light)" stroke="var(--gold)" stroke-width="1"/>
+  <text x="450" y="230" font-family="Source Sans 3,sans-serif" font-size="9" fill="var(--gold-dark)" text-anchor="middle" font-weight="700">GHR M&uuml;nchen</text>
+  <line x1="450" y1="202" x2="450" y2="215" stroke="var(--gold)" stroke-width="1.5"/>
+  <line x1="450" y1="237" x2="450" y2="258" stroke="var(--gold)" stroke-width="1.5"/>
+
+  <!-- ── Right cluster: SyncPilot entities ── -->
+  <rect x="630" y="30" width="250" height="380" rx="8" fill="rgba(13,118,128,.04)" stroke="rgba(13,118,128,.2)" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="755" y="52" font-family="Source Sans 3,sans-serif" font-size="11" fill="#0D7680" text-anchor="middle" font-weight="700">SYNCPILOT ENTITIES</text>
+
+  <!-- Perseus GmbH StBG -->
+  <rect x="660" y="75" width="190" height="55" rx="6" fill="#0D7680" opacity=".9"/>
+  <text x="755" y="95" font-family="Source Sans 3,sans-serif" font-size="10" fill="#FFF1E5" text-anchor="middle" font-weight="700">H.G. Perseus GmbH StBG</text>
+  <text x="755" y="110" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="rgba(255,241,229,.7)" text-anchor="middle">158,208 shares &middot; &euro;1/share</text>
+  <text x="755" y="123" font-family="Source Sans 3,sans-serif" font-size="8" fill="rgba(255,241,229,.5)" text-anchor="middle">95% discount &middot; &euro;2.84M value</text>
+
+  <!-- Perseus Innovations -->
+  <rect x="660" y="155" width="190" height="40" rx="5" fill="rgba(13,118,128,.12)"/>
+  <text x="755" y="175" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#0D7680" text-anchor="middle" font-weight="600">Perseus Innovations &amp;</text>
+  <text x="755" y="188" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#0D7680" text-anchor="middle" font-weight="600">Services Holding Ltd.</text>
+
+  <!-- SyncPilot SE -->
+  <rect x="660" y="215" width="190" height="45" rx="5" fill="rgba(13,118,128,.1)" stroke="#0D7680" stroke-width="1"/>
+  <text x="755" y="235" font-family="Source Sans 3,sans-serif" font-size="10" fill="#0D7680" text-anchor="middle" font-weight="600">SyncPilot SE</text>
+  <text x="755" y="250" font-family="Source Sans 3,sans-serif" font-size="8" fill="#0D7680" text-anchor="middle" opacity=".6">Augsburg &middot; HRB 35235</text>
+
+  <!-- LVS SA loan -->
+  <rect x="670" y="285" width="170" height="38" rx="5" fill="rgba(153,15,61,.08)" stroke="var(--claret)" stroke-width="1"/>
+  <text x="755" y="303" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="var(--claret)" text-anchor="middle" font-weight="600">&euro;6.15M LVS Loan</text>
+  <text x="755" y="317" font-family="Source Sans 3,sans-serif" font-size="8" fill="var(--claret)" text-anchor="middle" opacity=".6">Outstanding since Aug 2021</text>
+
+  <!-- Aigner Florian -->
+  <rect x="670" y="345" width="170" height="48" rx="5" fill="rgba(192,152,83,.15)" stroke="var(--gold)" stroke-width="1"/>
+  <text x="755" y="363" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="var(--gold-dark)" text-anchor="middle" font-weight="600">Florian Aigner</text>
+  <text x="755" y="377" font-family="Source Sans 3,sans-serif" font-size="8" fill="var(--gold-dark)" text-anchor="middle" opacity=".7">AFR partner AND Perseus</text>
+  <text x="755" y="389" font-family="Source Sans 3,sans-serif" font-size="8" fill="var(--gold-dark)" text-anchor="middle" opacity=".7">shareholder until Jan 2025</text>
+
+  <!-- ── Connection lines ── -->
+  <!-- Hunstein to AFR -->
+  <line x1="408" y1="150" x2="240" y2="105" stroke="#990F3D" stroke-width="2" opacity=".6"/>
+  <!-- Goerg to AFR -->
+  <line x1="408" y1="290" x2="240" y2="110" stroke="#990F3D" stroke-width="2" opacity=".6"/>
+  <!-- Hunstein to Global Trading -->
+  <line x1="408" y1="165" x2="230" y2="173" stroke="#990F3D" stroke-width="1" opacity=".35" stroke-dasharray="3,2"/>
+  <!-- Goerg to Global Trading -->
+  <line x1="408" y1="295" x2="230" y2="178" stroke="#990F3D" stroke-width="1" opacity=".35" stroke-dasharray="3,2"/>
+
+  <!-- Hunstein to Perseus GmbH -->
+  <line x1="492" y1="155" x2="660" y2="100" stroke="#0D7680" stroke-width="2.5"/>
+  <!-- Goerg to Perseus GmbH -->
+  <line x1="492" y1="295" x2="660" y2="110" stroke="#0D7680" stroke-width="2.5"/>
+  <!-- Hunstein to LVS (drafted contract) -->
+  <line x1="492" y1="168" x2="670" y2="300" stroke="var(--claret)" stroke-width="1.5" opacity=".4" stroke-dasharray="4,2"/>
+
+  <!-- Aigner to AFR -->
+  <path d="M 670 370 C 500 420, 300 420, 145 340" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-dasharray="5,3" opacity=".5"/>
+  <text x="400" y="415" font-family="Source Sans 3,sans-serif" font-size="8" fill="var(--gold-dark)" text-anchor="middle" font-style="italic">Aigner bridges both worlds</text>
+</svg>
+</div>
+
+<!-- ═══════════════ NARRATIVE ═══════════════ -->
+<h2><span data-lang-en>Connecting the Dots</span><span data-lang-de>Die Verbindungslinien</span></h2>
+
+<div class="narrative">
+<p class="dropcap" data-lang-en>Named after the 1964 James Bond film, the Goldfinger case was Germany&rsquo;s most ambitious tax-fraud prosecution. Prosecutors in Augsburg alleged that a network centred on lawyers Martin Hunstein and Diethard Goerg had marketed an aggressive gold-trading scheme to more than one hundred wealthy clients, generating up to one billion euros in artificial losses that slashed their domestic tax bills. The case triggered a sweeping raid in February 2018: over 200 residential and commercial premises were searched across Germany, Austria, and Switzerland; seven suspects &mdash; including Hunstein and Goerg &mdash; were remanded in custody for several months. Their Munich law firm, AFR Aigner Fischer, collapsed in October 2018 under the weight of the investigation.</p>
+
+<p data-lang-en>The trial opened before the 10th Criminal Chamber of the Augsburg Regional Court (Landgericht) on 13 November 2019, presided over by Judge Johannes Ballis. With 78 trial days scheduled through 2021 and an 180-page indictment backed by 21 boxes of evidence, the prosecution seemed confident. But the case began to unravel. By May 2020, Judge Ballis signalled that the court could not identify false statements in the defendants&rsquo; tax filings; he proposed terminating the proceedings. The Augsburger Allgemeine called it a &ldquo;Paukenschlag&rdquo; &mdash; a bombshell. The prosecution retaliated with a Befangenheitsantrag (bias motion) against the judge, which was rejected in June 2020. A month later, the Financial Court of Baden-W&uuml;rttemberg ruled definitively that the Goldfinger model was not tax evasion (Az.: 5 K 3305/17). The criminal proceedings effectively collapsed thereafter. By late 2020, the defendants were pushing for a first-class acquittal rather than a settlement.</p>
+
+<p data-lang-en>What happened next is documented in this dossier. Within months of escaping prosecution, Hunstein and Goerg founded GHR Rechtsanw&auml;lte M&uuml;nchen. By February 2021, Hunstein was brokering a &euro;18.75&thinsp;million investment by LVS&nbsp;SA into SyncPilot&nbsp;SE &mdash; of which &euro;6.15 million was disbursed and never returned (<a href="11_lvs_loan.html" class="xref">Ch&nbsp;11</a>). In March 2023, their entity H.G. Perseus GmbH StBG acquired 158,208 SyncPilot shares at &euro;1 per share &mdash; a 95% discount from the &euro;18.96 valuation three months earlier, transferring approximately &euro;2.84&thinsp;million in value to themselves (<a href="06_perseus_breach.html" class="xref">Ch&nbsp;6</a>). Two months later, shares were valued again at &euro;20.56.</p>
+
+<p data-lang-en>Notably, Florian Aigner &mdash; a former partner at the collapsed AFR law firm &mdash; appeared as a Perseus shareholder until January 2025, creating a direct personnel bridge between the Goldfinger network and the SyncPilot share acquisition. The same actors who designed and defended financial structures under criminal investigation subsequently positioned themselves as insiders in a company where they simultaneously acted as legal advisers, contract drafters, and discounted-share recipients. The pattern is consistent: exploit informational asymmetry, construct complex legal structures, and extract value at the boundary of what is permissible.</p>
+
+<p class="dropcap" data-lang-de>Benannt nach dem James-Bond-Film von 1964 war der Goldfinger-Fall Deutschlands ambitioniertestes Steuerstrafverfahren. Die Augsburger Staatsanwaltschaft warf einem Netzwerk um die Anw&auml;lte Martin Hunstein und Diethard Goerg vor, ein aggressives Goldhandelsmodell an &uuml;ber hundert verm&ouml;gende Mandanten vermarktet zu haben &mdash; mit k&uuml;nstlichen Verlusten von bis zu einer Milliarde Euro, die deren inl&auml;ndische Steuerlast dr&uuml;ckten. Im Februar 2018 folgte eine Gro&szlig;razzia: &uuml;ber 200 Wohn- und Gesch&auml;ftsimmobilien in Deutschland, &Ouml;sterreich und der Schweiz wurden durchsucht; sieben Verd&auml;chtige &mdash; darunter Hunstein und Goerg &mdash; kamen f&uuml;r mehrere Monate in Untersuchungshaft. Ihre M&uuml;nchner Kanzlei AFR Aigner Fischer zerbrach im Oktober 2018.</p>
+
+<p data-lang-de>Der Prozess begann am 13.&thinsp;November 2019 vor der 10.&thinsp;Strafkammer des Landgerichts Augsburg unter Vorsitzendem Richter Johannes Ballis. Mit 78 geplanten Verhandlungstagen und einer 180-seitigen Anklageschrift schien die Staatsanwaltschaft zuversichtlich. Doch der Fall br&ouml;ckelte: Im Mai 2020 signalisierte Richter Ballis, das Gericht k&ouml;nne keine Falschangaben in den Steuererkl&auml;rungen erkennen, und regte die Einstellung an &mdash; ein &bdquo;Paukenschlag&ldquo;. Die Staatsanwaltschaft konterte mit einem Befangenheitsantrag, der im Juni 2020 abgelehnt wurde. Im Juli 2020 entschied das Finanzgericht Baden-W&uuml;rttemberg, das Goldfinger-Modell sei keine Steuerhinterziehung (Az.: 5&thinsp;K&thinsp;3305/17). Das Strafverfahren brach faktisch zusammen.</p>
+
+<p data-lang-de>Was danach geschah, dokumentiert dieses Dossier. Hunstein und Goerg gr&uuml;ndeten GHR Rechtsanw&auml;lte M&uuml;nchen. Ab Februar 2021 vermittelte Hunstein eine &euro;18,75-Mio.-Investition der LVS&thinsp;SA in die SyncPilot&thinsp;SE &mdash; wovon &euro;6,15&thinsp;Mio. ausgezahlt und nie zur&uuml;ckgezahlt wurden (<a href="11_lvs_loan.html" class="xref">Kap.&nbsp;11</a>). Im M&auml;rz 2023 erwarb ihre H.G. Perseus GmbH StBG 158.208 SyncPilot-Aktien zu &euro;1 je Aktie &mdash; 95&thinsp;% unter dem Fair-Market-Value von &euro;18,96 drei Monate zuvor, mit einem Werttransfer von ca. &euro;2,84&thinsp;Mio. an sich selbst (<a href="06_perseus_breach.html" class="xref">Kap.&nbsp;6</a>).</p>
+
+<p data-lang-de>Bemerkenswert: Florian Aigner &mdash; ehemaliger AFR-Partner &mdash; erschien bis Januar 2025 als Perseus-Gesellschafter und schuf damit eine direkte personelle Br&uuml;cke zwischen dem Goldfinger-Netzwerk und dem SyncPilot-Aktienerwerb. Dieselben Akteure, die Finanzstrukturen unter strafrechtlicher Untersuchung entwarfen und verteidigten, positionierten sich anschlie&szlig;end als Insider in einem Unternehmen, in dem sie gleichzeitig als Rechtsberater, Vertragsverfasser und verg&uuml;nstigte Anteilserwerber agierten. Das Muster ist konsistent: informationsasymmetrische Vorteile nutzen, komplexe Rechtsstrukturen aufbauen und Werte an der Grenze des Zul&auml;ssigen extrahieren.</p>
+</div>
+
+
+<!-- ═══════════════ THE PATTERN ═══════════════ -->
+<h2><span data-lang-en>The Recurring Pattern</span><span data-lang-de>Das wiederkehrende Muster</span></h2>
+
+<div class="pattern-box">
+  <h3><span data-lang-en>Goldfinger &rarr; SyncPilot: Three Parallels</span><span data-lang-de>Goldfinger &rarr; SyncPilot: Drei Parallelen</span></h3>
+  <div class="pattern-step">
+    <div class="step-num">1</div>
+    <div class="step-text"><span data-lang-en><strong>Complex structures at legal boundaries.</strong> In Goldfinger: offshore gold trading companies exploiting DTA loopholes. In SyncPilot: layered holding structures (Quintus &rarr; BOSYNC &rarr; Tiven) obscuring true ownership and enabling below-market share transfers.</span><span data-lang-de><strong>Komplexe Strukturen an rechtlichen Grenzen.</strong> Bei Goldfinger: ausl&auml;ndische Goldhandelsgesellschaften unter Ausnutzung von DBA-L&uuml;cken. Bei SyncPilot: verschachtelte Holdingstrukturen (Quintus &rarr; BOSYNC &rarr; Tiven), die wahre Eigentumsverhältnisse verschleiern und unter Marktwert liegende Aktien&uuml;bertragungen erm&ouml;glichen.</span></div>
+  </div>
+  <div class="pattern-step">
+    <div class="step-num">2</div>
+    <div class="step-text"><span data-lang-en><strong>Dual roles creating conflicts of interest.</strong> In Goldfinger: H. and G. simultaneously designed the tax model and participated in Global Trading as shareholders. In SyncPilot: they drafted the LVS loan contract, advised the company as legal counsel, and then acquired shares for themselves at a 95% discount.</span><span data-lang-de><strong>Doppelrollen mit Interessenkonflikten.</strong> Bei Goldfinger: H. und G. entwarfen gleichzeitig das Steuermodell und waren als Gesellschafter an Global Trading beteiligt. Bei SyncPilot: Sie entwarfen den LVS-Darlehensvertrag, berieten das Unternehmen als Rechtsberater und erwarben dann selbst Aktien mit 95&thinsp;% Rabatt.</span></div>
+  </div>
+  <div class="pattern-step">
+    <div class="step-num">3</div>
+    <div class="step-text"><span data-lang-en><strong>Aggressive exploitation of informational asymmetry.</strong> In Goldfinger: clients relied on H. and G.&rsquo;s assurance that foreign operations were genuine; prosecutors alleged they were fictitious. In SyncPilot: LVS&nbsp;SA relied on Hunstein&rsquo;s promise to notarise the loan contract; it was never notarised, and now the recipients claim it is void.</span><span data-lang-de><strong>Aggressive Ausnutzung von Informationsasymmetrie.</strong> Bei Goldfinger: Mandanten verlie&szlig;en sich auf die Zusicherung von H. und G., ausl&auml;ndische Betriebsst&auml;tten seien real; die Anklage behauptete, sie seien fiktiv. Bei SyncPilot: LVS&thinsp;SA verlie&szlig; sich auf Hunsteins Versprechen, den Darlehensvertrag notariell zu beurkunden; er wurde nie beurkundet, und nun behaupten die Empf&auml;nger, er sei nichtig.</span></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ SOURCE DOCUMENTATION ═══════════════ -->
+<h2><span data-lang-en>Press Coverage</span><span data-lang-de>Presseberichterstattung</span></h2>
+
+<div class="source-grid">
+  <div class="source-card key">
+    <div class="source-pub">Handelsblatt</div>
+    <div class="source-title">Goldfinger-Prozessauftakt: Anw&auml;lte torpedieren Prozess</div>
+    <div class="source-date">13 Nov 2019</div>
+  </div>
+  <div class="source-card key">
+    <div class="source-pub">JUVE Steuermarkt</div>
+    <div class="source-title">Prozess gegen Ex-AFR-Partner startet mit neuen Verteidigern</div>
+    <div class="source-date">14 Nov 2019</div>
+  </div>
+  <div class="source-card key">
+    <div class="source-pub">Augsburger Allgemeine</div>
+    <div class="source-title">Paukenschlag beim Goldfinger-Prozess: Gericht will alle Verfahren einstellen</div>
+    <div class="source-date">27 May 2020</div>
+  </div>
+  <div class="source-card key">
+    <div class="source-pub">FAZ</div>
+    <div class="source-title">Finanzgericht: Goldfinger keine Steuerhinterziehung</div>
+    <div class="source-date">2 Jul 2020</div>
+  </div>
+  <div class="source-card key">
+    <div class="source-pub">JUVE Steuermarkt</div>
+    <div class="source-title">Keine Steuerhinterziehung: Global Trading gewinnt mit SSP-Law</div>
+    <div class="source-date">7 Jul 2020</div>
+  </div>
+  <div class="source-card key">
+    <div class="source-pub">Augsburger Allgemeine</div>
+    <div class="source-title">Goldfinger-Prozess: F&auml;hrt das Verfahren jetzt voll gegen die Wand?</div>
+    <div class="source-date">4 Dec 2020</div>
+  </div>
+  <div class="source-card">
+    <div class="source-pub">Augsburger Allgemeine</div>
+    <div class="source-title">&ldquo;Goldfinger&rdquo;: So schleusten Reiche Milliarden am Fiskus vorbei</div>
+    <div class="source-date">7 Nov 2019</div>
+  </div>
+  <div class="source-card">
+    <div class="source-pub">FAZ</div>
+    <div class="source-title">Razzia wegen Steuersparmodell</div>
+    <div class="source-date">18 Jan 2018</div>
+  </div>
+  <div class="source-card">
+    <div class="source-pub">Handelsblatt</div>
+    <div class="source-title">Befangenheitsantrag abgelehnt: Staatsanwaltschaft br&uuml;skiert</div>
+    <div class="source-date">17 Jun 2020</div>
+  </div>
+  <div class="source-card">
+    <div class="source-pub">Der Spiegel</div>
+    <div class="source-title">Jens Lehmann soll Steuern im sechsstelligen Bereich hinterzogen haben</div>
+    <div class="source-date">Nov 2018</div>
+  </div>
+  <div class="source-card">
+    <div class="source-pub">Bild</div>
+    <div class="source-title">Jens Lehmann zahlte 100.000 Euro wegen Steuer-&Auml;rger</div>
+    <div class="source-date">21 Nov 2018</div>
+  </div>
+  <div class="source-card">
+    <div class="source-pub">Augsburger Allgemeine</div>
+    <div class="source-title">Immer mehr Ungereimtheiten: Im Goldfinger-Prozess liegen die Nerven blank</div>
+    <div class="source-date">24 Nov 2020</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ INVESTIGATIVE QUESTIONS ═══════════════ -->
+<div class="question-box">
+  <h3><span data-lang-en>Open Questions</span><span data-lang-de>Offene Fragen</span></h3>
+  <div class="q-item"><span data-lang-en>Did the Goldfinger prosecution&rsquo;s collapse embolden Hunstein and Goerg to pursue the SyncPilot insider transactions, believing they could again operate at legal boundaries without consequence?</span><span data-lang-de>Hat der Zusammenbruch der Goldfinger-Anklage Hunstein und Goerg ermutigt, die SyncPilot-Insidergesch&auml;fte zu verfolgen, in der &Uuml;berzeugung, erneut an rechtlichen Grenzen operieren zu k&ouml;nnen?</span></div>
+  <div class="q-item"><span data-lang-en>Was Florian Aigner&rsquo;s presence in both the AFR partnership and the Perseus shareholding structure coincidental, or does it evidence a continuing network of mutual benefit?</span><span data-lang-de>War Florian Aigners Pr&auml;senz sowohl in der AFR-Partnerschaft als auch in der Perseus-Gesellschafterstruktur zuf&auml;llig, oder belegt sie ein fortbestehendes Netzwerk gegenseitigen Nutzens?</span></div>
+  <div class="q-item"><span data-lang-en>Were Pictet and other later investors informed of the Goldfinger prosecution history when evaluating the credibility of SyncPilot&rsquo;s legal advisers and shareholders?</span><span data-lang-de>Wurden Pictet und andere sp&auml;tere Investoren &uuml;ber die Goldfinger-Vorgeschichte informiert, als sie die Glaubw&uuml;rdigkeit der Rechtsberater und Anteilseigner von SyncPilot bewerteten?</span></div>
+  <div class="q-item"><span data-lang-en>Do the Goldfinger entities (Global Trading, associated UK companies) share any corporate infrastructure &mdash; registered agents, bank accounts, directors &mdash; with the SyncPilot corporate network?</span><span data-lang-de>Teilen die Goldfinger-Gesellschaften (Global Trading, verbundene UK-Firmen) Unternehmensinfrastruktur &mdash; Registeragenten, Bankverbindungen, Gesch&auml;ftsf&uuml;hrer &mdash; mit dem SyncPilot-Firmennetzwerk?</span></div>
+</div>
+
+
+<!-- ═══════════════ CROSS-REFERENCES ═══════════════ -->
+<div style="font-family:var(--font-ui);font-size:.82rem;margin:var(--sp-8) 0">
+  <strong><span data-lang-en>Related chapters:</span><span data-lang-de>Verwandte Kapitel:</span></strong>
+  <a href="06_perseus_breach.html" class="xref">Ch&nbsp;6 &mdash; The 95% Discount</a>
+  <a href="05_risk_ratings.html" class="xref">Ch&nbsp;5 &mdash; Five Red Flags</a>
+  <a href="11_lvs_loan.html" class="xref">Ch&nbsp;11 &mdash; The LVS Convertible Loan</a>
+  <a href="01_ubo_directory.html" class="xref">Ch&nbsp;1 &mdash; Who Controls This Company?</a>
+</div>
+
+
+</div><!-- end content-area -->
+
+<footer class="site-footer">
+  <span data-lang-en>&copy; 2025 SyncPilot Dossier &middot; All assertions sourced from public records, corporate filings, and court documents. This document does not constitute legal advice.</span>
+  <span data-lang-de>&copy; 2025 SyncPilot Dossier &middot; Alle Aussagen st&uuml;tzen sich auf &ouml;ffentliche Aufzeichnungen, Unternehmenseinreichungen und Gerichtsdokumente. Dieses Dokument stellt keine Rechtsberatung dar.</span>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>
