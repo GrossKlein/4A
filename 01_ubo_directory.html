@@ -967,4 +967,23 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+<script>
+// Deep-link handler: scroll to and open UBO card when navigating via #ubo-N
+(function(){
+  function handleHash(){
+    var h=location.hash;if(!h||!h.startsWith('#ubo-'))return;
+    var el=document.getElementById(h.slice(1));if(!el)return;
+    setTimeout(function(){
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.style.transition='box-shadow .3s';
+      el.style.boxShadow='0 0 0 3px var(--claret)';
+      setTimeout(function(){el.style.boxShadow=''},2000);
+      var idx=parseInt(h.replace('#ubo-',''),10);
+      if(!isNaN(idx)&&typeof openPanel==='function')openPanel(idx);
+    },300);
+  }
+  window.addEventListener('hashchange',handleHash);
+  if(location.hash)document.addEventListener('DOMContentLoaded',handleHash);
+})();
+</script>
 </body></html>
