@@ -98,8 +98,7 @@ h3{font-size:1.1rem;margin:var(--sp-6) 0 var(--sp-3)}
 .address-entities{font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.45);margin-top:var(--sp-2)}
 
 /* Chapter nav */
-/* Canvas tree styles */
-#corpTree{width:100%;min-height:620px;display:block}
+/* Tree container styles */
 
 /* Timeline mini */
 .timeline-mini{position:relative;padding-left:28px;margin:var(--sp-6) 0}
@@ -204,7 +203,61 @@ body.lang-en [data-lang-en]{display:block!important}
 <div class="tree-container">
   <div class="tree-title" data-lang-en>Bleicher's Direct & Indirect Control Over SyncPilot Group Entities</div>
   <div class="tree-title" data-lang-de style="display:none">Bleichers direkte & indirekte Kontrolle über SyncPilot-Konzerngesellschaften</div>
-  <canvas id="corpTree"></canvas>
+  <div style="overflow-x:auto">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0;min-width:700px;padding:var(--sp-4) 0">
+    <!-- Bleicher -->
+    <div style="background:var(--claret);color:#fff;padding:10px 20px;border-radius:6px;font-family:var(--font-ui);font-weight:700;font-size:.88rem;text-align:center;max-width:220px">
+      Franz Xaver Bleicher<br><span style="font-weight:400;font-size:.72rem;opacity:.8" data-lang-en>Geschäftsführer / CEO</span><span style="font-weight:400;font-size:.72rem;opacity:.8" data-lang-de>Geschäftsführer</span>
+    </div>
+    <div style="width:2px;height:20px;background:var(--slate)"></div>
+    <!-- Level 2: BOSYNC + Quintus -->
+    <div style="display:flex;gap:60px;align-items:flex-start;position:relative">
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:2px;background:var(--slate)"></div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="width:2px;height:16px;background:var(--slate)"></div>
+        <div style="background:var(--oxford);color:#fff;padding:8px 16px;border-radius:5px;font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-align:center;min-width:170px">
+          BOSYNC Beteiligungs UG<br><span style="font-weight:400;font-size:.72rem;opacity:.8">70% <span data-lang-en>ownership</span><span data-lang-de>Beteiligung</span></span>
+        </div>
+        <div style="width:2px;height:14px;background:var(--slate)"></div>
+        <div style="font-family:var(--font-ui);font-size:.68rem;font-weight:700;color:var(--oxford);background:rgba(13,118,128,.08);padding:2px 8px;border-radius:3px">23.5%</div>
+        <div style="width:2px;height:14px;background:var(--slate)"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="width:2px;height:16px;background:var(--slate)"></div>
+        <div style="background:#66605C;color:#fff;padding:8px 16px;border-radius:5px;font-family:var(--font-ui);font-weight:700;font-size:.82rem;text-align:center;min-width:170px">
+          Quintus Beteiligungs GmbH<br><span style="font-weight:400;font-size:.72rem;opacity:.8">90% <span data-lang-en>ownership</span><span data-lang-de>Beteiligung</span></span>
+        </div>
+      </div>
+    </div>
+    <!-- SYNCPILOT SE -->
+    <div style="background:var(--oxford);color:#fff;padding:10px 20px;border-radius:6px;font-family:var(--font-ui);font-weight:700;font-size:.92rem;text-align:center;border:3px solid var(--claret);min-width:200px">
+      SYNCPILOT SE<br><span style="font-weight:400;font-size:.72rem;opacity:.8" data-lang-en>Societas Europaea · Augsburg</span><span style="font-weight:400;font-size:.72rem;opacity:.8" data-lang-de>Societas Europaea · Augsburg</span>
+    </div>
+    <div style="width:2px;height:18px;background:var(--slate)"></div>
+    <!-- Subsidiaries -->
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <div style="position:relative;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+        <div style="background:var(--paper);border:1.5px solid var(--oxford);padding:8px 12px;border-radius:5px;font-family:var(--font-ui);font-size:.76rem;text-align:center;min-width:120px">
+          <strong>SyncPilot Beteiligungs GmbH</strong><br><span style="color:rgba(38,42,51,.5);font-size:.68rem" data-lang-en>Group participation</span><span style="color:rgba(38,42,51,.5);font-size:.68rem" data-lang-de>Konzernbeteiligung</span>
+        </div>
+        <div style="background:var(--paper);border:1.5px solid var(--oxford);padding:8px 12px;border-radius:5px;font-family:var(--font-ui);font-size:.76rem;text-align:center;min-width:120px">
+          <strong>SIP SyncPilot GmbH</strong><br><span style="color:rgba(38,42,51,.5);font-size:.68rem" data-lang-en>Operating company</span><span style="color:rgba(38,42,51,.5);font-size:.68rem" data-lang-de>Operative Gesellschaft</span>
+        </div>
+        <div style="background:var(--paper);border:1.5px solid var(--oxford);padding:8px 12px;border-radius:5px;font-family:var(--font-ui);font-size:.76rem;text-align:center;min-width:120px">
+          <strong>S.P.S.A GmbH</strong><br><span style="color:rgba(38,42,51,.5);font-size:.68rem" data-lang-en>Special-purpose</span><span style="color:rgba(38,42,51,.5);font-size:.68rem" data-lang-de>Zweckgesellschaft</span>
+        </div>
+        <div style="background:var(--paper);border:1.5px solid var(--oxford);padding:8px 12px;border-radius:5px;font-family:var(--font-ui);font-size:.76rem;text-align:center;min-width:120px">
+          <strong>SyncPilot SAS</strong><br><span style="color:rgba(38,42,51,.5);font-size:.68rem">Paris 🇫🇷</span>
+        </div>
+        <div style="background:var(--paper);border:1.5px dashed rgba(38,42,51,.25);padding:8px 12px;border-radius:5px;font-family:var(--font-ui);font-size:.76rem;text-align:center;min-width:120px;opacity:.6">
+          <strong>NOB Vermögensverwaltung</strong><br><span style="color:var(--claret);font-size:.68rem" data-lang-en>In liquidation</span><span style="color:var(--claret);font-size:.68rem" data-lang-de>In Liquidation</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.4);margin-top:var(--sp-4);text-align:center" data-lang-en><em>Bleicher holds Geschäftsführer or equivalent role in <strong>all</strong> entities above.</em></div>
+    <div style="font-family:var(--font-ui);font-size:.72rem;color:rgba(38,42,51,.4);margin-top:var(--sp-4);text-align:center" data-lang-de><em>Bleicher hält die Geschäftsführer-Rolle in <strong>allen</strong> oben genannten Gesellschaften.</em></div>
+  </div>
+  </div>
   <div class="tree-source" data-lang-en>Source: Handelsregister filings, SyncPilot SE Persons.xlsx, BOSYNC Beteiligungs UG shareholder list</div>
   <div class="tree-source" data-lang-de style="display:none">Quelle: Handelsregister-Eintragungen, SyncPilot SE Persons.xlsx, BOSYNC Beteiligungs UG Gesellschafterliste</div>
 </div>

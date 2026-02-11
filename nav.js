@@ -57,7 +57,6 @@
     '.site-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height,56px);background:var(--slate,#262A33);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:1000}',
     '.nav-left{display:flex;align-items:center;gap:16px}',
     '.nav-title{font-family:var(--font-ui,"Source Sans 3",sans-serif);font-weight:700;font-size:1rem;color:var(--paper,#FFF1E5);text-decoration:none}',
-    '.nav-logo{height:22px;filter:brightness(0) invert(1);opacity:.85;margin-right:2px;vertical-align:middle}',
     '.side-menu-logo{display:block;margin:0 24px 16px;height:20px;opacity:.45}',
     '.nav-right{display:flex;align-items:center;gap:12px}',
     '.lang-toggle{background:transparent;border:1px solid rgba(255,241,229,.25);color:var(--paper,#FFF1E5);font-family:var(--font-ui,"Source Sans 3",sans-serif);font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer;letter-spacing:.04em;transition:background .15s}',
@@ -75,7 +74,7 @@
     '.menu-link:hover{background:rgba(242,223,206,.5);text-decoration:none}',
     '.menu-link.active{border-left:3px solid var(--claret,#990F3D);padding-left:21px;background:rgba(242,223,206,.3);font-weight:600}',
     '.ch-num{display:inline-block;width:26px;font-weight:600;color:rgba(38,42,51,.4);font-size:.78rem}',
-    '.chapter-nav{display:flex;justify-content:space-between;padding:32px 0;margin-top:32px;border-top:2px solid var(--wheat,#F2DFCE)}',
+    '.chapter-nav{display:flex;justify-content:space-between;padding:32px var(--sp-6,24px);margin:32px auto 0;border-top:2px solid var(--wheat,#F2DFCE);max-width:var(--max-width,780px)}',
     '.chapter-nav a{font-family:var(--font-ui,"Source Sans 3",sans-serif);font-size:.88rem;font-weight:600;color:var(--oxford,#0D7680);text-decoration:none;max-width:45%}',
     '.chapter-nav a:hover{color:var(--claret,#990F3D)}',
     '.chapter-nav-prev::before{content:""}',
@@ -99,7 +98,7 @@
   nav.innerHTML =
     '<div class="nav-left">' +
       '<button class="hamburger" id="navHamburger" aria-label="Open menu"><span></span><span></span><span></span></button>' +
-      '<a class="nav-title" href="index.html"><img src="SYNCPILOT%20logo%201.png" alt="" class="nav-logo" onerror="this.style.display=\'none\'">Dossier</a>' +
+      '<a class="nav-title" href="index.html">The SyncPilot\u00a0Dossier</a>' +
     '</div>' +
     '<div class="nav-right">' +
       '<button class="lang-toggle" id="navLangBtn" aria-label="Switch language">DE</button>' +
@@ -171,8 +170,13 @@
   document.body.insertBefore(nav, document.body.firstChild);
 
   if (chapterNav) {
-    var contentArea = document.querySelector('.content-area');
-    if (contentArea) contentArea.appendChild(chapterNav);
+    var footer = document.querySelector('.site-footer');
+    if (footer) {
+      footer.parentNode.insertBefore(chapterNav, footer);
+    } else {
+      var contentArea = document.querySelector('.content-area');
+      if (contentArea) contentArea.appendChild(chapterNav);
+    }
   }
 
   /* ── Hamburger Toggle ─────────────────────────────────── */

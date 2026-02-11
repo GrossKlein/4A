@@ -108,10 +108,10 @@ body.lang-de span[data-lang-de]{display:inline}
     <div class="chart-source" style="display:none">Source: SyncPilot_SE_Project.xlsx → "SyncPilot History" (Bewertung / Laufende Gesamtzahl Anteile × Ausgabebetrag)</div>
   </div>
 
-  <h2><span data-lang-en>What Each Insider Paid Per Share</span><span data-lang-de>Was jeder Insider pro Aktie zahlte</span></h2>
+  <h2><span data-lang-en>Why Did One Buyer Pay 95% Less Than Everyone Else?</span><span data-lang-de>Warum zahlte ein K&auml;ufer 95&nbsp;% weniger als alle anderen?</span></h2>
 
   <div class="chart-container">
-    <div class="chart-title"><span data-lang-en>The Price Insiders Set for Themselves</span><span data-lang-de>Der Preis, den Insider sich selbst setzten</span></div>
+    <div class="chart-title"><span data-lang-en>Every Transaction Price — and the One That Defies Explanation</span><span data-lang-de>Jeder Transaktionspreis — und der eine, der sich nicht erkl&auml;ren l&auml;sst</span></div>
     <div class="chart-canvas-wrap" style="height:340px">
       <canvas id="ppsChart"></canvas>
     </div>
@@ -139,8 +139,7 @@ body.lang-de span[data-lang-de]{display:inline}
 
 </section>
 
-<section class="content-area">
-  </section>
+
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -275,9 +274,25 @@ document.addEventListener("DOMContentLoaded", function() {
       var yScale = valChartInstance.options.scales.y;
       if (this.checked) {
         yScale.type = 'logarithmic';
-        yScale.ticks.callback = function(v) { return '\u20ac' + v + 'M'; };
+        yScale.min = 1;
+        yScale.max = 200;
+        yScale.ticks = {
+          callback: function(v) {
+            if ([1,5,10,25,50,100,150].indexOf(v) >= 0) return '\u20ac' + v + 'M';
+            return '';
+          },
+          font: { size: 12 },
+          autoSkip: false,
+          maxTicksLimit: 20
+        };
       } else {
         yScale.type = 'linear';
+        yScale.min = undefined;
+        yScale.max = undefined;
+        yScale.ticks = {
+          callback: function(v) { return '\u20ac' + v + 'M'; },
+          font: { size: 12 }
+        };
       }
       valChartInstance.update();
     });
